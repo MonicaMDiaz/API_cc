@@ -52,7 +52,7 @@ p {
 
     <div class=" mb-3">
         <h2>Buscar ficha</h2>
-        <form method="post" action="fichas.php">
+        <form method="post" action="buscarfichas.php">
             <table>
                 <tr>
                     <td>
