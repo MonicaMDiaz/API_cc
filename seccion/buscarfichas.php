@@ -12,6 +12,10 @@
 <?php include("../templates/cabecera.php"); ?>
 <?php
 //INSERT INTO `datos` (`id`, `placa`, `fecha`) VALUES ('', NULL, current_timestamp())
+
+$opciones = array();
+$opciones[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
+
 $servername="localhost";
 $username= "root";
 $password= "";
@@ -24,10 +28,10 @@ $buscar=$_POST["buscar"];
 $buscar_valor=$_POST["buscar_valor"];
 
 if ($buscar == "placa") {
-    $sql = "SELECT placa,id from datos WHERE placa LIKE '%".$buscar_valor."%'";
+    $sql = "SELECT placa,id,fecha from datos WHERE placa LIKE '%".$buscar_valor."%'";
 }
 else if ($buscar == "id") {
-    $sql = "SELECT placa,id from datos WHERE id=".$buscar_valor;
+    $sql = "SELECT placa,id,fecha from datos WHERE id=".$buscar_valor;
 }
 else {
     echo "Opción no válida";
@@ -35,9 +39,20 @@ else {
 
 $result= mysqli_query($conn, $sql);
 if (mysqli_num_rows($result)>""){
-    echo"<table border=0><tr><th>id</th><th>placa</th></tr>";
+    echo"<br><div class='col-2'></div><div class='col-8'><div class='table'><table class='table' width='100' bgcolor='oldlace'><br>
+    <tr>
+        <th scope='col'>id</th>
+        <th scope='col'>placa</th>
+        <th scope='col'>fecha</th>
+        <th scope='col'>Acción</th></tr>
+    </div><div class='col-2'></div>";
     while ($row = mysqli_fetch_assoc($result)){
-        echo "<tr><td>" .$row["id"]."</td><td align=center>" .$row["placa"]."</td></tr>";
+        echo "<tr>
+            <td>" .$row["id"]."</td>
+            <td>" .$row["placa"]."</td>
+            <td>" .$row["fecha"]."</td>
+            <td>seleccionar</td>
+            </tr>";
     }
     ECHO "</table>";
 } else{
