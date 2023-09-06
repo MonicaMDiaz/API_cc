@@ -62,19 +62,27 @@ if (!$conn){
     $sql= "SELECT * FROM datos";
     $result= mysqli_query($conn, $sql);
     if (mysqli_num_rows($result)>0){
-        echo"<br><div class='col-2'></div><div class='col-8'><div class='table'><table class='table' width='100' bgcolor='oldlace'><br>
+        echo"<br><div class='table'><table class='table' width='100' bgcolor='oldlace'><br>
         <tr>
             <th scope='col'>id</th>
             <th scope='col'>placa</th>
             <th scope='col'>fecha</th>
-            <th scope='col'>Acción</th></tr>
-        </div><div class='col-2'></div>";
+            <th scope='col'>Acción</th></tr>";
+            
         while ($row = mysqli_fetch_assoc($result)){
             echo "<tr>
                 <td>" .$row["id"]."</td>
                 <td>" .$row["placa"]."</td>
                 <td>" .$row["fecha"]."</td>
-                <td>seleccionar</td>
+                <td>
+                <form action='ficha_i.php' method='post'>
+                    <input type='submit' value='Ver' name='accion' class='btn btn-dark'>
+                <form action='' method='post'>
+                    <input type='submit' value='Editar' name='accion' class='btn btn-success'>
+                <form action='' method='post'>
+                    <input type='submit' value='Borrar' name='accion' class='btn btn-danger'>
+                </form></form></form>
+                </td>
                 </tr>";
         }
         echo"</table>" ; 
@@ -83,5 +91,9 @@ if (!$conn){
     }
 mysqli_close($conn);
 ?>
+
+<form action='' method='post'>
+    <input type='submit' value='Agregar' name='accion' class='btn btn-secondary'>
+</form>
 
 <?php include("../templates/pie.php"); ?>
