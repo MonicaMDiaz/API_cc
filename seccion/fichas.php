@@ -35,65 +35,62 @@ p {
 }
 
 .button {
-    background-color: white;
-    border: none;
-    color: black;
-    padding: 10px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    margin-left: 85%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
     margin: 4px 2px;
-    cursor: pointer;
 }
 </style>
 <br>
 <?php
 //INSERT INTO `datos` (`id`, `placa`, `fecha`) VALUES ('', NULL, current_timestamp())
-$servername="localhost";
-$username= "root";
-$password= "";
-$dbname= "cv";
+include_once '../databases/BD.php';
+$conexionBD=BD::crearInstancia();
+$sql=$conexionBD->prepare("SELECT * FROM datos");
+$sql->execute();
+$result= $sql->fetchALL();
 
-$conn= mysqli_connect($servername,$username,$password,$dbname);
-if (!$conn){
-    die("Connection failed: " . $conn->connect_error);  
-    }
-    $sql= "SELECT * FROM datos";
-    $result= mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result)>0){
-        echo"<br><div class='table'><table class='table' width='100' bgcolor='oldlace'><br>
+?>
+<br>
+<div class='table'>
+    <table class='table' width='100' bgcolor='oldlace'><br>
         <tr>
             <th scope='col'>id</th>
             <th scope='col'>placa</th>
             <th scope='col'>fecha</th>
-            <th scope='col'>Acción</th></tr>";
-            
-        while ($row = mysqli_fetch_assoc($result)){
-            echo "<tr>
-                <td>" .$row["id"]."</td>
-                <td>" .$row["placa"]."</td>
-                <td>" .$row["fecha"]."</td>
-                <td>
-                <form action='ficha_i.php' method='post'>
-                    <input type='submit' value='Ver' name='accion' class='btn btn-dark'>
-                <form action='' method='post'>
-                    <input type='submit' value='Editar' name='accion' class='btn btn-success'>
-                <form action='' method='post'>
-                    <input type='submit' value='Borrar' name='accion' class='btn btn-danger'>
-                </form></form></form>
-                </td>
-                </tr>";
-        }
-        echo"</table>" ; 
-    } else{
-        echo "0 resultados";
-    }
-mysqli_close($conn);
-?>
+            <th scope='col'>Acción</th>
+        </tr>
+        <?php foreach($result as $ficha){?>
+        <tr>
+            <td> <?php echo $ficha['id']?> </td>
+            <td> <?php echo $ficha["placa"]?> </td>
+            <td> <?php echo $ficha["fecha"]?> </td>
+            <td>
+                <div class='buttons'>
+                    <form action='ficha_i.php' method='post'>
+                        <input type='submit' value='Ver' name='ver' class='btn btn-dark'>
+                    </form>
+                    <form action='editarficha.php' method='post'>
+                        <input type='submit' value='Editar' name='editarficha' class='btn btn-success'>
+                    </form>
+                    <form action='borrarficha.php' method='post'>
+                        <input type='submit' value='Borrar' name='borrarficha' class='btn btn-danger'>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <?php }?>
 
-<form action='' method='post'>
-    <input type='submit' value='Agregar' name='accion' class='btn btn-secondary'>
-</form>
+    </table>
+</div>
+<div class='button'>
+    <form action='' method='post'>
+        <input type='submit' value='Agregar' name='accion' class='btn btn-secondary'>
+    </form>
+</div>
+<br>
 
 <?php include("../templates/pie.php"); ?>

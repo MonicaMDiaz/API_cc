@@ -1,0 +1,64 @@
+<!--conexion con base de datos anterior, codigo: fichas
+<?php
+$servername="localhost";
+$username= "root";
+$password= "";
+$dbname= "cv";
+
+$conn= mysqli_connect($servername,$username,$password,$dbname);
+if (!$conn){
+    die("Connection failed: " . $conn->connect_error);  
+    }
+    $sql= "SELECT * FROM datos";
+    $result= mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result)>0){
+        echo"<br><div class='table'><table class='table' width='100' bgcolor='oldlace'><br>
+        <tr>
+            <th scope='col'>id</th>
+            <th scope='col'>placa</th>
+            <th scope='col'>fecha</th>
+            <th scope='col'>Acción</th></tr>";
+            
+        while ($row = mysqli_fetch_assoc($result)){
+            echo "<tr>
+                <td>" .$row["id"]."</td>
+                <td>" .$row["placa"]."</td>
+                <td>" .$row["fecha"]."</td>
+                <td>
+                <div class='buttons'>
+                    <form action='ficha_i.php' method='post'>
+                        <input type='submit' value='Ver' name='ver' class='btn btn-dark'></form>
+                    <form action='editarficha.php' method='post'>
+                        <input type='submit' value='Editar' name='editarficha' class='btn btn-success'></form>
+                    <form action='borrarficha.php' method='post'>
+                        <input type='submit' value='Borrar' name='borrarficha' class='btn btn-danger'>
+                    </form>
+                </div>
+                </td>
+                </tr>";
+        }
+        echo"</table>" ; 
+    } else{
+        echo "0 resultados";
+    }
+mysqli_close($conn);
+?>
+
+complemento codigo: buscar ficha
+$opciones = array();
+$opciones[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
+
+$buscar=$_POST["buscar"];
+$buscar_valor=$_POST["buscar_valor"];
+
+if ($buscar == "placa") {
+    $sql = "SELECT placa,id,fecha from datos WHERE placa LIKE '%".$buscar_valor."%'";
+}
+else if ($buscar == "id") {
+    $sql = "SELECT placa,id,fecha from datos WHERE id=".$buscar_valor;
+}
+else {
+    echo "Opción no válida";
+}
+
+mysqli_close($conn);
