@@ -47,7 +47,27 @@ body {
 <?php
 include_once '../databases/BD.php';
 $conexionBD=BD::crearInstancia();
+$id=isset($_POST['id'])?$_POST['id']:'';
+$placa=isset($_POST['placa'])?$_POST['placa']:'';
+$accion=isset($_POST['accion'])?$_POST['accion']:'';
 
+if($accion!=''){
+    switch ($accion) {
+        case 'Guardar':
+            //INSERT INTO `datos` (`id`, `placa`, `fecha`) VALUES ('', NULL, current_timestamp())
+            //"insert into datos (id, placa) values ('".$id."','".$placa."')";
+            $sql="INSERT INTO datos(id, placa,fecha) VALUES ('$id', '$placa', current_timestamp())";
+            $consulta=$conexionBD->prepare($sql);
+            $consulta->execute(); 
+            print("Nuevo registro guardado");
+            break;
+        case 'Aceptar':
+            header('Location: fichas.php');
+            break;
+        default:
+            break;
+    }
+}
 ?>
 
 
@@ -78,8 +98,9 @@ $conexionBD=BD::crearInstancia();
                         </div>
 
                         <div class="btn-group" role="group" aria-label="">
-                            <button type="button" class="btn btn-black">Guardar</button>
-                            <button type="button" class="btn btn-outline-black">Aceptar</button>
+                            <button type="submit" name="accion" value="Guardar" class="btn btn-black">Guardar</button>
+                            <button type="submit" name="accion" value="Aceptar"
+                                class="btn btn-outline-black">Aceptar</button>
                         </div>
                     </div>
                 </div>

@@ -49,13 +49,38 @@ p {
 //INSERT INTO `datos` (`id`, `placa`, `fecha`) VALUES ('', NULL, current_timestamp())
 include_once '../databases/BD.php';
 $conexionBD=BD::crearInstancia();
-$sql=$conexionBD->prepare("SELECT * FROM datos");
-$sql->execute();
-$result= $sql->fetchALL();
+$consulta=$conexionBD->prepare("SELECT * FROM datos");
+$consulta->execute();
+$result= $consulta->fetchALL();
 
 $id=isset($_POST['id'])?$_POST['id']:'';
 $placa=isset($_POST['placa'])?$_POST['placa']:'';
+$accion=isset($_POST['accion'])?$_POST['accion']:'';
 
+if($accion!=''){
+    switch ($accion) {
+        case 'Ver':
+            $sql="SELECT * FROM datos WHERE id=:id";
+            $consulta=$conexionBD->prepare($sql);
+            $consulta->bindParam(':id',$id);
+            $consulta->execute();
+            $ficha= $consulta->fetch(PDO::FETCH_ASSOC);
+            print_r($ficha);
+            break;
+        case 'Editar':
+            $sql="UPDATE datos SET placa='$placa' WHERE id=$id";
+            $consulta->execute();
+            break;
+        case 'Borrar':
+            $sql="DELETE FROM datos WHERE id=:id";
+            $consulta=$conexionBD->prepare($sql);
+            $consulta->bindParam(':id',$id);
+            $consulta->execute();
+            break;
+        default:
+            break;
+    }
+}
 ?>
 <br>
 <div class='table'>
@@ -72,17 +97,14 @@ $placa=isset($_POST['placa'])?$_POST['placa']:'';
             <td> <?php echo $ficha["placa"]?> </td>
             <td> <?php echo $ficha["fecha"]?> </td>
             <td>
-                <div class='buttons'>
-                    <form action='ficha_i.php' method='post'>
-                        <input type='submit' value='Ver' name='ver' class='btn btn-dark'>
-                    </form>
-                    <form action='editarficha.php' method='post'>
-                        <input type='submit' value='Editar' name='editarficha' class='btn btn-success'>
-                    </form>
-                    <form action='borrarficha.php' method='post'>
-                        <input type='submit' value='Borrar' name='borrarficha' class='btn btn-danger'>
-                    </form>
-                </div>
+                <form action="" method="post">
+                    <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
+                    <div class="btn-group" role="group" aria-label="">
+                        <button type="submit" name="accion" value="Ver" class="btn btn-dark">Ver</button>
+                        <button type="submit" name="accion" value="Editar" class="btn btn-success">Editar</button>
+                        <button type="submit" name="accion" value="Borrar" class="btn btn-danger">Borrar</button>
+                    </div>
+                </form>
             </td>
         </tr>
         <?php }?>
