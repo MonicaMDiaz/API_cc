@@ -53,6 +53,9 @@ $sql=$conexionBD->prepare("SELECT * FROM datos");
 $sql->execute();
 $result= $sql->fetchALL();
 
+$id=isset($_POST['id'])?$_POST['id']:'';
+$placa=isset($_POST['placa'])?$_POST['placa']:'';
+
 ?>
 <br>
 <div class='table'>
@@ -87,8 +90,8 @@ $result= $sql->fetchALL();
     </table>
 </div>
 <div class='button'>
-    <form action='' method='post'>
-        <input type='submit' value='Agregar' name='accion' class='btn btn-secondary'>
+    <form action='agregarficha.php' method='post'>
+        <input type='submit' value='Agregar' name='agregarficha' class='btn btn-secondary'>
     </form>
 </div>
 <br>

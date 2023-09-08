@@ -7,8 +7,6 @@
     <link rel="stylesheet" type="text/css" href="estilos.css">
     </link>
 </head>
-
-</html>
 <style>
 body {
     background-color: orange;
@@ -20,6 +18,9 @@ body {
     margin: 4px 2px;
 }
 </style>
+
+</html>
+
 <?php
 //INSERT INTO `datos` (`id`, `placa`, `fecha`) VALUES ('', NULL, current_timestamp())
 include("fichas.php");
