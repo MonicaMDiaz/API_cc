@@ -54,8 +54,6 @@ $accion=isset($_POST['accion'])?$_POST['accion']:'';
 if($accion!=''){
     switch ($accion) {
         case 'Guardar':
-            //INSERT INTO `datos` (`id`, `placa`, `fecha`) VALUES ('', NULL, current_timestamp())
-            //"insert into datos (id, placa) values ('".$id."','".$placa."')";
             $sql="INSERT INTO datos(id, placa,fecha) VALUES ('$id', '$placa', current_timestamp())";
             $consulta=$conexionBD->prepare($sql);
             $consulta->execute(); 

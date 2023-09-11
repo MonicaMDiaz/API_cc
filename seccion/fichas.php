@@ -60,21 +60,14 @@ $accion=isset($_POST['accion'])?$_POST['accion']:'';
 if($accion!=''){
     switch ($accion) {
         case 'Ver':
-            $sql="SELECT * FROM datos WHERE id=:id";
-            $consulta=$conexionBD->prepare($sql);
-            $consulta->bindParam(':id',$id);
-            $consulta->execute();
-            $ficha= $consulta->fetch(PDO::FETCH_ASSOC);
-            print_r($ficha);
+            header('Location: ficha_i.php');
             break;
         case 'Editar':
-            $sql="UPDATE datos SET placa='$placa' WHERE id=$id";
-            $consulta->execute();
+            header('Location: editarficha.php');
             break;
         case 'Borrar':
-            $sql="DELETE FROM datos WHERE id=:id";
+            $sql="DELETE FROM datos WHERE id=$id";
             $consulta=$conexionBD->prepare($sql);
-            $consulta->bindParam(':id',$id);
             $consulta->execute();
             break;
         default:
