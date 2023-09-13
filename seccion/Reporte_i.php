@@ -1,5 +1,5 @@
 <?php include("../templates/cabecera.php"); ?>
 
-borrar Ficha
+Reporte individual
 
 <?php include("../templates/pie.php"); ?>

@@ -65,7 +65,7 @@ if($accion!=''){
 
             break;
         case 'Editar':
-            header('Location: editarficha.php');
+            header('Location: editarficha.php?id=' . $id);
             break;
         case 'Borrar':
             $sql="DELETE FROM datos WHERE id=$id";
