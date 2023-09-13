@@ -62,3 +62,16 @@ else {
 }
 
 mysqli_close($conn);
+
+Codigo editar ficha:
+<div class='buttons'>
+    <form action='fichas.php' method='post'>
+        <input type='submit' value='Volver' name='ver' class='btn btn-secondary' style="float: right">
+    </form>
+    <form action='editarficha.php' method='post'>
+        <input type='submit' value='Editar' name='editarficha' class='btn btn-danger' style="float: right">
+    </form>
+    <form action='Reporte_i.php' method='post'>
+        <input type='submit' value='Reporte' name='reporte' class='btn btn-dark' style="float: right">
+    </form>
+</div>

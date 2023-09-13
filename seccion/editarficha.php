@@ -53,13 +53,30 @@ $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
 
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
+
 if($accion!=''){
     switch ($accion) {
         case 'Volver':
             header('Location: fichas.php');
             break;
         case 'Guardar':
-            print("Nuevo registro guardado");
+            if (isset($_POST['id'])) {
+            $placa = isset($_POST['placa'])?$ficha['placa']:'';
+            /*$empresa=isset($_POST['empresa'])?$_POST['empresa']:'';
+            $nombreconductor=isset($_POST['nombreconductor'])?$_POST['nombreconductor']:'';
+            $identificacion=isset($_POST['identificacion'])?$_POST['identificacion']:'';
+            $fecha=isset($_POST['fecha'])?$_POST['fecha']:'';*/
+
+            $sql = "UPDATE datos SET placa = '$placa' WHERE id = $id";
+            /*empresa = '$empresa', nombreconductor = '$nombreconductor', identificacion = '$identificacion', fecha = '$fecha'*/
+            $consulta = $conexionBD->prepare($sql);
+            $consulta->execute();
+
+            echo "<h1>Cambios guardados correctamente</h1>";
+        } else {
+            echo "<h1>No se ha enviado ningún dato</h1>";
+        }
+            
             break;
         case 'Reporte':
             header('Location: Reporte_i.php?id='. $id);
@@ -82,19 +99,20 @@ if($accion!=''){
         <h1>Información vehículo</h1>
         <tr>
             <th>ID de bus:</th>
-            <td><span contenteditable="true"><?php echo $ficha['id']?></span></td>
+            <td><?php echo $ficha['id']?></td>
             <th>Placa:</th>
-            <td> <?php echo $ficha["placa"]?> </td>
+            <td contenteditable="true"> <?php echo $ficha['placa']?> </td>
             <th>Empresa:</th>
-            <td>Autobuses</td>
+            <td contenteditable="true">Autobuses</td>
         </tr>
         <tr>
             <th>Nombre conductor:</th>
-            <td> Pepito pable perez meza </td>
+            <td contenteditable="true"> Pepito pable perez meza </td>
             <th>Identificación</th>
-            <td> CC. 123456789 </td>
+            <td contenteditable="true"> CC. </td>
+            <td contenteditable="true">123456789</td>
             <th>Fecha y hora</th>
-            <td> <?php echo $ficha["fecha"]?> </td>
+            <td contenteditable="true"> <?php echo $ficha["fecha"]?> </td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
@@ -103,84 +121,259 @@ if($accion!=''){
         <h3>Unidad Lógica</h3>
         <tr>
             <th>Trek 753:</th>
-            <td> bien </td>
+            <td>
+                <select name="Trek">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Antena GPS:</th>
-            <td> bien </td>
+            <td>
+                <select name="GPS">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Antena 3G:</th>
-            <td>bien</td>
+            <td>
+                <select name="3G">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Sim card:</th>
-            <td> Bien </td>
+            <td>
+                <select name="Sim">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <th>HDC (5m)</th>
-            <td> bien </td>
+            <td>
+                <select name="HDC">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Cable de poder</th>
-            <td>bien</td>
+            <td>
+                <select name="Cable_poder">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <th>IOCOVER:</th>
-            <td> Bien </td>
+            <td>
+                <select name="IOCOVER">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Tapa IOCOVER</th>
-            <td> bien </td>
+            <td>
+                <select name="Tapa_IOCOVER">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Cabezal Bipode</th>
-            <td>bien</td>
+            <td>
+                <select name="Cabezal_Bipode">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Bipode</th>
-            <td>bien</td>
+            <td>
+                <select name="Bipode">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
         <h3>Pip</h3>
         <tr>
             <th>Display de información:</th>
-            <td> bien </td>
+            <td>
+                <select name="Display">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Extención del cable de poder:</th>
-            <td> bien </td>
+            <td>
+                <select name="Extencion_poder">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Extención del cable de datos:</th>
-            <td>bien</td>
+            <td>
+                <select name="Extencion_datos">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Soportes en L:</th>
-            <td> Bien </td>
+            <td>
+                <select name="Soportes_L">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
         <h3>APC</h3>
         <tr>
             <th>APC:</th>
-            <td> bien </td>
+            <td>
+                <select name="APC">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Soporte caja:</th>
-            <td> bien </td>
+            <td>
+                <select name="Soporte_caja">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>cable de poder y datos:</th>
-            <td>bien</td>
+            <td>
+                <select name="poder_datos">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>DC convertidor (12-24):</th>
-            <td> Bien </td>
+            <td>
+                <select name="DC_convertidor">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
         <h3>Sensor pta 1</h3>
         <tr>
             <th>Sensor puerta:</th>
-            <td> bien </td>
+            <td>
+                <select name="Sensor_pta1">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Extención del cable:</th>
-            <td> bien </td>
+            <td>
+                <select name="Extencion_cable1">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Soportes en angulo:</th>
-            <td>bien</td>
+            <td>
+                <select name="Soportes_angulo1">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
         <h3>Sensor pta 2</h3>
         <tr>
             <th>Sensor puerta:</th>
-            <td> bien </td>
+            <td>
+                <select name="Sensor_pta2">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Extención del cable:</th>
-            <td> bien </td>
+            <td>
+                <select name="Extencion_cable2">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Soportes en angulo:</th>
-            <td>bien</td>
+            <td>
+                <select name="Soportes_angulo2">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
         <h3>Botón pánico</h3>
         <tr>
             <th>Botón de pánico:</th>
-            <td>bien </td>
+            <td>
+                <select name="panico">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th> </th>
             <td> </td>
             <th> </th>
@@ -190,7 +383,14 @@ if($accion!=''){
             <th> </th>
             <td> </td>
             <th>Extención:</th>
-            <td>bien </td>
+            <td>
+                <select name="Extencion_panico">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th> </th>
             <td> </td>
             <th> </th>
@@ -206,54 +406,187 @@ if($accion!=''){
         <h3>Sistema TRS</h3>
         <tr>
             <th>Radio MDT 400:</th>
-            <td> bien </td>
+            <td>
+                <select name="radio">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Cable de poder:</th>
-            <td> bien </td>
+            <td>
+                <select name="poder_radio">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Cable PI:</th>
-            <td>bien</td>
+            <td>
+                <select name="PI">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <th>MIC conductor</th>
-            <td> bien </td>
+            <td>
+                <select name="mic">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Soporte MIC conductor L</th>
-            <td> bien </td>
+            <td>
+                <select name="mic_L">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>MIC ambiente</th>
-            <td> bien </td>
+            <td>
+                <select name="mic_ambiente">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <th>Antena TRS</th>
-            <td>bien</td>
+            <td>
+                <select name="TRS">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Euro base:</th>
-            <td> Bien </td>
+            <td>
+                <select name="euro">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Altavoz</th>
-            <td> bien </td>
+            <td>
+                <select name="altavoz">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Botón PTT</th>
-            <td>bien</td>
+            <td>
+                <select name="PTT">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Inversor Voltaje (24-12)</th>
-            <td>bien</td>
+            <td>
+                <select name="inversor">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
         <h3>Habitáculo</h3>
         <tr>
             <th>Habitáculo:</th>
-            <td> bien </td>
+            <td>
+                <select name="habitaculo">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Power on amplificador:</th>
-            <td> bien </td>
+            <td>
+                <select name="power_on">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>cable 2x1:</th>
-            <td>bien</td>
+            <td>
+                <select name="cable_2x1">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Amplificador:</th>
-            <td> Bien </td>
+            <td>
+                <select name="amplificador">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <th>Parlantes:</th>
-            <td> bien </td>
+            <td>
+                <select name="parlantes">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Rejillas:</th>
-            <td> bien </td>
+            <td>
+                <select name="rejillas">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>PCB:</th>
-            <td>bien</td>
+            <td>
+                <select name="pcb">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
             <th>Arnés:</th>
-            <td> Bien </td>
+            <td>
+                <select name="arnes">
+                    <option value="Bien">Bien</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Mal">Mal</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
         </tr>
     </table>
     <table width='100%' bgcolor='oldlace' border='3'><br>
