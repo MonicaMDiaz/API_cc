@@ -60,7 +60,9 @@ $accion=isset($_POST['accion'])?$_POST['accion']:'';
 if($accion!=''){
     switch ($accion) {
         case 'Ver':
-            header('Location: ficha_i.php');
+            //header('Location: ficha_i.php');
+            header('Location: ficha_i.php?id=' . $id);
+
             break;
         case 'Editar':
             header('Location: editarficha.php');
