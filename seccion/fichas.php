@@ -68,8 +68,9 @@ if($accion!=''){
             header('Location: editarficha.php?id=' . $id);
             break;
         case 'Borrar':
-            $sql="DELETE FROM datos WHERE id=$id";
+            $sql="DELETE FROM datos WHERE id=:id";
             $consulta=$conexionBD->prepare($sql);
+            $consulta->bindParam(':id',$id);
             $consulta->execute();
             break;
         default:
