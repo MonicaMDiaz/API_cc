@@ -51,6 +51,8 @@ textarea {
 </style>
 <br>
 <?php
+// Inicia la sesión (si aún no está iniciada)
+session_start();
 include_once '../databases/BD.php';
 $conexionBD=BD::crearInstancia();
 
@@ -60,6 +62,7 @@ $consulta = $conexionBD->prepare($sql);
 $consulta->bindParam(':id', $id);
 $consulta->execute();
 $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
+
 
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
@@ -84,6 +87,11 @@ if($accion!=''){
             $consulta->bindParam(':id', $id);
             $consulta->execute();
             $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
+
+            // Obtén el valor seleccionado de "Trek 753" desde el formulario
+            $trek753 = $_POST['Trek'];
+            // Guarda el valor en una variable de sesión
+            $_SESSION['trek753'] = $trek753;
 
             echo "<h1>Cambios guardados correctamente</h1>";
             break;

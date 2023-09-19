@@ -41,6 +41,8 @@ p {
 </style>
 <br>
 <?php
+// Inicia la sesión (si aún no está iniciada)
+session_start();
 include_once '../databases/BD.php';
 $conexionBD=BD::crearInstancia();
 
@@ -50,6 +52,9 @@ $consulta = $conexionBD->prepare($sql);
 $consulta->bindParam(':id', $id);
 $consulta->execute();
 $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
+
+// Recupera el valor de "Trek 753" de la sesión (si existe)
+$trek753 = isset($_SESSION['trek753']) ? $_SESSION['trek753'] : 'Valor Predeterminado';
 
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
@@ -103,7 +108,7 @@ if($accion!=''){
         <h3>Unidad Lógica</h3>
         <tr>
             <th>Trek 753:</th>
-            <td> bien </td>
+            <td><?php echo $trek753?></td>
             <th>Antena GPS:</th>
             <td> bien </td>
             <th>Antena 3G:</th>
