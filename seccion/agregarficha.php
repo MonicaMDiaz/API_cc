@@ -54,9 +54,12 @@ $accion=isset($_POST['accion'])?$_POST['accion']:'';
 if($accion!=''){
     switch ($accion) {
         case 'Guardar':
-            $sql="INSERT INTO datos(id, placa,fecha) VALUES ('$id', '$placa', current_timestamp())";
+            $sql="INSERT INTO datos(id, placa,fecha) VALUES ('$id', '$placa', current_timestamp());
+            INSERT INTO inventario(id) VALUES ($id);
+            INSERT INTO datos_inventario (id, iddato, idinventario) VALUES ($id, '$id', '$id');";
             $consulta=$conexionBD->prepare($sql);
             $consulta->execute(); 
+            
             print("Nuevo registro guardado");
             break;
         case 'Aceptar':
@@ -67,7 +70,6 @@ if($accion!=''){
     }
 }
 ?>
-
 
 
 <html>

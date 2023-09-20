@@ -68,10 +68,27 @@ if($accion!=''){
             header('Location: editarficha.php?id=' . $id);
             break;
         case 'Borrar':
-            $sql="DELETE FROM datos WHERE id=:id";
-            $consulta=$conexionBD->prepare($sql);
-            $consulta->bindParam(':id',$id);
-            $consulta->execute();
+            try {
+                // Comienza la transacción
+                $conexionBD->beginTransaction();
+
+                $sql = "DELETE FROM datos WHERE id=:id";
+                $consulta=$conexionBD->prepare($sql);
+                $consulta->bindParam(':id',$id);
+                $consulta->execute();
+
+                // Elimina el registro de la tabla inventario
+                $sql = "DELETE FROM inventario WHERE id=:id";
+                $consulta=$conexionBD->prepare($sql);
+                $consulta->bindParam(':id',$id);
+                $consulta->execute();
+
+                $conexionBD->commit();
+            } catch (Exception $e) {
+
+                $conexionBD->rollback();
+                echo "Error: " . $e->getMessage();
+            }   
             break;
         default:
             break;
