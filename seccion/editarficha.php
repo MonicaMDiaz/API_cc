@@ -51,13 +51,12 @@ textarea {
 </style>
 <br>
 <?php
-// Inicia la sesión (si aún no está iniciada)
-session_start();
 include_once '../databases/BD.php';
 $conexionBD=BD::crearInstancia();
 
 $id = $_GET['id'];
-$sql = "SELECT * FROM datos WHERE id = :id";
+//$sql = "SELECT * FROM datos WHERE id = :id";
+$sql = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE datos.id = :id";
 $consulta = $conexionBD->prepare($sql);
 $consulta->bindParam(':id', $id);
 $consulta->execute();
@@ -73,24 +72,23 @@ if($accion!=''){
         case 'Guardar':
             $id=$_POST['id'];
             $placa = $_POST['placa'];
-
+            $trek = $_POST['Trek'];
             // Actualizar solo el campo placa en la base de datos
             $sql = "UPDATE datos SET placa =:placa WHERE id = $id";
             $consulta = $conexionBD->prepare($sql);
             $consulta->bindParam(':placa', $placa);
             $consulta->execute();
-            
+            // Actualizar el campo Trek en la tabla inventario
+            $sql = "UPDATE inventario SET Trek =:trek WHERE id = $id";
+            $consulta = $conexionBD->prepare($sql);
+            $consulta->bindParam(':trek', $trek);
+            $consulta->execute();
             // Recargar los datos actualizados desde la base de datos
-            $sql = "SELECT * FROM datos WHERE id = :id";
+            $sql = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE datos.id = :id";
             $consulta = $conexionBD->prepare($sql);
             $consulta->bindParam(':id', $id);
             $consulta->execute();
             $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
-
-            // Obtén el valor seleccionado de "Trek 753" desde el formulario
-            $trek753 = $_POST['Trek'];
-            // Guarda el valor en una variable de sesión
-            $_SESSION['trek753'] = $trek753;
 
             echo "<h1>Cambios guardados correctamente</h1>";
             break;
@@ -129,6 +127,7 @@ if($accion!=''){
                 <td><input type="text" name="Identificacion" value="123456789"></td>
                 <th>Fecha y hora</th>
                 <td><?php echo $ficha['fecha']?></td>
+            </tr>
         </table>
         <br>
         <div role="group">
@@ -147,11 +146,19 @@ if($accion!=''){
                     <tr>
                         <th>Trek 753:</th>
                         <td>
+                            <?php
+                            $opciones = array("Bien", "Regular", "Mal", "N/A");
+                            $index = array_search($ficha['Trek'], $opciones);
+                            if($index !== false){
+                                unset($opciones[$index]);
+                            }
+                            ?>
+
                             <select name="Trek">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
+                                <option value="<?php echo $ficha['Trek']; ?>"><?php echo $ficha['Trek']; ?></option>
+                                <?php foreach($opciones as $opcion): ?>
+                                <option value="<?php echo $opcion; ?>"><?php echo $opcion; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </td>
                         <th>Antena GPS:</th>

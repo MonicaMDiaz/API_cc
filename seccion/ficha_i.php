@@ -41,20 +41,16 @@ p {
 </style>
 <br>
 <?php
-// Inicia la sesión (si aún no está iniciada)
-session_start();
 include_once '../databases/BD.php';
 $conexionBD=BD::crearInstancia();
 
 $id = $_GET['id'];
-$sql = "SELECT * FROM datos WHERE id = :id";
+//$sql = "SELECT * FROM datos WHERE id = :id";
+$sql = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE datos.id = :id";
 $consulta = $conexionBD->prepare($sql);
 $consulta->bindParam(':id', $id);
 $consulta->execute();
 $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
-
-// Recupera el valor de "Trek 753" de la sesión (si existe)
-$trek753 = isset($_SESSION['trek753']) ? $_SESSION['trek753'] : 'Valor Predeterminado';
 
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
@@ -108,9 +104,9 @@ if($accion!=''){
         <h3>Unidad Lógica</h3>
         <tr>
             <th>Trek 753:</th>
-            <td><?php echo $trek753?></td>
+            <td><?php echo $ficha['Trek']?></td>
             <th>Antena GPS:</th>
-            <td> bien </td>
+            <td> Bien </td>
             <th>Antena 3G:</th>
             <td>bien</td>
             <th>Sim card:</th>

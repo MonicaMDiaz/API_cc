@@ -55,6 +55,7 @@ $result= $consulta->fetchALL();
 
 $id=isset($_POST['id'])?$_POST['id']:'';
 $placa=isset($_POST['placa'])?$_POST['placa']:'';
+
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
 if($accion!=''){
