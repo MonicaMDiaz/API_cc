@@ -63,7 +63,6 @@ $consulta->bindParam(':id', $id);
 $consulta->execute();
 $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
 
-
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
 if($accion!=''){
