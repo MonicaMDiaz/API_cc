@@ -49,6 +49,21 @@ textarea {
     font-family: Arial Rounded MT;
 }
 </style>
+<?php
+function generateSelectOptions($name, $selectedOption, $options) {
+    $index = array_search($selectedOption, $options);
+    if($index !== false){
+        unset($options[$index]);
+    }
+
+    echo '<select name="'.$name.'">';
+    echo '<option value="'.$selectedOption.'">'.$selectedOption.'</option>';
+    foreach($options as $option) {
+        echo '<option value="'.$option.'">'.$option.'</option>';
+    }
+    echo '</select>';
+}
+?>
 <br>
 <?php
 include_once '../databases/BD.php';
@@ -62,6 +77,8 @@ $consulta->bindParam(':id', $id);
 $consulta->execute();
 $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
 
+$opciones = array("Bien", "Regular", "Mal", "N/A");
+
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
 if($accion!=''){
@@ -72,17 +89,37 @@ if($accion!=''){
         case 'Guardar':
             $id=$_POST['id'];
             $placa = $_POST['placa'];
-            $trek = $_POST['Trek'];
+            $Estado = $_POST['Estado'];
+            $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER','Cabezal_Bipode','Bipode',
+                        'Display','Extencion_poder','Extencion_datos','Soportes_L',
+                        'APC','Soporte_caja','poder_datos','DC_convertidor',
+                        'Sensor_pta1','Extencion_cable1','Soportes_angulo1','Sensor_pta2','Extencion_cable2','Soportes_angulo2',
+                        'panico','Extencion_panico',
+                        'radio','poder_radio','PI','mic','mic_L','mic_ambiente',
+                        'habitaculo','power_on','cable_2x1','amplificador','parlantes','rejillas','pcb','arnes'];
             // Actualizar solo el campo placa en la base de datos
             $sql = "UPDATE datos SET placa =:placa WHERE id = $id";
             $consulta = $conexionBD->prepare($sql);
             $consulta->bindParam(':placa', $placa);
             $consulta->execute();
-            // Actualizar el campo Trek en la tabla inventario
-            $sql = "UPDATE inventario SET Trek =:trek WHERE id = $id";
+            // Actualizar el campo Estado en la tabla inventario
+            $sql = "UPDATE inventario SET Estado ='$Estado' WHERE id = $id";
             $consulta = $conexionBD->prepare($sql);
-            $consulta->bindParam(':trek', $trek);
             $consulta->execute();
+            $sql = "UPDATE inventario SET ";
+            foreach ($fields as $field) {
+                if (!isset($_POST[$field])) {
+                    die("Missing field: $field");
+                }            
+                $sql .= "$field = :$field, ";
+            }
+            $sql = rtrim($sql, ', ');           
+            $sql .= " WHERE id = $id";
+            $consulta = $conexionBD->prepare($sql);           
+            foreach ($fields as $field) {
+                $consulta->bindParam(":$field", $_POST[$field]);
+            }          
+            $consulta->execute();              
             // Recargar los datos actualizados desde la base de datos
             $sql = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE datos.id = :id";
             $consulta = $conexionBD->prepare($sql);
@@ -132,10 +169,18 @@ if($accion!=''){
         <br>
         <div role="group">
             <h2 style="float: left">Estado: </h2>
-            <select name="estado">
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
-                <option value="En reparación">En reparación</option>
+            <?php
+            $estados = array("Activo", "Inactivo", "En reparación");
+            $index = array_search($ficha['Estado'], $estados);
+            if($index !== false){
+                unset($estados[$index]);
+            }
+            ?>
+            <select name="Estado">
+                <option value="<?php echo $ficha['Estado']; ?>"><?php echo $ficha['Estado']; ?></option>
+                <?php foreach($estados as $estado): ?>
+                <option value="<?php echo $estado; ?>"><?php echo $estado; ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <br>
@@ -145,109 +190,31 @@ if($accion!=''){
                 <table class='table' bgcolor='oldlace' width='100%' border='3'>
                     <tr>
                         <th>Trek 753:</th>
-                        <td>
-                            <?php
-                            $opciones = array("Bien", "Regular", "Mal", "N/A");
-                            $index = array_search($ficha['Trek'], $opciones);
-                            if($index !== false){
-                                unset($opciones[$index]);
-                            }
-                            ?>
-
-                            <select name="Trek">
-                                <option value="<?php echo $ficha['Trek']; ?>"><?php echo $ficha['Trek']; ?></option>
-                                <?php foreach($opciones as $opcion): ?>
-                                <option value="<?php echo $opcion; ?>"><?php echo $opcion; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </td>
+                        <td><?php generateSelectOptions('Trek', $ficha['Trek'], $opciones);?></td>
                         <th>Antena GPS:</th>
-                        <td>
-                            <select name="GPS">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td><?php generateSelectOptions('GPS', $ficha['GPS'], $opciones);?></td>
                         <th>Antena 3G:</th>
-                        <td>
-                            <select name="3G">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td><?php generateSelectOptions('3G', $ficha['3G'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>Sim card:</th>
-                        <td>
-                            <select name="Sim">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td><?php generateSelectOptions('Sim', $ficha['Sim'], $opciones);?></td>
                         <th>HDC (5m)</th>
-                        <td>
-                            <select name="HDC">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td><?php generateSelectOptions('HDC', $ficha['HDC'], $opciones);?></td>
                         <th>Cable de poder</th>
-                        <td>
-                            <select name="Cable_poder">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td><?php generateSelectOptions('Cable_poder', $ficha['Cable_poder'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>IOCOVER:</th>
-                        <td>
-                            <select name="IOCOVER">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('IOCOVER', $ficha['IOCOVER'], $opciones);?></td>
                         <th>Tapa IOCOVER</th>
-                        <td>
-                            <select name="Tapa_IOCOVER">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('Tapa_IOCOVER', $ficha['Tapa_IOCOVER'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>Cabezal Bipode</th>
-                        <td>
-                            <select name="Cabezal_Bipode">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('Cabezal_Bipode', $ficha['Cabezal_Bipode'], $opciones);?></td>
                         <th>Bipode</th>
-                        <td>
-                            <select name="Bipode">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('Bipode', $ficha['Bipode'], $opciones);?></td>
                     </tr>
                 </table>
             </div>
@@ -264,47 +231,21 @@ if($accion!=''){
                 <table class='table tabla' width='100%' bgcolor='oldlace' border='3'>
                     <tr>
                         <th>Display de información:</th>
-                        <td>
-                            <select name="Display">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('Display', $ficha['Display'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>Extención del cable de poder:</th>
-                        <td>
-                            <select name="Extencion_poder">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
+                        <td> <?php generateSelectOptions('Extencion_poder', $ficha['Extencion_poder'], $opciones);?>
                         </td>
                     </tr>
                     <tr>
                         <th>Extención del cable de datos:</th>
-                        <td>
-                            <select name="Extencion_datos">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
+                        <td> <?php generateSelectOptions('Extencion_datos', $ficha['Extencion_datos'], $opciones);?>
                         </td>
                     </tr>
                     <tr>
                         <th>Soportes en L:</th>
-                        <td>
-                            <select name="Soportes_L">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('Soportes_L', $ficha['Soportes_L'], $opciones);?></td>
                     </tr>
                 </table>
             </div>
@@ -321,47 +262,19 @@ if($accion!=''){
                 <table class='table' width='100%' bgcolor='oldlace' border='3'>
                     <tr>
                         <th>APC:</th>
-                        <td>
-                            <select name="APC">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('APC', $ficha['APC'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>Soporte caja:</th>
-                        <td>
-                            <select name="Soporte_caja">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('Soporte_caja', $ficha['Soporte_caja'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>cable de poder y datos:</th>
-                        <td>
-                            <select name="poder_datos">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('poder_datos', $ficha['poder_datos'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>DC convertidor (12-24):</th>
-                        <td>
-                            <select name="DC_convertidor">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('DC_convertidor', $ficha['DC_convertidor'], $opciones);?></td>
                     </tr>
                 </table>
             </div>
@@ -378,35 +291,18 @@ if($accion!=''){
                 <table class='table' width='100%' bgcolor='oldlace' border='3'>
                     <tr>
                         <th>Sensor puerta:</th>
-                        <td>
-                            <select name="Sensor_pta1">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
+                        <td> <?php generateSelectOptions('Sensor_pta1', $ficha['Sensor_pta1'], $opciones);?></td>
                         </td>
                     </tr>
                     <tr>
                         <th>Extención del cable:</th>
-                        <td>
-                            <select name="Extencion_cable1">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
+                        <td> <?php generateSelectOptions('Extencion_cable1', $ficha['Extencion_cable1'], $opciones);?>
                         </td>
                     </tr>
                     <tr>
                         <th>Soportes en angulo:</th>
-                        <td>
-                            <select name="Soportes_angulo1">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
+                        <td> <?php generateSelectOptions('Soportes_angulo1', $ficha['Soportes_angulo1'], $opciones);?>
+                        </td>
                         </td>
                     </tr>
                 </table>
@@ -424,35 +320,16 @@ if($accion!=''){
                 <table class='table' width='100%' bgcolor='oldlace' border='3'>
                     <tr>
                         <th>Sensor puerta:</th>
-                        <td>
-                            <select name="Sensor_pta2">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('Sensor_pta2', $ficha['Sensor_pta2'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>Extención del cable:</th>
-                        <td>
-                            <select name="Extencion_cable2">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
+                        <td> <?php generateSelectOptions('Extencion_cable2', $ficha['Extencion_cable2'], $opciones);?>
                         </td>
                     </tr>
                     <tr>
                         <th>Soportes en angulo:</th>
-                        <td>
-                            <select name="Soportes_angulo2">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
+                        <td> <?php generateSelectOptions('Soportes_angulo2', $ficha['Soportes_angulo2'], $opciones);?>
                         </td>
                     </tr>
                 </table>
@@ -470,24 +347,11 @@ if($accion!=''){
                 <table class='table' width='100%' bgcolor='oldlace' border='3'>
                     <tr>
                         <th>Botón de pánico:</th>
-                        <td>
-                            <select name="panico">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('panico', $ficha['panico'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>Extención:</th>
-                        <td>
-                            <select name="Extencion_panico">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
+                        <td> <?php generateSelectOptions('Extencion_panico', $ficha['Extencion_panico'], $opciones);?>
                         </td>
                     </tr>
                 </table>
@@ -505,110 +369,33 @@ if($accion!=''){
                 <table class='table' width='100%' bgcolor='oldlace' border='3'>
                     <tr>
                         <th>Radio MDT 400:</th>
-                        <td>
-                            <select name="radio">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('radio', $ficha['radio'], $opciones);?></td>
                         <th>Cable de poder:</th>
-                        <td>
-                            <select name="poder_radio">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('poder_radio', $ficha['poder_radio'], $opciones);?></td>
                         <th>Cable PI:</th>
-                        <td>
-                            <select name="PI">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('PI', $ficha['PI'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>MIC conductor</th>
-                        <td>
-                            <select name="mic">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('mic', $ficha['mic'], $opciones);?></td>
                         <th>Soporte MIC conductor L</th>
-                        <td>
-                            <select name="mic_L">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('mic_L', $ficha['mic_L'], $opciones);?></td>
                         <th>MIC ambiente</th>
-                        <td>
-                            <select name="mic_ambiente">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('mic_ambiente', $ficha['mic_ambiente'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>Antena TRS</th>
-                        <td>
-                            <select name="TRS">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('TRS', $ficha['TRS'], $opciones);?></td>
                         <th>Euro base:</th>
-                        <td>
-                            <select name="euro">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('euro', $ficha['euro'], $opciones);?></td>
                         <th>Altavoz</th>
-                        <td>
-                            <select name="altavoz">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('altavoz', $ficha['altavoz'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>Botón PTT</th>
-                        <td>
-                            <select name="PTT">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('PTT', $ficha['PTT'], $opciones);?></td>
                         <th>Inversor Voltaje (24-12)</th>
-                        <td>
-                            <select name="inversor">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('inversor', $ficha['inversor'], $opciones);?></td>
                     </tr>
                 </table>
             </div>
@@ -625,81 +412,25 @@ if($accion!=''){
                 <table class='table' width='100%' bgcolor='oldlace' border='3'>
                     <tr>
                         <th>Habitáculo:</th>
-                        <td>
-                            <select name="habitaculo">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('habitaculo', $ficha['habitaculo'], $opciones);?></td>
                         <th>Power on amplificador:</th>
-                        <td>
-                            <select name="power_on">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('power_on', $ficha['power_on'], $opciones);?></td>
                         <th>cable 2x1:</th>
-                        <td>
-                            <select name="cable_2x1">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('cable_2x1', $ficha['cable_2x1'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>Amplificador:</th>
-                        <td>
-                            <select name="amplificador">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('amplificador', $ficha['amplificador'], $opciones);?></td>
                         <th>Parlantes:</th>
-                        <td>
-                            <select name="parlantes">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('parlantes', $ficha['parlantes'], $opciones);?></td>
                         <th>Rejillas:</th>
-                        <td>
-                            <select name="rejillas">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('rejillas', $ficha['rejillas'], $opciones);?></td>
                     </tr>
                     <tr>
                         <th>PCB:</th>
-                        <td>
-                            <select name="pcb">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('pcb', $ficha['pcb'], $opciones);?></td>
                         <th>Arnés:</th>
-                        <td>
-                            <select name="arnes">
-                                <option value="Bien">Bien</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Mal">Mal</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </td>
+                        <td> <?php generateSelectOptions('arnes', $ficha['arnes'], $opciones);?></td>
                     </tr>
                 </table>
             </div>

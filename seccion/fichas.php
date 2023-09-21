@@ -63,7 +63,6 @@ if($accion!=''){
         case 'Ver':
             //header('Location: ficha_i.php');
             header('Location: ficha_i.php?id=' . $id);
-
             break;
         case 'Editar':
             header('Location: editarficha.php?id=' . $id);

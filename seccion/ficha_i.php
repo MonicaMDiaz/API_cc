@@ -100,88 +100,88 @@ if($accion!=''){
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
 
-        <h2>Estado: </h2>
+        <h2>Estado: <?php echo $ficha['Estado']?></h2>
         <h3>Unidad Lógica</h3>
         <tr>
             <th>Trek 753:</th>
             <td><?php echo $ficha['Trek']?></td>
             <th>Antena GPS:</th>
-            <td> Bien </td>
+            <td> <?php echo $ficha['GPS']?> </td>
             <th>Antena 3G:</th>
-            <td>bien</td>
+            <td><?php echo $ficha['3G']?></td>
             <th>Sim card:</th>
-            <td> Bien </td>
+            <td> <?php echo $ficha['Sim']?> </td>
         </tr>
         <tr>
             <th>HDC (5m)</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['HDC']?> </td>
             <th>Cable de poder</th>
-            <td>bien</td>
+            <td><?php echo $ficha['Cable_poder']?></td>
         </tr>
         <tr>
             <th>IOCOVER:</th>
-            <td> Bien </td>
+            <td> <?php echo $ficha['IOCOVER']?> </td>
             <th>Tapa IOCOVER</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['Tapa_IOCOVER']?> </td>
             <th>Cabezal Bipode</th>
-            <td>bien</td>
+            <td><?php echo $ficha['Cabezal_Bipode']?></td>
             <th>Bipode</th>
-            <td>bien</td>
+            <td><?php echo $ficha['Bipode']?></td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
         <h3>Pip</h3>
         <tr>
             <th>Display de información:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['Display']?> </td>
             <th>Extención del cable de poder:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['Extencion_poder']?> </td>
             <th>Extención del cable de datos:</th>
-            <td>bien</td>
+            <td><?php echo $ficha['Extencion_datos']?></td>
             <th>Soportes en L:</th>
-            <td> Bien </td>
+            <td> <?php echo $ficha['Soportes_L']?> </td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
         <h3>APC</h3>
         <tr>
             <th>APC:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['APC']?> </td>
             <th>Soporte caja:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['Soporte_caja']?> </td>
             <th>cable de poder y datos:</th>
-            <td>bien</td>
+            <td><?php echo $ficha['poder_datos']?></td>
             <th>DC convertidor (12-24):</th>
-            <td> Bien </td>
+            <td> <?php echo $ficha['DC_convertidor']?> </td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
         <h3>Sensor pta 1</h3>
         <tr>
             <th>Sensor puerta:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['Sensor_pta1']?> </td>
             <th>Extención del cable:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['Extencion_cable1']?> </td>
             <th>Soportes en angulo:</th>
-            <td>bien</td>
+            <td><?php echo $ficha['Soportes_angulo1']?></td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
         <h3>Sensor pta 2</h3>
         <tr>
             <th>Sensor puerta:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['Sensor_pta2']?> </td>
             <th>Extención del cable:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['Extencion_cable2']?> </td>
             <th>Soportes en angulo:</th>
-            <td>bien</td>
+            <td><?php echo $ficha['Soportes_angulo2']?></td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
         <h3>Botón pánico</h3>
         <tr>
             <th>Botón de pánico:</th>
-            <td>bien </td>
+            <td>bie<?php echo $ficha['panico']?>n </td>
             <th> </th>
             <td> </td>
             <th> </th>
@@ -191,7 +191,7 @@ if($accion!=''){
             <th> </th>
             <td> </td>
             <th>Extención:</th>
-            <td>bien </td>
+            <td><?php echo $ficha['Extencion_panico']?> </td>
             <th> </th>
             <td> </td>
             <th> </th>
@@ -207,54 +207,54 @@ if($accion!=''){
         <h3>Sistema TRS</h3>
         <tr>
             <th>Radio MDT 400:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['radio']?> </td>
             <th>Cable de poder:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['poder_radio']?> </td>
             <th>Cable PI:</th>
-            <td>bien</td>
+            <td><?php echo $ficha['PI']?></td>
         </tr>
         <tr>
             <th>MIC conductor</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['mic']?> </td>
             <th>Soporte MIC conductor L</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['mic_L']?> </td>
             <th>MIC ambiente</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['mic_ambiente']?> </td>
         </tr>
         <tr>
             <th>Antena TRS</th>
-            <td>bien</td>
+            <td><?php echo $ficha['TRS']?></td>
             <th>Euro base:</th>
-            <td> Bien </td>
+            <td> <?php echo $ficha['euro']?> </td>
             <th>Altavoz</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['altavoz']?> </td>
             <th>Botón PTT</th>
-            <td>bien</td>
+            <td><?php echo $ficha['PTT']?></td>
             <th>Inversor Voltaje (24-12)</th>
-            <td>bien</td>
+            <td><?php echo $ficha['inversor']?></td>
         </tr>
     </table>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
         <h3>Habitáculo</h3>
         <tr>
             <th>Habitáculo:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['habitaculo']?> </td>
             <th>Power on amplificador:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['power_on']?> </td>
             <th>cable 2x1:</th>
-            <td>bien</td>
+            <td><?php echo $ficha['cable_2x1']?></td>
             <th>Amplificador:</th>
-            <td> Bien </td>
+            <td> <?php echo $ficha['amplificador']?> </td>
         </tr>
         <tr>
             <th>Parlantes:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['parlantes']?> </td>
             <th>Rejillas:</th>
-            <td> bien </td>
+            <td> <?php echo $ficha['rejillas']?> </td>
             <th>PCB:</th>
-            <td>bien</td>
+            <td>bi<?php echo $ficha['pcb']?>en</td>
             <th>Arnés:</th>
-            <td> Bien </td>
+            <td> <?php echo $ficha['arnes']?> </td>
         </tr>
     </table>
     <table width='100%' bgcolor='oldlace' border='3'><br>
