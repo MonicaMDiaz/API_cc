@@ -259,14 +259,10 @@ if($accion!=''){
     </table>
     <table width='100%' bgcolor='oldlace' border='3'><br>
         <th>Observaciones:</th>
-        <td>Verificar xxx xxx xxx</td>
         <tr></tr>
-        <td>El cable xxxxx xxxxx xxx</td>
+        <td><?php echo $ficha['observacion']?></td>
         <tr></tr>
-        <td>Verificar xxx xxx xxx</td>
-        <tr></tr>
-        <td>El cable xxxxx xxxxx xxx</td>
-        <tr></tr>
+        <td><?php echo $ficha['observacion2']?></td>
     </table>
 </div>
 <div class='buttons'>

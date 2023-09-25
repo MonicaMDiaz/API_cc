@@ -55,7 +55,6 @@ function generateSelectOptions($name, $selectedOption, $options) {
     if($index !== false){
         unset($options[$index]);
     }
-
     echo '<select name="'.$name.'">';
     echo '<option value="'.$selectedOption.'">'.$selectedOption.'</option>';
     foreach($options as $option) {
@@ -87,39 +86,7 @@ if($accion!=''){
             header('Location: fichas.php');
             break;
         case 'Guardar':
-            $id=$_POST['id'];
-            $placa = $_POST['placa'];
-            $Estado = $_POST['Estado'];
-            $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER','Cabezal_Bipode','Bipode',
-                        'Display','Extencion_poder','Extencion_datos','Soportes_L',
-                        'APC','Soporte_caja','poder_datos','DC_convertidor',
-                        'Sensor_pta1','Extencion_cable1','Soportes_angulo1','Sensor_pta2','Extencion_cable2','Soportes_angulo2',
-                        'panico','Extencion_panico',
-                        'radio','poder_radio','PI','mic','mic_L','mic_ambiente',
-                        'habitaculo','power_on','cable_2x1','amplificador','parlantes','rejillas','pcb','arnes'];
-            // Actualizar solo el campo placa en la base de datos
-            $sql = "UPDATE datos SET placa =:placa WHERE id = $id";
-            $consulta = $conexionBD->prepare($sql);
-            $consulta->bindParam(':placa', $placa);
-            $consulta->execute();
-            // Actualizar el campo Estado en la tabla inventario
-            $sql = "UPDATE inventario SET Estado ='$Estado' WHERE id = $id";
-            $consulta = $conexionBD->prepare($sql);
-            $consulta->execute();
-            $sql = "UPDATE inventario SET ";
-            foreach ($fields as $field) {
-                if (!isset($_POST[$field])) {
-                    die("Missing field: $field");
-                }            
-                $sql .= "$field = :$field, ";
-            }
-            $sql = rtrim($sql, ', ');           
-            $sql .= " WHERE id = $id";
-            $consulta = $conexionBD->prepare($sql);           
-            foreach ($fields as $field) {
-                $consulta->bindParam(":$field", $_POST[$field]);
-            }          
-            $consulta->execute();              
+            include 'datos.php';            
             // Recargar los datos actualizados desde la base de datos
             $sql = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE datos.id = :id";
             $consulta = $conexionBD->prepare($sql);
@@ -220,7 +187,8 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' width='100%' bgcolor='oldlace' border='3'>
-                    <textarea name="obs" style="height: 170px;" placeholder="Observaciones:"></textarea>
+                    <textarea type="text" name="observacion" style="height: 170px;"
+                        value="<?php echo $ficha['observacion']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>
         </div>
@@ -251,7 +219,8 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' bgcolor='oldlace' border='3'>
-                    <textarea name="obs" style="height: 170px;" placeholder="Observaciones:"></textarea>
+                    <textarea type="text" name="observacion2" style="height: 170px;"
+                        value="<?php echo $ficha['observacion2']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>
         </div>
