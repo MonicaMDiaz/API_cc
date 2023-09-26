@@ -81,9 +81,7 @@ Codigo: editar ficha
             //$placa = $ficha['placa'];
             //if (isset($_POST['id'])) {
             //$placa = isset($_POST['placa'])?$ficha['placa']:'';
-            /*$empresa=isset($_POST['empresa'])?$_POST['empresa']:'';
-            $nombreconductor=isset($_POST['nombreconductor'])?$_POST['nombreconductor']:'';
-            $identificacion=isset($_POST['identificacion'])?$_POST['identificacion']:'';
+            /*
             $fecha=isset($_POST['fecha'])?$_POST['fecha']:'';*/
             
             /*empresa = '$empresa', nombreconductor = '$nombreconductor', identificacion = '$identificacion', fecha = '$fecha'*/

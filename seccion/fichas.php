@@ -88,7 +88,8 @@ if($accion!=''){
 
                 $conexionBD->rollback();
                 echo "Error: " . $e->getMessage();
-            }   
+            }
+            header ('Location: fichas.php');
             break;
         default:
             break;
@@ -115,7 +116,8 @@ if($accion!=''){
                     <div class="btn-group" role="group" aria-label="">
                         <button type="submit" name="accion" value="Ver" class="btn btn-dark">Ver</button>
                         <button type="submit" name="accion" value="Editar" class="btn btn-success">Editar</button>
-                        <button type="submit" name="accion" value="Borrar" class="btn btn-danger">Borrar</button>
+                        <button type="submit" name="accion" value="Borrar" class="btn btn-danger"
+                            onclick="return confirm('¿Estás seguro de que quieres borrar este registro?');">Borrar</button>
                     </div>
                 </form>
             </td>

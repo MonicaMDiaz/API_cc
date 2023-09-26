@@ -87,13 +87,13 @@ if($accion!=''){
             <th>Placa:</th>
             <td> <?php echo $ficha["placa"]?> </td>
             <th>Empresa:</th>
-            <td>Autobuses</td>
+            <td><?php echo $ficha['Empresa']?></td>
         </tr>
         <tr>
             <th>Nombre conductor:</th>
-            <td> Pepito pable perez meza </td>
+            <td><?php echo $ficha['Nombre']?></td>
             <th>Identificación</th>
-            <td> CC. 123456789 </td>
+            <td><?php echo $ficha['nit']?> <?php echo $ficha['nid']?> </td>
             <th>Fecha y hora</th>
             <td> <?php echo $ficha["fecha"]?> </td>
         </tr>
@@ -181,7 +181,7 @@ if($accion!=''){
         <h3>Botón pánico</h3>
         <tr>
             <th>Botón de pánico:</th>
-            <td>bie<?php echo $ficha['panico']?>n </td>
+            <td><?php echo $ficha['panico']?></td>
             <th> </th>
             <td> </td>
             <th> </th>
@@ -263,6 +263,18 @@ if($accion!=''){
         <td><?php echo $ficha['observacion']?></td>
         <tr></tr>
         <td><?php echo $ficha['observacion2']?></td>
+        <tr></tr>
+        <td><?php echo $ficha['observacion3']?></td>
+        <tr></tr>
+        <td><?php echo $ficha['observacion4']?></td>
+        <tr></tr>
+        <td><?php echo $ficha['observacion5']?></td>
+        <tr></tr>
+        <td><?php echo $ficha['observacion6']?></td>
+        <tr></tr>
+        <td><?php echo $ficha['observacion7']?></td>
+        <tr></tr>
+        <td><?php echo $ficha['observacion8']?></td>
     </table>
 </div>
 <div class='buttons'>

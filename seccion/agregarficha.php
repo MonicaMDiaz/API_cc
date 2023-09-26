@@ -43,24 +43,36 @@ body {
     hover-color: black;
     hover-bg: black;
 }
+
+h4 {
+    color: white;
+    text-align: left;
+    font-family: Arial Rounded MT;
+    font-weight: bold;
+    font-size: 15px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
 </style>
 <?php
 include_once '../databases/BD.php';
 $conexionBD=BD::crearInstancia();
 $id=isset($_POST['id'])?$_POST['id']:'';
 $placa=isset($_POST['placa'])?$_POST['placa']:'';
+$Empresa=isset($_POST['Empresa'])?$_POST['Empresa']:'';
+$Nombre=isset($_POST['Nombre'])?$_POST['Nombre']:'';
+$nid=isset($_POST['nid'])?$_POST['nid']:'';
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
+
 
 if($accion!=''){
     switch ($accion) {
         case 'Guardar':
-            $sql="INSERT INTO datos(id, placa,fecha) VALUES ('$id', '$placa', current_timestamp());
+            $sql="INSERT INTO datos(id, placa,Empresa,Nombre,nid,fecha) VALUES ('$id', '$placa','$Empresa', '$Nombre','$nid',  current_timestamp());
             INSERT INTO inventario(id) VALUES ($id);
             INSERT INTO datos_inventario (id, iddato, idinventario) VALUES ($id, '$id', '$id');";
             $consulta=$conexionBD->prepare($sql);
             $consulta->execute(); 
             
-            print("Nuevo registro guardado");
             break;
         case 'Aceptar':
             header('Location: fichas.php');
@@ -96,9 +108,24 @@ if($accion!=''){
                             <input type="text" class="form-control" name="placa" id="placa" aria-describedby="helpId"
                                 placeholder="Ej: MDM123">
                         </div>
-
+                        <div class="mb-3">
+                            <label for="" class="form-label">Empresa</label>
+                            <input type="text" class="form-control" name="Empresa" id="Empresa"
+                                aria-describedby="helpId" placeholder="Ej: Autobuses">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Nombre Conductor</label>
+                            <input type="text" class="form-control" name="Nombre" id="Nombre" aria-describedby="helpId"
+                                placeholder="Ej: Pepito Pablo Paz Lozano">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Identificación</label>
+                            <input type="number" class="form-control" name="nid" id="nid" aria-describedby="helpId"
+                                placeholder="Ej: 0123456789">
+                        </div>
                         <div class="btn-group" role="group" aria-label="">
-                            <button type="submit" name="accion" value="Guardar" class="btn btn-black">Guardar</button>
+                            <button type="submit" name="accion" value="Guardar" class="btn btn-black"
+                                onclick="alert('Nuevo registro guardado');">Guardar</button>
                             <button type="submit" name="accion" value="Aceptar"
                                 class="btn btn-outline-black">Aceptar</button>
                         </div>

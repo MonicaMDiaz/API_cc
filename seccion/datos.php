@@ -1,9 +1,19 @@
 <?php
 $id=$_POST['id'];
 $placa = $_POST['placa'];
+$Empresa=$_POST['Empresa'];
+$Nombre= $_POST['Nombre'];
+$nit = $_POST['nit'];
+$nid = $_POST['nid'];
 $Estado = $_POST['Estado'];
 $observacion = $_POST['observacion'];
 $observacion2= $_POST['observacion2'];
+$observacion3= $_POST['observacion3'];
+$observacion4= $_POST['observacion4'];
+$observacion5= $_POST['observacion5'];
+$observacion6= $_POST['observacion6'];
+$observacion7= $_POST['observacion7'];
+$observacion8= $_POST['observacion8'];
 $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER','Cabezal_Bipode','Bipode',
             'Display','Extencion_poder','Extencion_datos','Soportes_L',
             'APC','Soporte_caja','poder_datos','DC_convertidor',
@@ -12,7 +22,15 @@ $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER'
             'radio','poder_radio','PI','mic','mic_L','mic_ambiente',
             'habitaculo','power_on','cable_2x1','amplificador','parlantes','rejillas','pcb','arnes'];
 // Actualizar solo el campo placa en la base de datos
-$sql = "UPDATE datos SET placa ='$placa', observacion='$observacion', observacion2='$observacion2' WHERE id = $id";
+$sql = "UPDATE datos SET placa ='$placa', Empresa='$Empresa', Nombre='$Nombre', nit='$nit', nid='$nid',
+                        observacion='$observacion', 
+                        observacion2='$observacion2', 
+                        observacion3='$observacion3', 
+                        observacion4='$observacion4', 
+                        observacion5='$observacion5',
+                        observacion6='$observacion6',
+                        observacion7='$observacion7',
+                        observacion8='$observacion8' WHERE id = $id";
 $consulta = $conexionBD->prepare($sql);
 $consulta->execute();
 // Actualizar el campo Estado en la tabla inventario

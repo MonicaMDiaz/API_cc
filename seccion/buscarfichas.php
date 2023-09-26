@@ -54,12 +54,10 @@ $conexionBD=BD::crearInstancia();
 //$buscar = $_POST['buscar'];
 //$buscar_valor = $_POST['buscar_valor'];
 if (isset($_POST['buscar'])) {
-    $buscar = $_POST['buscar'];
-    echo $buscar;}
+    $buscar = $_POST['buscar'];}
 
 if (isset($_POST['buscar_valor'])) {
     $buscar_valor = $_POST['buscar_valor'];
-    echo $buscar_valor;
 
     if ($buscar == "placa") {
         $sql_busca = "SELECT placa,id,fecha from datos WHERE placa LIKE '%".$buscar_valor."%'";
@@ -83,6 +81,9 @@ if (isset($_POST['buscar_valor'])) {
 
 $id=isset($_POST['id'])?$_POST['id']:'';
 $placa=isset($_POST['placa'])?$_POST['placa']:'';
+$Empresa=isset($_POST['Empresa'])?$_POST['Empresa']:'';
+$Nombre=isset($_POST['Nombre'])?$_POST['Nombre']:'';
+$Estado=isset($_POST['Estado'])?$_POST['Estado']:'';
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
 if($accion!=''){
@@ -115,6 +116,7 @@ if($accion!=''){
                 $conexionBD->rollback();
                 echo "Error: " . $e->getMessage();
             }
+            header ('Location: fichas.php');
             break;
         default:
             break;
@@ -141,7 +143,8 @@ if($accion!=''){
                     <div class="btn-group" role="group" aria-label="">
                         <button type="submit" name="accion" value="Ver" class="btn btn-dark">Ver</button>
                         <button type="submit" name="accion" value="Editar" class="btn btn-success">Editar</button>
-                        <button type="submit" name="accion" value="Borrar" class="btn btn-danger">Borrar</button>
+                        <button type="submit" name="accion" value="Borrar" class="btn btn-danger"
+                            onclick="return confirm('¿Estás seguro de que quieres borrar este registro?');">Borrar</button>
                     </div>
                 </form>
             </td>

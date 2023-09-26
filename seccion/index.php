@@ -66,8 +66,9 @@ p {
                         <select name="buscar">
                             <option value="placa">Buscar por placa</option>
                             <option value="id">Buscar por id</option>
-                            <option value="conductor">Buscar por conductor</option>
-                            <option value="estado">Buscar por estado</option>
+                            <option value="Empresa">Buscar por empresa</option>
+                            <option value="Nombre">Buscar por conductor</option>
+                            <option value="Estado">Buscar por estado</option>
                         </select>
                     </td>
                 </tr>

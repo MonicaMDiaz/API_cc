@@ -29,6 +29,15 @@ h3 {
     font-size: 21px;
 }
 
+h4 {
+    color: white;
+    text-align: left;
+    font-family: Arial Rounded MT;
+    font-weight: bold;
+    font-size: 15px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
 .buttons {
     justify-content: space-between;
 }
@@ -93,11 +102,9 @@ if($accion!=''){
             $consulta->bindParam(':id', $id);
             $consulta->execute();
             $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
-
-            echo "<h1>Cambios guardados correctamente</h1>";
             break;
         case 'Reporte':
-            header('Location: fichas.php');
+            header('Location: ficha_i.php?id=' . $id);
             break;
         default:
             break;
@@ -121,14 +128,14 @@ if($accion!=''){
                 <th>Placa:</th>
                 <td><input type="text" name="placa" value="<?php echo $ficha['placa']?>"></td>
                 <th>Empresa:</th>
-                <td><input type="text" name="empresa" value="Autobuses"></td>
+                <td><input type="text" name="Empresa" value="<?php echo $ficha['Empresa']?>"></td>
             </tr>
             <tr>
                 <th>Nombre conductor:</th>
-                <td><input type="text" name="Nombre" value="Pepito pable perez meza"></td>
+                <td><input type="text" name="Nombre" value="<?php echo $ficha['Nombre']?>"></td>
                 <th>Identificación</th>
-                <td><input type="text" name="tipo_id" value="CC."></td>
-                <td><input type="text" name="Identificacion" value="123456789"></td>
+                <td><input type="text" name="nit" value="<?php echo $ficha['nit']?>"></td>
+                <td><input type="number" name="nid" value="<?php echo $ficha['nid']?>"></td>
                 <th>Fecha y hora</th>
                 <td><?php echo $ficha['fecha']?></td>
             </tr>
@@ -249,7 +256,8 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' bgcolor='oldlace' border='3'>
-                    <textarea name="obs" style="height: 170px;" placeholder="Observaciones:"></textarea>
+                    <textarea type="text" name="observacion3" style="height: 170px;"
+                        value="<?php echo $ficha['observacion3']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>
         </div>
@@ -278,7 +286,8 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' bgcolor='oldlace' border='3'>
-                    <textarea name="obs" style="height: 130px;" placeholder="Observaciones:"></textarea>
+                    <textarea type="text" name="observacion4" style="height: 170px;"
+                        value="<?php echo $ficha['observacion4']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>
         </div>
@@ -305,7 +314,8 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' bgcolor='oldlace' border='3'>
-                    <textarea name="obs" style="height: 130px;" placeholder="Observaciones:"></textarea>
+                    <textarea type="text" name="observacion5" style="height: 170px;"
+                        value="<?php echo $ficha['observacion5']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>
         </div>
@@ -327,7 +337,8 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' bgcolor='oldlace' border='3'>
-                    <textarea name="obs" style="height: 87px;" placeholder="Observaciones:"></textarea>
+                    <textarea type="text" name="observacion6" style="height: 170px;"
+                        value="<?php echo $ficha['observacion6']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>
         </div>
@@ -370,7 +381,8 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' bgcolor='oldlace' border='3'>
-                    <textarea name="obs" style="height: 170px;" placeholder="Observaciones:"></textarea>
+                    <textarea type="text" name="observacion7" style="height: 170px;"
+                        value="<?php echo $ficha['observacion7']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>
         </div>
@@ -405,14 +417,16 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' bgcolor='oldlace' border='3'>
-                    <textarea name="obs" style="height: 128px;" placeholder="Observaciones:"></textarea>
+                    <textarea type="text" name="observacion8" style="height: 170px;"
+                        value="<?php echo $ficha['observacion8']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>
         </div>
         <div class='buttons'>
             <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
             <div class="btn-group" role="group" aria-label="" style="float: right">
-                <button type="submit" name="accion" value="Guardar" class="btn btn-success">Guardar</button>
+                <button type="submit" name="accion" value="Guardar" class="btn btn-success"
+                    onclick="alert('Cambios guardados correctamente');">Guardar</button>
                 <button type="submit" name="accion" value="Reporte" class="btn btn-dark">Reporte</button>
                 <button type="submit" name="accion" value="Volver" class="btn btn-secondary">Volver</button>
             </div>
