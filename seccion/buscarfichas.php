@@ -58,30 +58,29 @@ if (isset($_POST['buscar_valor'])) {
     $buscar_valor = $_POST['buscar_valor'];
 
     if ($buscar == "id") {
-        $sql_busca = "SELECT placa,id,fecha from datos WHERE id=".$buscar_valor;
+        $sql_busca = "SELECT placa,id,fecha,Empresa,Nombre from datos WHERE id=".$buscar_valor;
         $consulta=$conexionBD->prepare($sql_busca);
         $consulta->execute();
         $result= $consulta->fetchALL();
     }
     else if ($buscar == "placa") {
-        $sql_busca = "SELECT placa,id,fecha from datos WHERE placa LIKE '%".$buscar_valor."%'";
+        $sql_busca = "SELECT * from datos WHERE placa LIKE '%".$buscar_valor."%'";
         $consulta=$conexionBD->prepare($sql_busca);
         $consulta->execute();
         $result= $consulta->fetchALL();}
     
     else if ($buscar == "Empresa") {
-        $sql_busca = "SELECT placa,id,fecha from datos WHERE Empresa LIKE '%".$buscar_valor."%'";
+        $sql_busca = "SELECT placa,id,fecha,Empresa,Nombre from datos WHERE Empresa LIKE '%".$buscar_valor."%'";
         $consulta=$conexionBD->prepare($sql_busca);
         $consulta->execute();
         $result= $consulta->fetchALL();}
     elseif ($buscar == "Nombre") {
-        $sql_busca = "SELECT placa,id,fecha from datos WHERE Nombre LIKE '%".$buscar_valor."%'";
+        $sql_busca = "SELECT placa,id,fecha,Empresa,Nombre from datos WHERE Nombre LIKE '%".$buscar_valor."%'";
         $consulta=$conexionBD->prepare($sql_busca);
         $consulta->execute();
         $result= $consulta->fetchALL();}
     elseif ($buscar == "Estado"){
-        //$sql_busca = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE Estado LIKE '%".$buscar_valor."%'";
-        $sql_busca = "SELECT datos.placa, datos.id, datos.fecha, inventario.Estado FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE inventario.Estado LIKE '%".$buscar_valor."%'";
+        $sql_busca = "SELECT datos.placa, datos.id,datos.Empresa,datos.Nombre, datos.fecha, inventario.Estado FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE inventario.Estado LIKE '%".$buscar_valor."%'";
         $consulta=$conexionBD->prepare($sql_busca);
         $consulta->execute();
         $result= $consulta->fetchALL();}
@@ -138,15 +137,19 @@ if($accion!=''){
 <div class='table'>
     <table class='table' width='100' bgcolor='oldlace'><br>
         <tr>
-            <th scope='col'>id</th>
-            <th scope='col'>placa</th>
-            <th scope='col'>fecha</th>
+            <th scope='col'>ID</th>
+            <th scope='col'>Empresa</th>
+            <th scope='col'>Placa</th>
+            <th scope='col'>Nombre de conductor</th>
+            <th scope='col'>Ultima actualización</th>
             <th scope='col'>Acción</th>
         </tr>
         <?php foreach($result as $ficha){?>
         <tr>
             <td> <?php echo $ficha['id']?> </td>
+            <td> <?php echo $ficha["Empresa"]?> </td>
             <td> <?php echo $ficha["placa"]?> </td>
+            <td> <?php echo $ficha["Nombre"]?> </td>
             <td> <?php echo $ficha["fecha"]?> </td>
             <td>
                 <form action="" method="post">

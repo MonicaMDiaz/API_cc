@@ -84,10 +84,10 @@ if($accion!=''){
         <tr>
             <th>ID de bus:</th>
             <td> <?php echo $ficha['id']?> </td>
-            <th>Placa:</th>
-            <td> <?php echo $ficha["placa"]?> </td>
             <th>Empresa:</th>
             <td><?php echo $ficha['Empresa']?></td>
+            <th>Placa:</th>
+            <td> <?php echo $ficha["placa"]?> </td>
         </tr>
         <tr>
             <th>Nombre conductor:</th>
