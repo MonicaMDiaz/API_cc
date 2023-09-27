@@ -100,15 +100,19 @@ if($accion!=''){
 <div class='table'>
     <table class='table' width='100' bgcolor='oldlace'><br>
         <tr>
-            <th scope='col'>id</th>
-            <th scope='col'>placa</th>
-            <th scope='col'>fecha</th>
+            <th scope='col'>ID</th>
+            <th scope='col'>Empresa</th>
+            <th scope='col'>Placa</th>
+            <th scope='col'>Nombre de conductor</th>
+            <th scope='col'>Ultima actualización</th>
             <th scope='col'>Acción</th>
         </tr>
         <?php foreach($result as $ficha){?>
         <tr>
             <td> <?php echo $ficha['id']?> </td>
+            <td> <?php echo $ficha["Empresa"]?> </td>
             <td> <?php echo $ficha["placa"]?> </td>
+            <td> <?php echo $ficha["Nombre"]?> </td>
             <td> <?php echo $ficha["fecha"]?> </td>
             <td>
                 <form action="" method="post">

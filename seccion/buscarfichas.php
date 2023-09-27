@@ -51,32 +51,43 @@ p {
 include_once '../databases/BD.php';
 $conexionBD=BD::crearInstancia();
 
-//$buscar = $_POST['buscar'];
-//$buscar_valor = $_POST['buscar_valor'];
 if (isset($_POST['buscar'])) {
     $buscar = $_POST['buscar'];}
 
 if (isset($_POST['buscar_valor'])) {
     $buscar_valor = $_POST['buscar_valor'];
 
-    if ($buscar == "placa") {
-        $sql_busca = "SELECT placa,id,fecha from datos WHERE placa LIKE '%".$buscar_valor."%'";
-        $consulta=$conexionBD->prepare($sql_busca);
-        $consulta->execute();
-        $result= $consulta->fetchALL();}
-
-    
-    else if ($buscar == "id") {
+    if ($buscar == "id") {
         $sql_busca = "SELECT placa,id,fecha from datos WHERE id=".$buscar_valor;
         $consulta=$conexionBD->prepare($sql_busca);
         $consulta->execute();
         $result= $consulta->fetchALL();
     }
+    else if ($buscar == "placa") {
+        $sql_busca = "SELECT placa,id,fecha from datos WHERE placa LIKE '%".$buscar_valor."%'";
+        $consulta=$conexionBD->prepare($sql_busca);
+        $consulta->execute();
+        $result= $consulta->fetchALL();}
+    
+    else if ($buscar == "Empresa") {
+        $sql_busca = "SELECT placa,id,fecha from datos WHERE Empresa LIKE '%".$buscar_valor."%'";
+        $consulta=$conexionBD->prepare($sql_busca);
+        $consulta->execute();
+        $result= $consulta->fetchALL();}
+    elseif ($buscar == "Nombre") {
+        $sql_busca = "SELECT placa,id,fecha from datos WHERE Nombre LIKE '%".$buscar_valor."%'";
+        $consulta=$conexionBD->prepare($sql_busca);
+        $consulta->execute();
+        $result= $consulta->fetchALL();}
+    elseif ($buscar == "Estado"){
+        //$sql_busca = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE Estado LIKE '%".$buscar_valor."%'";
+        $sql_busca = "SELECT datos.placa, datos.id, datos.fecha, inventario.Estado FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE inventario.Estado LIKE '%".$buscar_valor."%'";
+        $consulta=$conexionBD->prepare($sql_busca);
+        $consulta->execute();
+        $result= $consulta->fetchALL();}
     else {
         echo "Opción no válida";
     }
-
-    
 }
 
 $id=isset($_POST['id'])?$_POST['id']:'';

@@ -64,9 +64,9 @@ p {
                     <td>
                         <br>
                         <select name="buscar">
-                            <option value="placa">Buscar por placa</option>
                             <option value="id">Buscar por id</option>
                             <option value="Empresa">Buscar por empresa</option>
+                            <option value="placa">Buscar por placa</option>
                             <option value="Nombre">Buscar por conductor</option>
                             <option value="Estado">Buscar por estado</option>
                         </select>
