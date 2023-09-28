@@ -19,7 +19,7 @@ $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER'
             'APC','Soporte_caja','poder_datos','DC_convertidor',
             'Sensor_pta1','Extencion_cable1','Soportes_angulo1','Sensor_pta2','Extencion_cable2','Soportes_angulo2',
             'panico','Extencion_panico',
-            'radio','poder_radio','PI','mic','mic_L','mic_ambiente',
+            'radio','poder_radio','PI','mic','mic_L','mic_ambiente', 'TRS','euro','altavoz','PTT','inversor',
             'habitaculo','power_on','cable_2x1','amplificador','parlantes','rejillas','pcb','arnes'];
 // Actualizar solo el campo placa en la base de datos
 $sql = "UPDATE datos SET placa ='$placa', Empresa='$Empresa', Nombre='$Nombre', nit='$nit', nid='$nid',

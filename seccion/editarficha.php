@@ -286,7 +286,7 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' bgcolor='oldlace' border='3'>
-                    <textarea type="text" name="observacion4" style="height: 170px;"
+                    <textarea type="text" name="observacion4" style="height: 128px;"
                         value="<?php echo $ficha['observacion4']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>
@@ -314,7 +314,7 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' bgcolor='oldlace' border='3'>
-                    <textarea type="text" name="observacion5" style="height: 170px;"
+                    <textarea type="text" name="observacion5" style="height: 128px;"
                         value="<?php echo $ficha['observacion5']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>
@@ -337,7 +337,7 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' bgcolor='oldlace' border='3'>
-                    <textarea type="text" name="observacion6" style="height: 170px;"
+                    <textarea type="text" name="observacion6" style="height: 90px;"
                         value="<?php echo $ficha['observacion6']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>
@@ -417,7 +417,7 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' bgcolor='oldlace' border='3'>
-                    <textarea type="text" name="observacion8" style="height: 170px;"
+                    <textarea type="text" name="observacion8" style="height: 128px;"
                         value="<?php echo $ficha['observacion8']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>

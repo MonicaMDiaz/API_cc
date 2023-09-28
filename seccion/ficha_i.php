@@ -252,7 +252,7 @@ if($accion!=''){
             <th>Rejillas:</th>
             <td> <?php echo $ficha['rejillas']?> </td>
             <th>PCB:</th>
-            <td>bi<?php echo $ficha['pcb']?>en</td>
+            <td><?php echo $ficha['pcb']?></td>
             <th>Arnés:</th>
             <td> <?php echo $ficha['arnes']?> </td>
         </tr>
@@ -260,7 +260,7 @@ if($accion!=''){
     <table width='100%' bgcolor='oldlace' border='3'><br>
         <th>Observaciones:</th>
         <tr></tr>
-        <td><?php echo $ficha['observacion']?></td>
+        <td><?php echo nl2br($ficha['observacion'])?></td>
         <tr></tr>
         <td><?php echo $ficha['observacion2']?></td>
         <tr></tr>
