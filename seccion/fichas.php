@@ -105,7 +105,7 @@ if($accion!=''){
             <th scope='col'>Placa</th>
             <th scope='col'>Nombre de conductor</th>
             <th scope='col'>Ultima actualización</th>
-            <th scope='col'>Acción</th>
+            <th scope='col' style="text-align: center;">Acción</th>
         </tr>
         <?php foreach($result as $ficha){?>
         <tr>
@@ -114,7 +114,7 @@ if($accion!=''){
             <td> <?php echo $ficha["placa"]?> </td>
             <td> <?php echo $ficha["Nombre"]?> </td>
             <td> <?php echo $ficha["fecha"]?> </td>
-            <td>
+            <td style="text-align: center;">
                 <form action="" method="post">
                     <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
                     <div class="btn-group" role="group" aria-label="">

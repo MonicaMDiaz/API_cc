@@ -12,6 +12,29 @@ h1 {
     font-weight: bold;
     font-size: 30px;
 }
+
+.table1 {
+    border: 3px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.buttons {
+    justify-content: space-between;
+    margin: 20px 2px;
+}
+
+.btn-black {
+    background-color: black;
+    color: white;
+    border-color: black;
+}
+
+.btn-white {
+    background-color: orange;
+    color: black;
+    border-color: black;
+}
 </style>
 <?php
 function verificarCampo($campo, $ficha) {
@@ -52,13 +75,10 @@ $accion=isset($_POST['accion'])?$_POST['accion']:'';
 if($accion!=''){
     switch ($accion) {
         case 'Volver':
-            header('Location: fichas.php');
-            break;
-        case 'Editar':
-            header('Location: editarficha.php?id=' . $id);
+            header('Location: ficha_i.php?id=' . $id);
             break;
         case 'Imprimir':
-            header('Location: Reporte_i.php?id='. $id);
+            header('Location: imprimir.php?id='. $id);
             break;
         default:
             break;
@@ -66,7 +86,7 @@ if($accion!=''){
 }
 ?>
 <br>
-<h1>Plan de acción</h1>
+<h1> </h1>
 <div class='table'>
     <table width='100%' bgcolor='white' border='3'>
         <tr>
@@ -86,21 +106,36 @@ if($accion!=''){
             <td> <?php echo $ficha["fecha"]?> </td>
         </tr>
     </table>
-    <table width='100%' bgcolor='white' border='3'><br>
-        <tr>
-            <?php verificarCampo('Trek', $ficha);?>
-
-
-            <th>Sim card:</th>
-            <td> <?php echo $ficha['Sim']?> </td>
-        </tr>
-        <tr><?php verificarCampo('Sim', $ficha);?></tr>
-    </table>
-
 </div>
-<div class='button'>
-    <form action='fichas.php' method='post'>
-        <input type='submit' value='Volver' class='btn btn-secondary'>
+<br>
+<h2></h2>
+<h1>Plan de acción</h1>
+<table class='table1' style="width:100%" border="3">
+    <tr>
+        <th rowspan="2" class='table1'>Actividad</th>
+        <th colspan="2">Tiempo</th>
+        <th rowspan="2" class='table1'>Responsable</th>
+        <th rowspan="2" class='table1'>Resultados esperados</th>
+    </tr>
+    <tr>
+        <td class='table1'>Inicio</td>
+        <td class='table1'>Final</td>
+    </tr>
+    <tr>
+        <td class='table1' contenteditable="true"> <?php echo nl2br($ficha["observacion"])?> </td>
+        <td class='table1'><input type="date"></td>
+        <td class='table1'><input type="date"></td>
+        <td class='table1'><span contenteditable="true"> Mónica Diaz</span></td>
+        <td class='table1' contenteditable="true"> Se espera que xxxx xxxx xxx </td>
+    </tr>
+</table>
+<div class='buttons'>
+    <form action="" method="post">
+        <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
+        <div class="btn-group" role="group" aria-label="" style="float: right">
+            <button type="submit" name="accion" value="Volver" class="btn btn-secundary">Volver</button>
+            <button type="submit" name="accion" value="Imprimir" class="btn btn-secundary">Imprimir</button>
+        </div>
     </form>
 </div>
 

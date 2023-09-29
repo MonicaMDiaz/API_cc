@@ -199,3 +199,15 @@ Codigo: editar ficha
 /*$sql = "UPDATE inventario SET Trek ='$trek', GPS='$GPS' WHERE id = $id";
 $consulta = $conexionBD->prepare($sql);
 $consulta->execute();*/
+
+
+<table width='100%' bgcolor='white' border='3'><br>
+    <tr>
+        <?php verificarCampo('Trek', $ficha);?>
+
+
+        <th>Sim card:</th>
+        <td> <?php echo $ficha['Sim']?> </td>
+    </tr>
+    <tr><?php verificarCampo('Sim', $ficha);?></tr>
+</table>

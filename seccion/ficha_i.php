@@ -262,19 +262,19 @@ if($accion!=''){
         <tr></tr>
         <td><?php echo nl2br($ficha['observacion'])?></td>
         <tr></tr>
-        <td><?php echo $ficha['observacion2']?></td>
+        <td><?php echo nl2br($ficha['observacion2'])?></td>
         <tr></tr>
-        <td><?php echo $ficha['observacion3']?></td>
+        <td><?php echo nl2br($ficha['observacion3'])?></td>
         <tr></tr>
-        <td><?php echo $ficha['observacion4']?></td>
+        <td><?php echo nl2br($ficha['observacion4'])?></td>
         <tr></tr>
-        <td><?php echo $ficha['observacion5']?></td>
+        <td><?php echo nl2br($ficha['observacion5'])?></td>
         <tr></tr>
-        <td><?php echo $ficha['observacion6']?></td>
+        <td><?php echo nl2br($ficha['observacion6'])?></td>
         <tr></tr>
-        <td><?php echo $ficha['observacion7']?></td>
+        <td><?php echo nl2br($ficha['observacion7'])?></td>
         <tr></tr>
-        <td><?php echo $ficha['observacion8']?></td>
+        <td><?php echo nl2br($ficha['observacion8'])?></td>
     </table>
 </div>
 <div class='buttons'>
