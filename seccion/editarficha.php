@@ -423,7 +423,6 @@ if($accion!=''){
             </div>
         </div>
         <div class='buttons'>
-            <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
             <div class="btn-group" role="group" aria-label="" style="float: right">
                 <button type="submit" name="accion" value="Guardar" class="btn btn-success"
                     onclick="alert('Cambios guardados correctamente');">Guardar</button>

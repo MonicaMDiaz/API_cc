@@ -279,7 +279,6 @@ if($accion!=''){
 </div>
 <div class='buttons'>
     <form action="" method="post">
-        <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
         <div class="btn-group" role="group" aria-label="" style="float: right">
             <button type="submit" name="accion" value="Editar" class="btn btn-danger">Editar</button>
             <button type="submit" name="accion" value="Reporte" class="btn btn-dark">Reporte</button>
