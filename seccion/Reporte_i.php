@@ -37,20 +37,6 @@ h1 {
 }
 </style>
 <?php
-function verificarCampo($campo, $ficha) {
-    if ($ficha[$campo]=='Mal'){ ?>
-<th><?php echo $campo; ?>:</th>
-<td>Arreglar</td>
-<?php }
-    elseif($ficha[$campo]=='Regular'){?>
-<th><?php echo $campo; ?>:</th>
-<td>Verificar</td>
-<?php } 
-    elseif($ficha[$campo]=='N/A'){?>
-<th><?php echo $campo; ?>:</th>
-<td>Poner</td>
-<?php } 
-  }
   
 include_once '../databases/BD.php';
 $conexionBD=BD::crearInstancia();
@@ -110,34 +96,8 @@ if($accion!=''){
 <br>
 <h2></h2>
 <h1>Plan de acción</h1>
-<table class='table1' style="width:100%" border="3">
-    <tr>
-        <th rowspan="2" class='table1'>Actividad</th>
-        <th colspan="2">Tiempo</th>
-        <th rowspan="2" class='table1'>Responsable</th>
-        <th rowspan="2" class='table1'>Resultados esperados</th>
-    </tr>
-    <tr>
-        <td class='table1'>Inicio</td>
-        <td class='table1'>Final</td>
-    </tr>
-    <tr>
-        <td class='table1' contenteditable="true"> <?php echo nl2br($ficha["observacion"])?> </td>
-        <td class='table1'><input type="date" name="inicio"></td>
-        <td class='table1'><input type="date"></td>
-        <td class='table1'><span contenteditable="true"> Mónica Diaz</span></td>
-        <td class='table1' contenteditable="true"> Se espera que xxxx xxxx xxx </td>
-    </tr>
-</table>
-<div class='buttons'>
-    <form action="" method="post">
-        <div class="btn-group" role="group" aria-label="" style="float: right">
-            <button type="submit" name="accion" value="Volver" class="btn btn-secundary">Volver</button>
-            <button type="submit" name="accion" value="Imprimir" class="btn btn-secundary">Imprimir</button>
-        </div>
-    </form>
-</div>
-<form method="post" action="imprimir.php">
+
+<form method="post" action="imprimir.php?id=<?php echo $id; ?>">
 
     <table class='table1' style="width:100%" border="3">
         <tr>
@@ -163,14 +123,11 @@ if($accion!=''){
         </tr>
     </table>
     <div class='buttons'>
-        <form action="imprimir.php" method="post" style="display: inline;">
-            <input type="hidden" name="id" value="<?php echo $id; ?>">
-            <button type="submit" name="accion" value="Imprimir" class="btn btn-secondary">Imprimir</button>
-        </form>
-        <form action="ficha_i.php" method="get" style="display: inline;">
-            <button type="submit" name="accion" value="Volver" class="btn btn-secondary">Volver</button>
+        <form action="" method="post">
+            <div class="btn-group" role="group" aria-label="" style="float: right">
+                <button type="submit" name="accion" value="Imprimir" class="btn btn-secundary">Imprimir</button>
+            </div>
         </form>
     </div>
-
 
     <?php include("../templates/pie.php"); ?>
