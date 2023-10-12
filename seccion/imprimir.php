@@ -5,8 +5,11 @@ require('../librerias/font/times.php');
 include_once '../databases/BD.php';
 $conexionBD=BD::crearInstancia();
 
-if (isset($_POST['inicio'])) {
-    $inicio = $_POST['inicio'];}
+$Obs= isset($_POST['Obs']) ? $_POST['Obs']:'';
+$inicio=isset($_POST['inicio']) ? $_POST['inicio'] : '';
+$fin=isset($_POST['fin']) ? $_POST['fin'] :'';
+$Responsable= isset($_POST['Responsable']) ? $_POST['Responsable'] :'';
+$Resultados= isset($_POST['Resultados']) ? $_POST['Resultados'] : '';
 
 $id = $_GET['id'];
 $sql = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE datos.id = :id";
@@ -39,21 +42,16 @@ $pdf->Cell(0, 10, 'Fecha y hora: ' . $ficha['fecha'], 0, 1, 'L');
 $pdf->Cell(0, 10, '', 0, 1, 'L');
 
 $pdf->Cell(45, 10, 'Actividad', 1, 0, 'C'); 
-$pdf->Cell(25, 10, 'inicio', 1, 0, 'C');
+$pdf->Cell(25, 10, 'Inicio', 1, 0, 'C');
 $pdf->Cell(25, 10, 'Fin', 1, 0, 'C');
 $pdf->Cell(40, 10, 'Responsable', 1, 0, 'C');
 $pdf->Cell(50, 10, 'Resultados esperados', 1, 1, 'C');
-// Imprime el contenido de la tabla $pdf->$pdf->MultiCell(45, 10, utf8_decode($ficha['observacion']), 1,'L',0);
-$pdf->MultiCell(45, 10, utf8_decode($ficha['observacion']), 1, 'L', 0);
-$pdf->MultiCell(25, 10, $inicio, 1, 'L', 0);
-$pdf->MultiCell(25, 10, '', 1, 'L', 0);
-$pdf->MultiCell(40, 10, utf8_decode('Mónica Díaz'), 1, 'C', 0);
-$pdf->MultiCell(50, 10, utf8_decode(''), 1, 'L', 0);
 
-$pdf->SetWidths(array(30,40,50,60)); // Definir los anchos de cada columna
+$pdf->SetWidths(array(45,25,25,40,50)); // Definir los anchos de cada columna
+$pdf->SetAligns(array('L','C','C','C','L'));
 
 // Llenar la tabla con algunos datos
-$pdf->Row(array(utf8_decode($ficha['observacion']),"Otro texto largo","Más texto","Y más texto"));
+$pdf->Row(array(utf8_decode($Obs),$inicio,$fin,utf8_decode($Responsable),utf8_decode($Resultados)));
 
 $pdf->Output('Reporte.pdf', 'F');
 

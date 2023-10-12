@@ -111,15 +111,16 @@ if($accion!=''){
             <td class='table1'>Final</td>
         </tr>
         <tr>
-            <td class='table1' contenteditable="true"> <?php echo nl2br($ficha["observacion"])?> </td>
+            <td class='table1'><textarea name="Obs" cols="30" rows="3"> <?php echo ($ficha["observacion"])?></textarea>
+            </td>
             <td class='table1'>
                 <input type="date" name="inicio">
             </td>
             <td class='table1'>
                 <input type="date" name="fin">
             </td>
-            <td class='table1'><span contenteditable="true"> Mónica Diaz</span></td>
-            <td class='table1' contenteditable="true"> Se espera que xxxx xxxx xxx </td>
+            <td class='table1'><input type="text" name="Responsable"></td>
+            <td class='table1'><textarea name="Resultados" cols="30" rows="3"></textarea></td>
         </tr>
     </table>
     <div class='buttons'>
