@@ -86,15 +86,29 @@ if($accion!=''){
 }
 
 // Supongamos que $datos es tu array de resultados
-$fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER','Cabezal_Bipode','Bipode',
+$columnas = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER','Cabezal_Bipode','Bipode',  
             'Display','Extencion_poder','Extencion_datos','Soportes_L',
             'APC','Soporte_caja','poder_datos','DC_convertidor',
             'Sensor_pta1','Extencion_cable1','Soportes_angulo1','Sensor_pta2','Extencion_cable2','Soportes_angulo2',
             'panico','Extencion_panico',
             'radio','poder_radio','PI','mic','mic_L','mic_ambiente', 'TRS','euro','altavoz','PTT','inversor',
             'habitaculo','power_on','cable_2x1','amplificador','parlantes','rejillas','pcb','arnes'];
-// Actualizar solo el campo placa en la base de datos
+// Crear un arreglo para contar los "mal" en cada fila.
 
+// Crea una función que genera la consulta SQL
+function generar_sql($columnas) {
+
+  $sql = "SELECT id, ";
+  foreach ($columnas as $col) {
+    $sql .= "(CASE WHEN $col = 'Bien' THEN 0 ELSE 1 END) + ";
+  }
+  // $sql .= "(CASE WHEN $col = 'mal' THEN 1 ELSE 0 END) + ";
+  $sql = rtrim($sql, "+ ");
+  $sql .= "AS MalCount ";
+  $sql .= "FROM inventario ";
+  $sql .= "WHERE id = :id";
+  return $sql;
+}
 
 ?>
 <H1></H1>
@@ -115,14 +129,26 @@ $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER'
     </tr>
     <?php 
     foreach($result as $ficha){
-        if(($ficha["Empresa"])=="Autobuses"):?>
+        if(($ficha["Empresa"])=="Autobuses"){
+            $id = $ficha['id'];
+        // Llama a la función para generar la consulta SQL con el arreglo de columnas
+            $consulta = generar_sql($columnas);
+            // Prepara la consulta con el parámetro id
+            $stmt = $conexionBD->prepare($consulta);
+            $stmt->bindParam(':id', $id);
+            // Ejecuta la consulta
+            $stmt->execute();
+            // Obtiene el resultado como un array asociativo
+            $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+            // Obtiene el número de valores "mal" para la ficha actual
+            $malcount = $resultado['MalCount'];?>
     <tr>
         <td> <?php echo $ficha['id']?> </td>
         <td> <?php echo $ficha["placa"]?> </td>
         <td> <?php echo $ficha["Nombre"]?> </td>
         <td> <?php echo $ficha["fecha"]?> </td>
-        <td> <?php echo $ficha["rejillas"]?></td>
-        <td> 10</td>
+        <td> <?php echo $malcount?> </td>
+        <td> <?php echo $malcount?> </td>
         <td style="text-align: center;">
             <form action="" method="post">
                 <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
@@ -131,7 +157,7 @@ $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER'
                 </div>
             </form>
         </td>
-    </tr> <?php endif;}  ?>
+    </tr> <?php }}  ?>
 </table>
 <H1></H1>
 <H1></H1>
@@ -154,14 +180,26 @@ $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER'
     </tr>
     <?php 
     foreach($result as $ficha){
-        if(($ficha["Empresa"])=="Cootranur"):?>
+        if(($ficha["Empresa"])=="Cootranur"){
+            $id = $ficha['id'];
+        // Llama a la función para generar la consulta SQL con el arreglo de columnas
+        $consulta = generar_sql($columnas);
+        // Prepara la consulta con el parámetro id
+        $stmt = $conexionBD->prepare($consulta);
+        $stmt->bindParam(':id', $id);
+        // Ejecuta la consulta
+        $stmt->execute();
+        // Obtiene el resultado como un array asociativo
+        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+        // Obtiene el número de valores "mal" para la ficha actual
+        $malcount = $resultado['MalCount'];?>
     <tr>
         <td> <?php echo $ficha['id']?> </td>
         <td> <?php echo $ficha["placa"]?> </td>
         <td> <?php echo $ficha["Nombre"]?> </td>
         <td> <?php echo $ficha["fecha"]?> </td>
-        <td> <?php echo $ficha["rejillas"]?> </td>
-        <td> 10</td>
+        <td> <?php echo $malcount?> </td>
+        <td> <?php echo $malcount?> </td>
         <td style="text-align: center;">
             <form action="" method="post">
                 <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
@@ -170,7 +208,7 @@ $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER'
                 </div>
             </form>
         </td>
-    </tr> <?php endif;}  ?>
+    </tr> <?php }}  ?>
 </table>
 
 <?php include("../templates/pie.php"); ?>
