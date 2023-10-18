@@ -11,6 +11,12 @@ $fin=isset($_POST['fin']) ? $_POST['fin'] :'';
 $Responsable= isset($_POST['Responsable']) ? $_POST['Responsable'] :'';
 $Resultados= isset($_POST['Resultados']) ? $_POST['Resultados'] : '';
 
+$Obs2= isset($_POST['Obs2']) ? $_POST['Obs2']:'';
+$inicio2=isset($_POST['inicio2']) ? $_POST['inicio2'] : '';
+$fin2=isset($_POST['fin2']) ? $_POST['fin2'] :'';
+$Responsable2= isset($_POST['Responsable2']) ? $_POST['Responsable2'] :'';
+$Resultados2= isset($_POST['Resultados2']) ? $_POST['Resultados2'] : '';
+
 $id = $_GET['id'];
 $sql = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE datos.id = :id";
 //"SELECT datos.placa, datos.id,datos.Empresa,datos.Nombre, datos.fecha, inventario.Estado FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE inventario.Estado LIKE '%".$buscar_valor."%'";   
@@ -52,6 +58,7 @@ $pdf->SetAligns(array('L','C','C','C','L'));
 
 // Llenar la tabla con algunos datos
 $pdf->Row(array(utf8_decode($Obs),$inicio,$fin,utf8_decode($Responsable),utf8_decode($Resultados)));
+$pdf->Row(array(utf8_decode($Obs2),$inicio2,$fin2,utf8_decode($Responsable2),utf8_decode($Resultados2)));
 
 $pdf->Output('Reporte.pdf', 'F');
 

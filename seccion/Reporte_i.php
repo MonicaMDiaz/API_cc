@@ -110,18 +110,28 @@ if($accion!=''){
             <td class='table1'>Inicio</td>
             <td class='table1'>Final</td>
         </tr>
-        <tr>
-            <td class='table1'><textarea name="Obs" cols="30" rows="3"> <?php echo ($ficha["observacion"])?></textarea>
-            </td>
-            <td class='table1'>
-                <input type="date" name="inicio">
-            </td>
-            <td class='table1'>
-                <input type="date" name="fin">
-            </td>
-            <td class='table1'><input type="text" name="Responsable"></td>
-            <td class='table1'><textarea name="Resultados" cols="30" rows="3"></textarea></td>
         </tr>
+        <?php if(!empty($ficha["observacion"])): ?>
+        <tr>
+            <td class='table1'><textarea name="Obs" cols="30" rows="2"> <?php echo ($ficha["observacion"])?></textarea>
+            </td>
+            <td class='table1'><input type="date" name="inicio"></td>
+            <td class='table1'><input type="date" name="fin"></td>
+            <td class='table1'><input type="text" name="Responsable"></td>
+            <td class='table1'><textarea name="Resultados" cols="30" rows="2"></textarea></td>
+        </tr>
+        <?php endif; if(!empty($ficha["observacion2"])): ?>
+        <tr>
+            <td class='table1'><textarea name="Obs2" cols="30"
+                    rows="2"> <?php echo ($ficha["observacion2"])?></textarea>
+            </td>
+            <td class='table1'><input type="date" name="inicio2"></td>
+            <td class='table1'><input type="date" name="fin2"></td>
+            <td class='table1'><input type="text" name="Responsable2"></td>
+            <td class='table1'><textarea name="Resultados2" cols="30" rows="2"></textarea></td>
+        </tr>
+        <?php endif; ?>
+
     </table>
     <div class='buttons'>
         <form action="" method="post">

@@ -95,7 +95,7 @@ if($accion!=''){
             header('Location: fichas.php');
             break;
         case 'Guardar':
-            include 'datos.php';            
+            include 'datos.php';
             // Recargar los datos actualizados desde la base de datos
             $sql = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE datos.id = :id";
             $consulta = $conexionBD->prepare($sql);
@@ -423,6 +423,7 @@ if($accion!=''){
             </div>
         </div>
         <div class='buttons'>
+            <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
             <div class="btn-group" role="group" aria-label="" style="float: right">
                 <button type="submit" name="accion" value="Guardar" class="btn btn-success"
                     onclick="alert('Cambios guardados correctamente');">Guardar</button>
