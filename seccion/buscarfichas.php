@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <head>
-    <title>Fichas</title>
+    <title>Resultado de busqueda</title>
     <link rel="stylesheet" type="text/css" href="estilos.css">
     </link>
 </head>
