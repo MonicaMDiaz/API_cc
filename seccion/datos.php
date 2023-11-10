@@ -14,6 +14,13 @@ $observacion5= $_POST['observacion5'];
 $observacion6= $_POST['observacion6'];
 $observacion7= $_POST['observacion7'];
 $observacion8= $_POST['observacion8'];
+$n_fotod = $_FILES['fotod']['filename'];
+$fotod = $_FILES['fotod']['tmp_name'];
+$n_fotof = $_FILES['fotof']['filename'];
+$fotof = $_FILES['fotof']['tmp_name'];
+$n_fotoi = $_FILES['fotoi']['filename'];
+$fotoi = $_FILES['fotoi']['tmp_name'];
+
 $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER','Cabezal_Bipode','Bipode',
             'Display','Extencion_poder','Extencion_datos','Soportes_L',
             'APC','Soporte_caja','poder_datos','DC_convertidor',

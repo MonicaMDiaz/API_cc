@@ -49,6 +49,15 @@ h4 {
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
+h5 {
+    color: red;
+    text-align: center;
+    font-family: Arial Rounded MT;
+    font-weight: bold;
+    font-size: 30px;
+
+}
+
 .buttons {
     justify-content: space-between;
 }
@@ -82,6 +91,7 @@ function generateSelectOptions($name, $selectedOption, $options) {
     }
     echo '</select>';
 }
+
 ?>
 <br>
 <?php
@@ -97,6 +107,8 @@ $consulta->execute();
 $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
 
 $opciones = array("Bien", "Regular", "Mal", "N/A");
+
+$fichero_movido = "setp.png";
 
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
@@ -123,11 +135,21 @@ if($accion!=''){
 }
 ?>
 <h1></h1>
-<div style="display: flex; justify-content: space-between;">
+<!--<div style="display: flex; justify-content: space-between;">
     <img src="/images/der.jpg" alt="Cara derecha del bus" width="350" height="250">
     <img src="/images/frente.jpg" alt="Frente del bus" width="450" height="250">
-    <img src="/images/frenteiz.jpeg" alt="Cara izquierda del bus" width="450" height="250">
+    <img src="/images/frenteiz.jpeg" alt="Cara izquierda del bus" width="450" height="250"></div>-->
+<div style="display: flex; justify-content: space-between;">
+    <p>Foto de la cara derecha del bus</p>
+    <p>Foto del frente del bus</p>
+    <p>Foto de la Cara izquierda del bus</p>
 </div>
+<div style="display: flex; justify-content: space-between;">
+    <input type="file" name="fotod" id="fotod">
+    <input type="file" name="fotof" id="fotof">
+    <input type="file" name="fotoi" id="fotoi">
+</div>
+
 
 <div>
     <form action="" method="post">
