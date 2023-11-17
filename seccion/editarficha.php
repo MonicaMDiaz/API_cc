@@ -135,24 +135,18 @@ if($accion!=''){
 }
 ?>
 <h1></h1>
-<!--<div style="display: flex; justify-content: space-between;">
-    <img src="/images/der.jpg" alt="Cara derecha del bus" width="350" height="250">
-    <img src="/images/frente.jpg" alt="Frente del bus" width="450" height="250">
-    <img src="/images/frenteiz.jpeg" alt="Cara izquierda del bus" width="450" height="250"></div>-->
-<div style="display: flex; justify-content: space-between;">
-    <p>Foto de la cara derecha del bus</p>
-    <p>Foto del frente del bus</p>
-    <p>Foto de la Cara izquierda del bus</p>
-</div>
-<div style="display: flex; justify-content: space-between;">
-    <input type="file" name="fotod" id="fotod">
-    <input type="file" name="fotof" id="fotof">
-    <input type="file" name="fotoi" id="fotoi">
-</div>
-
-
 <div>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
+        <div style="display: flex; justify-content: space-between;">
+            <p>Foto de la cara derecha del bus</p>
+            <p>Foto del frente del bus</p>
+            <p>Foto de la Cara izquierda del bus</p>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <input type="file" name="fotod" accept="image/jpeg, image/png, image/webp">
+            <input type="file" name="fotof" accept="image/jpeg, image/png, image/webp">
+            <input type="file" name="fotoi" accept="image/jpeg, image/png, image/webp">
+        </div>
         <table width='100%' bgcolor='oldlace' border='3'><br>
             <h1>Información vehículo</h1>
             <tr>

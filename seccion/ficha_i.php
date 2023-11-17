@@ -52,6 +52,14 @@ p {
 </style>
 <br>
 <?php
+function seeImage($currentImage, $defecto) {
+    if (!empty($currentImage)):?>
+<img src="images/<?php echo $currentImage; ?>" alt="Cara derecha del bus" width="400" height="300">
+<?php else: ?>
+<img src="<?php echo $defecto ?>" alt="Imagen" width="250" height="250">
+<?php endif;
+}
+
 include_once '../databases/BD.php';
 $conexionBD=BD::crearInstancia();
 
@@ -80,15 +88,18 @@ if($accion!=''){
             break;
     }
 }
-?>
 
+$defecto = "images/setp.png";
+?>
+<h1></h1>
 <br>
 <div style="display: flex; justify-content: space-between;">
-    <img src="/images/der.jpg" alt="Cara derecha del bus" width="350" height="250">
-    <img src="/images/frente.jpg" alt="Frente del bus" width="450" height="250">
-    <img src="/images/frenteiz.jpeg" alt="Cara izuierda del bus" width="450" height="250">
+    <?php 
+    seeImage($ficha['fotod'],$defecto);
+    seeImage($ficha['fotof'],$defecto);
+    seeImage($ficha['fotoi'],$defecto);
+    ?>
 </div>
-
 <div class='table'>
     <table width='100%' bgcolor='oldlace' border='3'><br>
         <h1>Información vehículo</h1>

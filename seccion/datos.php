@@ -14,12 +14,20 @@ $observacion5= $_POST['observacion5'];
 $observacion6= $_POST['observacion6'];
 $observacion7= $_POST['observacion7'];
 $observacion8= $_POST['observacion8'];
-$n_fotod = $_FILES['fotod']['filename'];
-$fotod = $_FILES['fotod']['tmp_name'];
-$n_fotof = $_FILES['fotof']['filename'];
-$fotof = $_FILES['fotof']['tmp_name'];
-$n_fotoi = $_FILES['fotoi']['filename'];
-$fotoi = $_FILES['fotoi']['tmp_name'];
+
+function uploadImage($inputName, & $imageName, $currentImage, $uploadDirectory) {
+    if (!empty($_FILES[$inputName]['name'])) {
+        $imageName = $_FILES[$inputName]['name'];
+        move_uploaded_file($_FILES[$inputName]['tmp_name'], $uploadDirectory . $imageName);
+    } else {
+        $imageName = $currentImage;
+    }
+}
+
+$uploadDirectory = 'images/';
+uploadImage('fotod', $fotod, $ficha['fotod'], $uploadDirectory);
+uploadImage('fotof', $fotof, $ficha['fotof'], $uploadDirectory);
+uploadImage('fotoi', $fotoi, $ficha['fotoi'], $uploadDirectory);
 
 $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER','Cabezal_Bipode','Bipode',
             'Display','Extencion_poder','Extencion_datos','Soportes_L',
@@ -28,7 +36,9 @@ $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER'
             'panico','Extencion_panico',
             'radio','poder_radio','PI','mic','mic_L','mic_ambiente', 'TRS','euro','altavoz','PTT','inversor',
             'habitaculo','power_on','cable_2x1','amplificador','parlantes','rejillas','pcb','arnes'];
-// Actualizar solo el campo placa en la base de datos
+
+//$sql= "UPDATE informacion SET Identificación='$Identificación',Celular='$Celular',Profesión='$Profesión',Nombre='$Nombre', foto1='$foto1', fotof='$foto2' WHERE ID=$ID";
+
 $sql = "UPDATE datos SET placa ='$placa', Empresa='$Empresa', Nombre='$Nombre', nit='$nit', nid='$nid',
                         observacion='$observacion', 
                         observacion2='$observacion2', 
@@ -37,7 +47,8 @@ $sql = "UPDATE datos SET placa ='$placa', Empresa='$Empresa', Nombre='$Nombre', 
                         observacion5='$observacion5',
                         observacion6='$observacion6',
                         observacion7='$observacion7',
-                        observacion8='$observacion8' WHERE id = $id";
+                        observacion8='$observacion8',
+                        fotod='$fotod', fotof='$fotof', fotoi='$fotoi'  WHERE id = $id";
 $consulta = $conexionBD->prepare($sql);
 $consulta->execute();
 // Actualizar el campo Estado en la tabla inventario

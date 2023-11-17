@@ -211,3 +211,29 @@ $consulta->execute();*/
     </tr>
     <tr><?php verificarCampo('Sim', $ficha);?></tr>
 </table>
+
+/*
+$uploadDirectory = 'images/';
+if (!empty($_FILES['fotod']['name'])) {
+$fotod = $_FILES['fotod']['name'];
+move_uploaded_file($_FILES['fotod']['tmp_name'], $uploadDirectory . $fotod);
+} else {
+$fotod = $ficha["fotod"];
+}
+if (!empty($_FILES['fotof']['name'])) {
+$fotof = $_FILES['fotof']['name'];
+move_uploaded_file($_FILES['fotof']['tmp_name'], $uploadDirectory . $fotof);
+} else {
+$fotof = $ficha["fotof"];
+}
+if (!empty($_FILES['fotoi']['name'])) {
+$fotoi = $_FILES['fotoi']['name'];
+move_uploaded_file($_FILES['fotoi']['tmp_name'], $uploadDirectory . $fotoi);
+} else {
+$fotoi = $ficha["fotoi"];
+}
+
+<!--<div style="display: flex; justify-content: space-between;">
+    <img src="/images/der.jpg" alt="Cara derecha del bus" width="350" height="250">
+    <img src="/images/frente.jpg" alt="Frente del bus" width="450" height="250">
+    <img src="/images/frenteiz.jpeg" alt="Cara izquierda del bus" width="450" height="250"></div>-->
