@@ -51,7 +51,7 @@ p {
     padding: 7px;
 }
 
-.button1 {
+button1 {
     background-color: gray;
     border-radius: 50px;
     border: 2px solid black;
@@ -59,8 +59,8 @@ p {
     padding: 7px;
 }
 
-.button1:hover,
-.button1:active {
+button1:hover,
+button1:active {
     background-color: #fff;
     color: #000;
     transition: background-color 0.3s ease-in, color 0.3s ease-in;
@@ -90,12 +90,14 @@ button {
 //INSERT INTO `datos` (`id`, `placa`, `fecha`) VALUES ('', NULL, current_timestamp())
 include_once '../databases/BD.php';
 $conexionBD=BD::crearInstancia();
-$consulta=$conexionBD->prepare("SELECT * FROM datos");
-$consulta->execute();
-$result= $consulta->fetchALL();
 
-$id=isset($_POST['id'])?$_POST['id']:'';
-$placa=isset($_POST['placa'])?$_POST['placa']:'';
+$id = $_GET['id'];
+//$sql = "SELECT * FROM datos WHERE id = :id";
+$sql = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE datos.id = :id";
+$consulta = $conexionBD->prepare($sql);
+$consulta->bindParam(':id', $id);
+$consulta->execute();
+$ficha = $consulta->fetch(PDO::FETCH_ASSOC);
 
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
@@ -103,10 +105,10 @@ if($accion!=''){
     switch ($accion) {
         case 'Ver':
             //header('Location: ficha_i.php');
-            header('Location: fichas_bus.php?id=' . $id);
+            header('Location: ficha_i.php?id=' . $id);
             break;
         case 'Editar':
-            header('Location: fichas_bus.php?id=' . $id);
+            header('Location: editarficha.php?id=' . $id);
             break;
         case 'Borrar':
             try {
@@ -148,7 +150,6 @@ if($accion!=''){
             <th scope='col'>Ultima actualización</th>
             <th scope='col' style="text-align: center;">Acción</th>
         </tr>
-        <?php foreach($result as $ficha){?>
         <tr>
             <td> <?php echo $ficha['id']?> </td>
             <td> <?php echo $ficha["Empresa"]?> </td>
@@ -160,20 +161,19 @@ if($accion!=''){
                     <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
                     <div class="btn-group" role="group" aria-label="">
                         <button type="submit" name="accion" value="Ver" class="btn btn-dark">Ver</button>
-                        <button type="submit" name="accion" value="Editar" class="btn-bd-primary">Crear ficha</button>
+                        <button type="submit" name="accion" value="Editar" class="btn btn-success">Editar</button>
                         <button type="submit" name="accion" value="Borrar" class="btn btn-danger"
                             onclick="return confirm('¿Estás seguro de que quieres borrar este registro?');">Borrar</button>
                     </div>
                 </form>
             </td>
         </tr>
-        <?php }?>
 
     </table>
 </div>
 <div class='button'>
     <form action='agregarficha.php' method='post'>
-        <button class='button1'> Agregar vehiculo</button>
+        <button1>Agregar vehiculo</button>
     </form>
 </div>
 <br>

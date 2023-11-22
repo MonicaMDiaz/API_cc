@@ -35,10 +35,10 @@
     }
 
     button {
-        background-color: transparent;
+        background-color: gray;
         border-radius: 50px;
         border: 2px solid black;
-        color: black;
+        color: white;
         padding: 7px;
         width: 100%;
     }

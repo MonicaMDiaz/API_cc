@@ -22,7 +22,7 @@ body {
 }
 
 .btn-black {
-    background-color: black;
+    background-color: gray;
     color: white;
     border-color: black;
     active-color: black;
@@ -69,7 +69,7 @@ if($accion!=''){
         case 'Guardar':
             $sql="INSERT INTO datos(id, placa,Empresa,Nombre,nid,fecha) VALUES ('$id', '$placa','$Empresa', '$Nombre','$nid',  current_timestamp());
             INSERT INTO inventario(id) VALUES ($id);
-            INSERT INTO datos_inventario (id, iddato, idinventario) VALUES ($id, '$id', '$id');";
+            INSERT INTO datos_inventario (id, iddato, ninventario) VALUES ($id, '$id', null);";
             $consulta=$conexionBD->prepare($sql);
             $consulta->execute(); 
             
@@ -94,7 +94,7 @@ if($accion!=''){
             <form action="" method="post">
                 <div class="card">
                     <div class="card-header">
-                        Agregar ficha
+                        Agregar registo de vehiculo
                     </div>
                     <div class="card-body">
 
@@ -125,7 +125,7 @@ if($accion!=''){
                         </div>
                         <div class="btn-group" role="group" aria-label="">
                             <button type="submit" name="accion" value="Guardar" class="btn btn-black"
-                                onclick="alert('Nuevo registro guardado');">Guardar</button>
+                                onclick="alert('Nuevo registro guardado');">Agregar</button>
                             <button type="submit" name="accion" value="Aceptar"
                                 class="btn btn-outline-black">Aceptar</button>
                         </div>

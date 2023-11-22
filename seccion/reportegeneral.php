@@ -325,7 +325,7 @@ if($Coincidencias){?>
         <th class='table2'>Placa</th>
         <th class='table2'>Nombre de conductor</th>
         <th class='table2'>Ultima actualización</th>
-        <th class='table2'>N° de fallas</th>
+        <th class='table2'>N° de fallas en el ultimo registro</th>
         <th class='table2'>N° de observaciones</th>
         <th class='table2' style="text-align: center;">Acción</th>
     </tr>
