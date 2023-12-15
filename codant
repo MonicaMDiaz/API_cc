@@ -1,49 +1,3 @@
-<!--conexion con base de datos anterior, codigo: fichas
-<?php
-$servername="localhost";
-$username= "root";
-$password= "";
-$dbname= "cv";
-
-$conn= mysqli_connect($servername,$username,$password,$dbname);
-if (!$conn){
-    die("Connection failed: " . $conn->connect_error);  
-    }
-    $sql= "SELECT * FROM datos";
-    $result= mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result)>0){
-        echo"<br><div class='table'><table class='table' width='100' bgcolor='oldlace'><br>
-        <tr>
-            <th scope='col'>id</th>
-            <th scope='col'>placa</th>
-            <th scope='col'>fecha</th>
-            <th scope='col'>Acción</th></tr>";
-            
-        while ($row = mysqli_fetch_assoc($result)){
-            echo "<tr>
-                <td>" .$row["id"]."</td>
-                <td>" .$row["placa"]."</td>
-                <td>" .$row["fecha"]."</td>
-                <td>
-                <div class='buttons'>
-                    <form action='ficha_i.php' method='post'>
-                        <input type='submit' value='Ver' name='ver' class='btn btn-dark'></form>
-                    <form action='editarficha.php' method='post'>
-                        <input type='submit' value='Editar' name='editarficha' class='btn btn-success'></form>
-                    <form action='borrarficha.php' method='post'>
-                        <input type='submit' value='Borrar' name='borrarficha' class='btn btn-danger'>
-                    </form>
-                </div>
-                </td>
-                </tr>";
-        }
-        echo"</table>" ; 
-    } else{
-        echo "0 resultados";
-    }
-mysqli_close($conn);
-?>
-
 complemento codigo: buscar ficha
 $opciones = array();
 $opciones[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
@@ -52,59 +6,45 @@ $buscar=$_POST["buscar"];
 $buscar_valor=$_POST["buscar_valor"];
 
 if ($buscar == "placa") {
-    $sql = "SELECT placa,id,fecha from datos WHERE placa LIKE '%".$buscar_valor."%'";
+$sql = "SELECT placa,id,fecha from datos WHERE placa LIKE '%".$buscar_valor."%'";
 }
 else if ($buscar == "id") {
-    $sql = "SELECT placa,id,fecha from datos WHERE id=".$buscar_valor;
+$sql = "SELECT placa,id,fecha from datos WHERE id=".$buscar_valor;
 }
 else {
-    echo "Opción no válida";
+echo "Opción no válida";
 }
 
 mysqli_close($conn);
 
-Codigo editar ficha:
-<div class='buttons'>
-    <form action='fichas.php' method='post'>
-        <input type='submit' value='Volver' name='ver' class='btn btn-secondary' style="float: right">
-    </form>
-    <form action='editarficha.php' method='post'>
-        <input type='submit' value='Editar' name='editarficha' class='btn btn-danger' style="float: right">
-    </form>
-    <form action='Reporte_i.php' method='post'>
-        <input type='submit' value='Reporte' name='reporte' class='btn btn-dark' style="float: right">
-    </form>
-</div>
-
 Codigo: editar ficha
-        
-            //$placa = $ficha['placa'];
-            //if (isset($_POST['id'])) {
-            //$placa = isset($_POST['placa'])?$ficha['placa']:'';
-            /*
-            $fecha=isset($_POST['fecha'])?$_POST['fecha']:'';*/
-            
-            /*empresa = '$empresa', nombreconductor = '$nombreconductor', identificacion = '$identificacion', fecha = '$fecha'*/
 
-            $sql = "UPDATE datos SET placa = :placa WHERE id = :id";
-            $consulta = $conexionBD->prepare($sql);
-            $consulta->bindParam(':placa', $placa);
-            $consulta->bindParam(':id', $id);
-            $consulta->execute();
-            
+//$placa = $ficha['placa'];
+//if (isset($_POST['id'])) {
+//$placa = isset($_POST['placa'])?$ficha['placa']:'';
+/*
+$fecha=isset($_POST['fecha'])?$_POST['fecha']:'';*/
 
-            echo "<h1>Cambios guardados correctamente</h1>";
-            header('Location: ficha_i.php?id=' . $id);
-            
-            break;
-        case 'Reporte':
-            header('Location: fichas.php');
-            break;
-        default:
-            break;
-    }
+/*empresa = '$empresa', nombreconductor = '$nombreconductor', identificacion = '$identificacion', fecha = '$fecha'*/
+
+$sql = "UPDATE datos SET placa = :placa WHERE id = :id";
+$consulta = $conexionBD->prepare($sql);
+$consulta->bindParam(':placa', $placa);
+$consulta->bindParam(':id', $id);
+$consulta->execute();
+
+
+echo "<h1>Cambios guardados correctamente</h1>";
+header('Location: ficha_i.php?id=' . $id);
+
+break;
+case 'Reporte':
+header('Location: fichas.php');
+break;
+default:
+break;
 }
-?>-->
+?>
 
 <div>
 
@@ -237,3 +177,18 @@ $fotoi = $ficha["fotoi"];
     <img src="/images/der.jpg" alt="Cara derecha del bus" width="350" height="250">
     <img src="/images/frente.jpg" alt="Frente del bus" width="450" height="250">
     <img src="/images/frenteiz.jpeg" alt="Cara izquierda del bus" width="450" height="250"></div>-->
+
+cabecera
+<nav class="navbar navbar-expand navbar-light bg-light">
+    <div class="nav navbar-nav">
+        <a id="linkInicio" class="nav-item nav-link active" href="../../seccion/index.php" aria-current="page"
+            style="font-family:Arial Rounded MT">Inicio
+        </a>
+        <a id="linkReportes" class="nav-item nav-link" href="../../seccion/Reportes/reportegeneral.php"
+            style="font-family:Arial Rounded MT">Reportes</a>
+        <a id="linkFichas" class="nav-item nav-link" href="../../seccion/Fichas/fichas.php"
+            style="font-family:Arial Rounded MT">Fichas</a>
+        <a id="linkCerrarSesion" class="nav-item nav-link" href="/iniciosesion.html"
+            style="font-family:Arial Rounded MT">Cerrar sesión</a>
+    </div>
+</nav>

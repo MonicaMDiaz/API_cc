@@ -9,7 +9,7 @@
 </head>
 
 </html>
-<?php include("../templates/cabecera.php"); ?>
+<?php include("../../templates/cabecera_scu.php"); ?>
 <br>
 <style>
 body {
@@ -21,7 +21,7 @@ h1 {
     text-align: center;
     font-family: Arial Rounded MT;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 35px;
 }
 
 h2 {
@@ -52,77 +52,37 @@ p {
 </style>
 <br>
 <?php
-function seeImage($currentImage, $defecto) {
-    if (!empty($currentImage)):?>
-<img src="images/<?php echo $currentImage; ?>" alt="Cara derecha del bus" width="400" height="300">
-<?php else: ?>
-<img src="<?php echo $defecto ?>" alt="Imagen" width="250" height="250">
-<?php endif;
-}
-
-include_once '../databases/BD.php';
+include_once '../../databases/BD.php';
 $conexionBD=BD::crearInstancia();
-
-$id = $_GET['id'];
-//$sql = "SELECT * FROM datos WHERE id = :id";
-$sql = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE datos.id = :id";
+$n = $_GET['n'];
+$sql = "SELECT * FROM inventario WHERE n = :n";
 $consulta = $conexionBD->prepare($sql);
-$consulta->bindParam(':id', $id);
+$consulta->bindParam(':n', $n);
 $consulta->execute();
 $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
 
+$id = $ficha['id'];
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
 if($accion!=''){
     switch ($accion) {
         case 'Volver':
-            header('Location: fichas.php');
+            header('Location: fichas_bus.php?id=' . $id);
             break;
         case 'Editar':
-            header('Location: editarficha.php?id=' . $id);
+            header('Location: Editar/editarficha.php?n=' . $n);
             break;
         case 'Reporte':
-            header('Location: Reporte_i.php?id='. $id);
+            header('Location: reporte/Reporte_i.php?n=' . $n);
             break;
         default:
             break;
     }
-}
-
-$defecto = "images/setp.png";
-?>
-<h1></h1>
-<br>
-<div style="display: flex; justify-content: space-between;">
-    <?php 
-    seeImage($ficha['fotod'],$defecto);
-    seeImage($ficha['fotof'],$defecto);
-    seeImage($ficha['fotoi'],$defecto);
-    ?>
-</div>
+}?>
+<h2></h2>
 <div class='table'>
-    <table width='100%' bgcolor='oldlace' border='3'><br>
-        <h1>Información vehículo</h1>
-        <tr>
-            <th>ID de bus:</th>
-            <td> <?php echo $ficha['id']?> </td>
-            <th>Empresa:</th>
-            <td><?php echo $ficha['Empresa']?></td>
-            <th>Placa:</th>
-            <td> <?php echo $ficha["placa"]?> </td>
-        </tr>
-        <tr>
-            <th>Nombre conductor:</th>
-            <td><?php echo $ficha['Nombre']?></td>
-            <th>Identificación</th>
-            <td><?php echo $ficha['nit']?> <?php echo $ficha['nid']?> </td>
-            <th>Fecha y hora</th>
-            <td> <?php echo $ficha["fecha"]?> </td>
-        </tr>
-    </table>
+    <h1>Inspección e inventario de los equipos abordo</h1>
     <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
-
-        <h2>Estado: <?php echo $ficha['Estado']?></h2>
         <h3>Unidad Lógica</h3>
         <tr>
             <th>Trek 753:</th>
@@ -308,4 +268,4 @@ $defecto = "images/setp.png";
         </div>
     </form>
 </div>
-<?php include("../templates/pie.php"); ?>
+<?php include("../../templates/pie.php"); ?>

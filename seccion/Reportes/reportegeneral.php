@@ -9,7 +9,16 @@
 </head>
 
 </html>
-<?php include("../templates/cabecera.php"); ?>
+<?php include("../../templates/cabecera.php"); ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function deshabilitarEnlace(event) {
+        event.preventDefault();
+    }
+    document.getElementById('linkReportes').addEventListener('click', deshabilitarEnlace);
+});
+</script>
+
 <br>
 <style>
 body {
@@ -44,28 +53,11 @@ h1 {
     font-size: 20px;
     font-family: Arial Rounded MT;
 }
-
-.buttons {
-    justify-content: space-between;
-    margin: 20px 2px;
-}
-
-.btn-black {
-    background-color: black;
-    color: white;
-    border-color: black;
-}
-
-.btn-white {
-    background-color: orange;
-    color: black;
-    border-color: black;
-}
 </style>
 <br>
 <?php
 //INSERT INTO `datos` (`id`, `placa`, `fecha`) VALUES ('', NULL, current_timestamp()) |SELECT * FROM datos
-include_once '../databases/BD.php';
+include_once '../../databases/BD.php';
 $conexionBD=BD::crearInstancia();
 $consulta=$conexionBD->prepare("SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id");
 $consulta->execute();
@@ -101,7 +93,6 @@ function generar_sql($columnas) {
   foreach ($columnas as $col) {
     $sql .= "(CASE WHEN $col = 'Bien' THEN 0 ELSE 1 END) + ";
   }
-  // $sql .= "(CASE WHEN $col = 'mal' THEN 1 ELSE 0 END) + ";
   $sql = rtrim($sql, "+ ");
   $sql .= "AS MalCount ";
   $sql .= "FROM inventario ";
@@ -114,10 +105,9 @@ function sql_obs($obs){
   foreach ($obs as $obser) {
     $sql .= "(CASE WHEN $obser = '' THEN 0 ELSE 1 END) + ";
   }
-  // $sql .= "(CASE WHEN $col = 'mal' THEN 1 ELSE 0 END) + ";
   $sql = rtrim($sql, "+ ");
   $sql .= "AS obsCount ";
-  $sql .= "FROM datos ";
+  $sql .= "FROM inventario ";
   $sql .= "WHERE id = :id";
   return $sql;
 }
@@ -350,4 +340,4 @@ if($Coincidencias){?>
     </tr> <?php }}?>
 </table> <?php }?>
 
-<?php include("../templates/pie.php"); ?>
+<?php include("../../templates/pie.php"); ?>

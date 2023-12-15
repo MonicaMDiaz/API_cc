@@ -9,7 +9,7 @@
 </head>
 
 </html>
-<?php include("../templates/cabecera.php"); ?>
+<?php include("../../../templates/cabecera_scu.php"); ?>
 <style>
 body {
     background-color: orange;
@@ -54,7 +54,7 @@ h4 {
 }
 </style>
 <?php
-include_once '../databases/BD.php';
+include_once '../../../databases/BD.php';
 $conexionBD=BD::crearInstancia();
 $id=isset($_POST['id'])?$_POST['id']:'';
 $placa=isset($_POST['placa'])?$_POST['placa']:'';
@@ -67,15 +67,13 @@ $accion=isset($_POST['accion'])?$_POST['accion']:'';
 if($accion!=''){
     switch ($accion) {
         case 'Guardar':
-            $sql="INSERT INTO datos(id, placa,Empresa,Nombre,nid,fecha) VALUES ('$id', '$placa','$Empresa', '$Nombre','$nid',  current_timestamp());
-            INSERT INTO inventario(id) VALUES ($id);
-            INSERT INTO datos_inventario (id, iddato, ninventario) VALUES ($id, '$id', null);";
+            $sql="INSERT INTO datos(id, placa,Empresa,Nombre,nid,fecha) VALUES ('$id', '$placa','$Empresa', '$Nombre','$nid',  current_timestamp());";
             $consulta=$conexionBD->prepare($sql);
             $consulta->execute(); 
             
             break;
         case 'Aceptar':
-            header('Location: fichas.php');
+            header('Location: ../fichas.php');
             break;
         default:
             break;
@@ -138,5 +136,4 @@ if($accion!=''){
     </div>
 
 </html>
-
-<?php include("../templates/pie.php"); ?>
+<?php include("../../../templates/pie.php"); ?>

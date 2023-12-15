@@ -11,20 +11,24 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
+
 </head>
 
 <body>
     <nav class="navbar navbar-expand navbar-light bg-light">
         <div class="nav navbar-nav">
-            <a class="nav-item nav-link active" href="index.php" aria-current="page"
+            <a id="linkInicio" class="nav-item nav-link active" href="../../seccion/index.php" aria-current="page"
                 style="font-family:Arial Rounded MT">Inicio
             </a>
-            <a class="nav-item nav-link" href="reportegeneral.php" style="font-family:Arial Rounded MT">Reportes</a>
-            <a class="nav-item nav-link" href="fichas.php" style="font-family:Arial Rounded MT">Fichas</a>
-            <a class="nav-item nav-link" href="/iniciosesion.html" style="font-family:Arial Rounded MT">Cerrar
-                sesión</a>
+            <a id="linkReportes" class="nav-item nav-link" href="../../seccion/Reportes/reportegeneral.php"
+                style="font-family:Arial Rounded MT">Reportes</a>
+            <a id="linkFichas" class="nav-item nav-link" href="../../seccion/Fichas/fichas.php"
+                style="font-family:Arial Rounded MT">Fichas</a>
+            <a id="linkCerrarSesion" class="nav-item nav-link" href="/iniciosesion.html"
+                style="font-family:Arial Rounded MT">Cerrar sesión</a>
         </div>
     </nav>
+
     <div class="container">
         <div class="row">
             <div class="col-12">

@@ -38,10 +38,19 @@ p {
     margin-left: 85%;
 }
 
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    margin: 4px 2px;
+.button1 {
+    background-color: gray;
+    border-radius: 50px;
+    border: 2px solid black;
+    color: white;
+    padding: 7px;
+}
+
+.button1:hover,
+.button1:active {
+    background-color: #fff;
+    color: #000;
+    transition: background-color 0.3s ease-in, color 0.3s ease-in;
 }
 </style>
 <br>
@@ -99,10 +108,10 @@ $accion=isset($_POST['accion'])?$_POST['accion']:'';
 if($accion!=''){
     switch ($accion) {
         case 'Ver':
-            header('Location: ficha_i.php?id=' . $id);
+            header('Location: fichas_bus.php?id=' . $id);
             break;
         case 'Editar':
-            header('Location: editarficha.php?id=' . $id);
+            header('Location: Fichas/Editar/editar_info.php?id=' . $id);
             break;
         case 'Borrar':
             try {
@@ -169,7 +178,7 @@ if($accion!=''){
 </div>
 <div class='button'>
     <form action='agregarficha.php' method='post'>
-        <input type='submit' value='Agregar' name='agregarficha' class='btn btn-secondary'>
+        <button class='button1'> Agregar vehiculo</button>
     </form>
 </div>
 <br>

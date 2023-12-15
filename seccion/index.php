@@ -10,6 +10,14 @@
 
 </html>
 <?php include("../templates/cabecera.php"); ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function deshabilitarEnlace(event) {
+        event.preventDefault();
+    }
+    document.getElementById('linkInicio').addEventListener('click', deshabilitarEnlace);
+});
+</script>
 <br>
 <style>
 body {

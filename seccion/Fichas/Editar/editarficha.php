@@ -9,7 +9,7 @@
 </head>
 
 </html>
-<?php include("../templates/cabecera.php"); ?>
+<?php include("../../../templates/cabecera_scu.php"); ?>
 <br>
 <style>
 body {
@@ -40,24 +40,6 @@ h3 {
     font-size: 21px;
 }
 
-h4 {
-    color: white;
-    text-align: left;
-    font-family: Arial Rounded MT;
-    font-weight: bold;
-    font-size: 15px;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-h5 {
-    color: red;
-    text-align: center;
-    font-family: Arial Rounded MT;
-    font-weight: bold;
-    font-size: 30px;
-
-}
-
 .buttons {
     justify-content: space-between;
 }
@@ -73,7 +55,6 @@ p {
 
 textarea {
     width: 100%;
-
     box-sizing: border-box;
     font-family: Arial Rounded MT;
 }
@@ -95,30 +76,27 @@ function generateSelectOptions($name, $selectedOption, $options) {
 ?>
 <br>
 <?php
-include_once '../databases/BD.php';
+include_once '../../../databases/BD.php';
 $conexionBD=BD::crearInstancia();
 
-$id = $_GET['id'];
-//$sql = "SELECT * FROM datos WHERE id = :id";
-$sql = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE datos.id = :id";
+$n = $_GET['n'];
+$sql = "SELECT * FROM inventario WHERE n = :n";
 $consulta = $conexionBD->prepare($sql);
-$consulta->bindParam(':id', $id);
+$consulta->bindParam(':n', $n);
 $consulta->execute();
 $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
 
 $opciones = array("Bien", "Regular", "Mal", "N/A");
-
-$fichero_movido = "setp.png";
-
+$id = $ficha['id'];
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
 if($accion!=''){
     switch ($accion) {
         case 'Volver':
-            header('Location: fichas.php');
+            header('Location: ../fichas_bus.php?id=' . $id);
             break;
         case 'Guardar':
-            include 'datos.php';
+            include 'inv.php';
             // Recargar los datos actualizados desde la base de datos
             $sql = "SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE datos.id = :id";
             $consulta = $conexionBD->prepare($sql);
@@ -127,62 +105,21 @@ if($accion!=''){
             $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
             break;
         case 'Reporte':
-            header('Location: ficha_i.php?id=' . $id);
+            header('Location: ../ficha_i.php?n=' . $n);
             break;
         default:
             break;
     }
 }
 ?>
-<h1></h1>
 <div>
-    <form action="" method="post" enctype="multipart/form-data">
-        <div style="display: flex; justify-content: space-between;">
-            <p>Foto de la cara derecha del bus</p>
-            <p>Foto del frente del bus</p>
-            <p>Foto de la Cara izquierda del bus</p>
-        </div>
-        <div style="display: flex; justify-content: space-between;">
-            <input type="file" name="fotod" accept="image/jpeg, image/png, image/webp">
-            <input type="file" name="fotof" accept="image/jpeg, image/png, image/webp">
-            <input type="file" name="fotoi" accept="image/jpeg, image/png, image/webp">
-        </div>
-        <table width='100%' bgcolor='oldlace' border='3'><br>
-            <h1>Información vehículo</h1>
-            <tr>
-                <th>ID de bus:</th>
-                <td><?php echo $ficha['id']?></td>
-                <th>Placa:</th>
-                <td><input type="text" name="placa" value="<?php echo $ficha['placa']?>"></td>
-                <th>Empresa:</th>
-                <td><input type="text" name="Empresa" value="<?php echo $ficha['Empresa']?>"></td>
-            </tr>
-            <tr>
-                <th>Nombre conductor:</th>
-                <td><input type="text" name="Nombre" value="<?php echo $ficha['Nombre']?>"></td>
-                <th>Identificación</th>
-                <td><input type="text" name="nit" value="<?php echo $ficha['nit']?>"></td>
-                <td><input type="number" name="nid" value="<?php echo $ficha['nid']?>"></td>
-                <th>Fecha y hora</th>
-                <td><?php echo $ficha['fecha']?></td>
-            </tr>
-        </table>
+    <p></p>
+    <h1>Inspección e inventario de los equipos abordo</h1>
+    <form action="" method="post">
         <br>
         <div role="group">
-            <h2 style="float: left">Estado: </h2>
-            <?php
-            $estados = array("Activo", "Inactivo", "En reparación");
-            $index = array_search($ficha['Estado'], $estados);
-            if($index !== false){
-                unset($estados[$index]);
-            }
-            ?>
-            <select name="Estado">
-                <option value="<?php echo $ficha['Estado']; ?>"><?php echo $ficha['Estado']; ?></option>
-                <?php foreach($estados as $estado): ?>
-                <option value="<?php echo $estado; ?>"><?php echo $estado; ?></option>
-                <?php endforeach; ?>
-            </select>
+            <h2 style="float: left">Número de ficha:</h2>
+            <input type="text" name="n_ficha" value="<?php echo $ficha['n_ficha']?>">
         </div>
         <br>
         <h3>Unidad Lógica</h3>
@@ -450,7 +387,7 @@ if($accion!=''){
             </div>
         </div>
         <div class='buttons'>
-            <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
+            <input type="hidden" name="n" value="<?php echo $ficha['n']; ?>">
             <div class="btn-group" role="group" aria-label="" style="float: right">
                 <button type="submit" name="accion" value="Guardar" class="btn btn-success"
                     onclick="alert('Cambios guardados correctamente');">Guardar</button>
@@ -460,5 +397,5 @@ if($accion!=''){
         </div>
     </form>
 </div>
-<?php include("../templates/pie.php"); ?>
+<?php include("../../../templates/pie.php"); ?>
 <br>

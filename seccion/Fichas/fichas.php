@@ -9,7 +9,15 @@
 </head>
 
 </html>
-<?php include("../templates/cabecera.php"); ?>
+<?php include("../../templates/cabecera.php"); ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function deshabilitarEnlace(event) {
+        event.preventDefault();
+    }
+    document.getElementById('linkFichas').addEventListener('click', deshabilitarEnlace);
+});
+</script>
 <br>
 <style>
 body {
@@ -38,19 +46,6 @@ p {
     margin-left: 85%;
 }
 
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    margin: 4px 2px;
-}
-
-.btn-outline-black {
-    border-color: black;
-    color: white;
-    background-color: gray;
-    padding: 7px;
-}
-
 .button1 {
     background-color: gray;
     border-radius: 50px;
@@ -65,37 +60,17 @@ p {
     color: #000;
     transition: background-color 0.3s ease-in, color 0.3s ease-in;
 }
-
-button {
-    border: none;
-    color: white;
-    padding: 7px;
-}
-
-.btn-bd-primary {
-    background-color: #28AC8A;
-    transition: background-color 0.3s;
-}
-
-.btn-bd-primary:hover {
-    background-color: #228B6D;
-}
-
-.btn-bd-primary.clicked {
-    background-color: #228B6D;
-}
 </style>
 <br>
 <?php
 //INSERT INTO `datos` (`id`, `placa`, `fecha`) VALUES ('', NULL, current_timestamp())
-include_once '../databases/BD.php';
+include_once '../../databases/BD.php';
 $conexionBD=BD::crearInstancia();
 $consulta=$conexionBD->prepare("SELECT * FROM datos");
 $consulta->execute();
 $result= $consulta->fetchALL();
 
 $id=isset($_POST['id'])?$_POST['id']:'';
-$placa=isset($_POST['placa'])?$_POST['placa']:'';
 
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
@@ -103,9 +78,6 @@ if($accion!=''){
     switch ($accion) {
         case 'Ver':
             //header('Location: ficha_i.php');
-            header('Location: fichas_bus.php?id=' . $id);
-            break;
-        case 'Editar':
             header('Location: fichas_bus.php?id=' . $id);
             break;
         case 'Borrar':
@@ -160,7 +132,6 @@ if($accion!=''){
                     <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
                     <div class="btn-group" role="group" aria-label="">
                         <button type="submit" name="accion" value="Ver" class="btn btn-dark">Ver</button>
-                        <button type="submit" name="accion" value="Editar" class="btn-bd-primary">Crear ficha</button>
                         <button type="submit" name="accion" value="Borrar" class="btn btn-danger"
                             onclick="return confirm('¿Estás seguro de que quieres borrar este registro?');">Borrar</button>
                     </div>
@@ -172,10 +143,10 @@ if($accion!=''){
     </table>
 </div>
 <div class='button'>
-    <form action='agregarficha.php' method='post'>
+    <form action='Agregar/agregarficha.php' method='post'>
         <button class='button1'> Agregar vehiculo</button>
     </form>
 </div>
 <br>
 
-<?php include("../templates/pie.php"); ?>
+<?php include("../../templates/pie.php"); ?>
