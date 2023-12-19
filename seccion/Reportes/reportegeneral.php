@@ -56,10 +56,10 @@ h1 {
 </style>
 <br>
 <?php
-//INSERT INTO `datos` (`id`, `placa`, `fecha`) VALUES ('', NULL, current_timestamp()) |SELECT * FROM datos
+//|SELECT * FROM datos
 include_once '../../databases/BD.php';
 $conexionBD=BD::crearInstancia();
-$consulta=$conexionBD->prepare("SELECT * FROM datos INNER JOIN inventario ON datos.id = inventario.id");
+$consulta=$conexionBD->prepare("SELECT * FROM datos");
 $consulta->execute();
 $result= $consulta->fetchALL();
 
@@ -72,7 +72,7 @@ if($accion!=''){
     switch ($accion) {
         case 'Ver':
             //header('Location: ficha_i.php');
-            header('Location: ficha_i.php?id=' . $id);
+            header('Location: ../Fichas/fichas_bus.php?id=' . $id);
             break;
     }
 }
@@ -85,10 +85,9 @@ $columnas = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVE
             'radio','poder_radio','PI','mic','mic_L','mic_ambiente', 'TRS','euro','altavoz','PTT','inversor',
             'habitaculo','power_on','cable_2x1','amplificador','parlantes','rejillas','pcb','arnes'];
 
-$obs= ['observacion','observacion2','observacion3','observacion4','observacion5','observacion6','observacion7','observacion8'];
+$obs= ['observacion1','observacion2','observacion3','observacion4','observacion5','observacion6','observacion7','observacion8'];
 // Crea una función que genera la consulta SQL
 function generar_sql($columnas) {
-
   $sql = "SELECT id, ";
   foreach ($columnas as $col) {
     $sql .= "(CASE WHEN $col = 'Bien' THEN 0 ELSE 1 END) + ";
@@ -113,19 +112,17 @@ function sql_obs($obs){
 }
 
 function compararPorMal($a, $b) {
-    if ($a['malcount'] == $b['malcount']) {
+    if ($a['sumaf'] == $b['sumaf']) {
         return 0;
     }
-    return ($a['malcount'] > $b['malcount']) ? -1 : 1;
+    return ($a['sumaf'] > $b['sumaf']) ? -1 : 1;
 }
 
 ?>
 <H1></H1>
-
 <table class='table1' style="width:100%" border="3" bgcolor='oldlace'>
     <tr>
         <th colspan="7" class='th-title'>Autobuses</th>
-    </tr>
     </tr>
     <tr>
         <th class='table2'>ID</th>
@@ -140,48 +137,25 @@ function compararPorMal($a, $b) {
     foreach($result as $ficha){
         if(($ficha["Empresa"])=="Autobuses"){
             $id = $ficha['id'];
-        // Llama a la función para generar la consulta SQL con el arreglo de columnas
-            $consulta = generar_sql($columnas);
-            // Prepara la consulta con el parámetro id
-            $stmt = $conexionBD->prepare($consulta);
-            $stmt->bindParam(':id', $id);
-            // Ejecuta la consulta
-            $stmt->execute();
-            // Obtiene el resultado como un array asociativo
-            $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
-            // Obtiene el número de valores "mal" para la ficha actual
-            $malcount = $resultado['MalCount'];
-            
-            $consultao = sql_obs($obs);
-            // Prepara la consulta con el parámetro id
-            $con = $conexionBD->prepare($consultao);
-            $con->bindParam(':id', $id);
-            // Ejecuta la consulta
-            $con->execute();
-            // Obtiene el resultado como un array asociativo
-            $resultadoo= $con->fetch(PDO::FETCH_ASSOC);
-            // Obtiene el número de valores "mal" para la ficha actual
-            $obscount = $resultadoo['obsCount'];
-            
             $datosOrdenadosA[] = [
                 'id' => $ficha['id'],
                 'placa' => $ficha['placa'],
                 'Nombre' => $ficha['Nombre'],
                 'fecha' => $ficha['fecha'],
-                'malcount' => $malcount,
-                'obscount' => $obscount,
+                'sumaf' => $ficha['sumaf'],
+                'sumaob' => $ficha['sumaob'],
             ];
         }}
     usort($datosOrdenadosA, 'compararPorMal');
     foreach ($datosOrdenadosA as $ficha) {
-        if($ficha['malcount'] != 0 || $ficha['obscount'] != 0){?>
+        if($ficha['sumaf'] != 0 || $ficha['sumaob'] != 0){?>
     <tr>
         <td> <?php echo $ficha['id']; ?> </td>
         <td> <?php echo $ficha["placa"]; ?> </td>
         <td> <?php echo $ficha["Nombre"]; ?> </td>
         <td> <?php echo $ficha["fecha"]; ?> </td>
-        <td> <?php echo $ficha['malcount']; ?> </td>
-        <td> <?php echo $ficha['obscount']; ?> </td>
+        <td> <?php echo $ficha['sumaf']; ?> </td>
+        <td> <?php echo $ficha['sumaob']; ?> </td>
         <td style="text-align: center;">
             <form action="" method="post">
                 <input type="hidden" name="id" value="<?php echo $ficha['id']; ?>">
@@ -190,12 +164,12 @@ function compararPorMal($a, $b) {
                 </div>
             </form>
         </td>
-    </tr> <?php }}?>
+    </tr>
+    <?php }}?>
 </table>
 <H1></H1>
 <H1></H1>
 <H1></H1>
-
 <table class='table1' style="width:100%" border="3" bgcolor='oldlace'>
     <tr>
         <th colspan="7" class='th-title'>Cootranur</th>
@@ -214,48 +188,25 @@ function compararPorMal($a, $b) {
     foreach($result as $ficha){
         if(($ficha["Empresa"])=="Cootranur"){
             $id = $ficha['id'];
-            // Llama a la función para generar la consulta SQL con el arreglo de columnas
-            $consulta = generar_sql($columnas);
-            // Prepara la consulta con el parámetro id
-            $stmt = $conexionBD->prepare($consulta);
-            $stmt->bindParam(':id', $id);
-            // Ejecuta la consulta
-            $stmt->execute();
-            // Obtiene el resultado como un array asociativo
-            $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
-            // Obtiene el número de valores "mal" para la ficha actual
-            $malcount = $resultado['MalCount'];
-
-            $consultao = sql_obs($obs);
-            // Prepara la consulta con el parámetro id
-            $con = $conexionBD->prepare($consultao);
-            $con->bindParam(':id', $id);
-            // Ejecuta la consulta
-            $con->execute();
-            // Obtiene el resultado como un array asociativo
-            $resultadoo= $con->fetch(PDO::FETCH_ASSOC);
-            // Obtiene el número de valores "mal" para la ficha actual
-            $obscount = $resultadoo['obsCount'];
-            
             $datosOrdenadosC[] = [
                 'id' => $ficha['id'],
                 'placa' => $ficha['placa'],
                 'Nombre' => $ficha['Nombre'],
                 'fecha' => $ficha['fecha'],
-                'malcount' => $malcount,
-                'obscount' => $obscount,
+                'sumaf' => $ficha['sumaf'],
+                'sumaob' => $ficha['sumaob'],
             ];
     }}         
     usort($datosOrdenadosC, 'compararPorMal');
     foreach ($datosOrdenadosC as $ficha) {
-        if($ficha['malcount'] != 0 || $ficha['obscount'] != 0){?>
+        if($ficha['sumaf'] != 0 || $ficha['sumaob'] != 0){?>
     <tr>
         <td> <?php echo $ficha['id']; ?> </td>
         <td> <?php echo $ficha["placa"]; ?> </td>
         <td> <?php echo $ficha["Nombre"]; ?> </td>
         <td> <?php echo $ficha["fecha"]; ?> </td>
-        <td> <?php echo $ficha['malcount']; ?> </td>
-        <td> <?php echo $ficha['obscount']; ?> </td>
+        <td> <?php echo $ficha['sumaf']; ?> </td>
+        <td> <?php echo $ficha['sumaob']; ?> </td>
         <td style="text-align: center;">
             <form action="" method="post">
                 <input type="hidden" name="id" value="<?php echo $ficha['id']; ?>">
@@ -269,42 +220,6 @@ function compararPorMal($a, $b) {
 <H1></H1>
 <H1></H1>
 <H1></H1>
-<?php 
-$datosOrdenadosC = [];
-$Coincidencias = false;
-foreach($result as $ficha){
-    if(($ficha["Empresa"])=="Americana"){
-        $id = $ficha['id'];
-        $consulta = generar_sql($columnas);
-        $stmt = $conexionBD->prepare($consulta);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
-        $malcount = $resultado['MalCount'];
-
-        $consultao = sql_obs($obs);
-        // Prepara la consulta con el parámetro id
-        $con = $conexionBD->prepare($consultao);
-        $con->bindParam(':id', $id);
-        // Ejecuta la consulta
-        $con->execute();
-        // Obtiene el resultado como un array asociativo
-        $resultadoo= $con->fetch(PDO::FETCH_ASSOC);
-        // Obtiene el número de valores "mal" para la ficha actual
-        $obscount = $resultadoo['obsCount'];
-        
-        if ($malcount != 0 || $obscount != 0) {
-            $Coincidencias = true;
-            $datosOrdenadosC[] = [
-                'id' => $ficha['id'],
-                'placa' => $ficha['placa'],
-                'Nombre' => $ficha['Nombre'],
-                'fecha' => $ficha['fecha'],
-                'malcount' => $malcount,
-                'obscount' => $obscount,
-            ];
-}}}   
-if($Coincidencias){?>
 <table class='table1' style="width:100%" border="3" bgcolor='oldlace'>
     <tr>
         <th colspan="7" class='th-title'>Americana</th>
@@ -315,20 +230,33 @@ if($Coincidencias){?>
         <th class='table2'>Placa</th>
         <th class='table2'>Nombre de conductor</th>
         <th class='table2'>Ultima actualización</th>
-        <th class='table2'>N° de fallas en el ultimo registro</th>
+        <th class='table2'>N° de fallas</th>
         <th class='table2'>N° de observaciones</th>
         <th class='table2' style="text-align: center;">Acción</th>
     </tr>
-    <?php usort($datosOrdenadosC, 'compararPorMal');
-        foreach ($datosOrdenadosC as $ficha) {
-            if($ficha['malcount'] != 0 || $ficha['obscount'] != 0){?>
+    <?php $datosOrdenadosC = [];
+    foreach($result as $ficha){
+        if(($ficha["Empresa"])=="Americana"){
+            $id = $ficha['id'];
+            $datosOrdenadosC[] = [
+                'id' => $ficha['id'],
+                'placa' => $ficha['placa'],
+                'Nombre' => $ficha['Nombre'],
+                'fecha' => $ficha['fecha'],
+                'sumaf' => $ficha['sumaf'],
+                'sumaob' => $ficha['sumaob'],
+            ];
+    }}         
+    usort($datosOrdenadosC, 'compararPorMal');
+    foreach ($datosOrdenadosC as $ficha) {
+        if($ficha['sumaf'] != 0 || $ficha['sumaob'] != 0){?>
     <tr>
         <td> <?php echo $ficha['id']; ?> </td>
         <td> <?php echo $ficha["placa"]; ?> </td>
         <td> <?php echo $ficha["Nombre"]; ?> </td>
         <td> <?php echo $ficha["fecha"]; ?> </td>
-        <td> <?php echo $ficha['malcount']; ?> </td>
-        <td> <?php echo $ficha['obscount']; ?> </td>
+        <td> <?php echo $ficha['sumaf']; ?> </td>
+        <td> <?php echo $ficha['sumaob']; ?> </td>
         <td style="text-align: center;">
             <form action="" method="post">
                 <input type="hidden" name="id" value="<?php echo $ficha['id']; ?>">
@@ -338,6 +266,55 @@ if($Coincidencias){?>
             </form>
         </td>
     </tr> <?php }}?>
-</table> <?php }?>
-
+</table>
+<h1></h1>
+<h1></h1>
+<h1></h1>
+<table class='table1' style="width:100%" border="3" bgcolor='oldlace'>
+    <tr>
+        <th colspan="7" class='th-title'>Tesa</th>
+    </tr>
+    </tr>
+    <tr>
+        <th class='table2'>ID</th>
+        <th class='table2'>Placa</th>
+        <th class='table2'>Nombre de conductor</th>
+        <th class='table2'>Ultima actualización</th>
+        <th class='table2'>N° de fallas</th>
+        <th class='table2'>N° de observaciones</th>
+        <th class='table2' style="text-align: center;">Acción</th>
+    </tr>
+    <?php $datosOrdenadosC = [];
+    foreach($result as $ficha){
+        if(($ficha["Empresa"])=="Tesa"){
+            $id = $ficha['id'];
+            $datosOrdenadosC[] = [
+                'id' => $ficha['id'],
+                'placa' => $ficha['placa'],
+                'Nombre' => $ficha['Nombre'],
+                'fecha' => $ficha['fecha'],
+                'sumaf' => $ficha['sumaf'],
+                'sumaob' => $ficha['sumaob'],
+            ];
+    }}         
+    usort($datosOrdenadosC, 'compararPorMal');
+    foreach ($datosOrdenadosC as $ficha) {
+        if($ficha['sumaf'] != 0 || $ficha['sumaob'] != 0){?>
+    <tr>
+        <td> <?php echo $ficha['id']; ?> </td>
+        <td> <?php echo $ficha["placa"]; ?> </td>
+        <td> <?php echo $ficha["Nombre"]; ?> </td>
+        <td> <?php echo $ficha["fecha"]; ?> </td>
+        <td> <?php echo $ficha['sumaf']; ?> </td>
+        <td> <?php echo $ficha['sumaob']; ?> </td>
+        <td style="text-align: center;">
+            <form action="" method="post">
+                <input type="hidden" name="id" value="<?php echo $ficha['id']; ?>">
+                <div class="btn-group" role="group" aria-label="">
+                    <button type="submit" name="accion" value="Ver" class="btn btn-dark">Ver</button>
+                </div>
+            </form>
+        </td>
+    </tr> <?php }}?>
+</table>
 <?php include("../../templates/pie.php"); ?>

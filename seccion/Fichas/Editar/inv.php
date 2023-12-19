@@ -9,7 +9,7 @@ $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER'
             'panico','Extencion_panico',                                                                             //2
             'radio','poder_radio','PI','mic','mic_L','mic_ambiente', 'TRS','euro','altavoz','PTT','inversor',        //11
             'habitaculo','power_on','cable_2x1','amplificador','parlantes','rejillas','pcb','arnes',
-            'observacion','observacion2','observacion3','observacion4', 'observacion5','observacion6','observacion7','observacion8',];     //8
+            'observacion1','observacion2','observacion3','observacion4', 'observacion5','observacion6','observacion7','observacion8',];     //8
 // Actualizar el campo Estado en la tabla inventario
 $sql = "UPDATE inventario SET n_ficha ='$n_ficha' WHERE n = $n";
 $consulta = $conexionBD->prepare($sql);

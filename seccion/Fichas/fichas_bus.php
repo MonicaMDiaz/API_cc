@@ -99,6 +99,8 @@ $consultaInventario->execute();
 $fichasInventario = $consultaInventario->fetchAll(PDO::FETCH_ASSOC);
 
 $n=isset($_POST['n'])?$_POST['n']:'';
+$sumaf = isset($_POST['sumaf'])?$_POST['sumaf']:0;
+$sumaob=isset($_POST['sumaob'])?$_POST['sumaob']:0;
 
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
@@ -153,10 +155,9 @@ $columnas = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVE
             'radio','poder_radio','PI','mic','mic_L','mic_ambiente', 'TRS','euro','altavoz','PTT','inversor',
             'habitaculo','power_on','cable_2x1','amplificador','parlantes','rejillas','pcb','arnes'];
 
-$obs= ['observacion','observacion2','observacion3','observacion4','observacion5','observacion6','observacion7','observacion8'];
+$obs= ['observacion1','observacion2','observacion3','observacion4','observacion5','observacion6','observacion7','observacion8'];
 // Crea una función que genera la consulta SQL
 function generar_sql($columnas) {
-
   $sql = "SELECT n, ";
   foreach ($columnas as $col) {
     $sql .= "(CASE WHEN $col = 'Bien' THEN 0 ELSE 1 END) + ";
@@ -180,13 +181,6 @@ function sql_obs($obs){
   $sql .= "FROM inventario ";
   $sql .= "WHERE n = :n";
   return $sql;
-}
-
-function compararPorMal($a, $b) {
-    if ($a['malcount'] == $b['malcount']) {
-        return 0;
-    }
-    return ($a['malcount'] > $b['malcount']) ? -1 : 1;
 }
 ?>
 <h3></h3>
@@ -237,7 +231,7 @@ function compararPorMal($a, $b) {
         </tr>
         <?php foreach ($fichasInventario as $fichaInventario) : 
             $n = $fichaInventario['n'];
-            $consulta = generar_sql($columnas); // Asegúrate de tener la función generar_sql definna
+            $consulta = generar_sql($columnas);
             $stmt = $conexionBD->prepare($consulta);
             $stmt->bindParam(':n', $n);
             $stmt->execute();
@@ -267,7 +261,13 @@ function compararPorMal($a, $b) {
                 </form>
             </td>
         </tr>
-        <?php endforeach; ?>
+        <?php 
+        $sumaf += $malcount;  
+        $sumaob += $obscount;
+        endforeach;
+    $sql="UPDATE datos SET sumaf ='$sumaf', sumaob='$sumaob' WHERE id = $id";
+    $consulta = $conexionBD->prepare($sql);
+    $consulta->execute(); ?>
     </table>
 </div>
 <form action="" method="post">

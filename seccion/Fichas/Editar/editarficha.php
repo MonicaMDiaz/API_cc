@@ -158,8 +158,8 @@ if($accion!=''){
             </div>
             <div class="col-md-5">
                 <table class='table' width='100%' bgcolor='oldlace' border='3'>
-                    <textarea type="text" name="observacion" style="height: 170px;"
-                        value="<?php echo $ficha['observacion']?>" placeholder="Observaciones:"></textarea>
+                    <textarea type="text" name="observacion1" style="height: 170px;"
+                        value="<?php echo $ficha['observacion1']?>" placeholder="Observaciones:"></textarea>
                 </table>
             </div>
         </div>

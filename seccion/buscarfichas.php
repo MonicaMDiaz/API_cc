@@ -89,7 +89,7 @@ if (isset($_POST['buscar_valor'])) {
         $consulta->execute();
         $result= $consulta->fetchALL();}
     elseif ($buscar == "Estado"){
-        $sql_busca = "SELECT datos.placa, datos.id,datos.Empresa,datos.Nombre, datos.fecha, inventario.Estado FROM datos INNER JOIN inventario ON datos.id = inventario.id WHERE inventario.Estado LIKE '%".$buscar_valor."%'";
+        $sql_busca = "SELECT * from datos WHERE Estado LIKE '%".$buscar_valor."%'";
         $consulta=$conexionBD->prepare($sql_busca);
         $consulta->execute();
         $result= $consulta->fetchALL();}
@@ -108,10 +108,7 @@ $accion=isset($_POST['accion'])?$_POST['accion']:'';
 if($accion!=''){
     switch ($accion) {
         case 'Ver':
-            header('Location: fichas_bus.php?id=' . $id);
-            break;
-        case 'Editar':
-            header('Location: Fichas/Editar/editar_info.php?id=' . $id);
+            header('Location: Fichas/fichas_bus.php?id=' . $id);
             break;
         case 'Borrar':
             try {
@@ -119,12 +116,6 @@ if($accion!=''){
                 $conexionBD->beginTransaction();
 
                 $sql = "DELETE FROM datos WHERE id=:id";
-                $consulta=$conexionBD->prepare($sql);
-                $consulta->bindParam(':id',$id);
-                $consulta->execute();
-
-                // Elimina el registro de la tabla inventario
-                $sql = "DELETE FROM inventario WHERE id=:id";
                 $consulta=$conexionBD->prepare($sql);
                 $consulta->bindParam(':id',$id);
                 $consulta->execute();
@@ -150,6 +141,7 @@ if($accion!=''){
             <th scope='col'>Empresa</th>
             <th scope='col'>Placa</th>
             <th scope='col'>Nombre de conductor</th>
+            <th scope='col'>Estado</th>
             <th scope='col'>Ultima actualización</th>
             <th scope='col'>Acción</th>
         </tr>
@@ -159,13 +151,13 @@ if($accion!=''){
             <td> <?php echo $ficha["Empresa"]?> </td>
             <td> <?php echo $ficha["placa"]?> </td>
             <td> <?php echo $ficha["Nombre"]?> </td>
+            <td> <?php echo $ficha["Estado"]?> </td>
             <td> <?php echo $ficha["fecha"]?> </td>
             <td>
                 <form action="" method="post">
                     <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
                     <div class="btn-group" role="group" aria-label="">
                         <button type="submit" name="accion" value="Ver" class="btn btn-dark">Ver</button>
-                        <button type="submit" name="accion" value="Editar" class="btn btn-success">Editar</button>
                         <button type="submit" name="accion" value="Borrar" class="btn btn-danger"
                             onclick="return confirm('¿Estás seguro de que quieres borrar este registro?');">Borrar</button>
                     </div>

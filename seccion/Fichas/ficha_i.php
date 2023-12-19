@@ -242,7 +242,7 @@ if($accion!=''){
     <table width='100%' bgcolor='oldlace' border='3'><br>
         <th>Observaciones:</th>
         <tr></tr>
-        <td><?php echo nl2br($ficha['observacion'])?></td>
+        <td><?php echo nl2br($ficha['observacion1'])?></td>
         <tr></tr>
         <td><?php echo nl2br($ficha['observacion2'])?></td>
         <tr></tr>
