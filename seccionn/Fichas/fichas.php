@@ -3,13 +3,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <head>
-    <title>Resultado de busqueda</title>
+    <title>Fichas</title>
     <link rel="stylesheet" type="text/css" href="estilos.css">
     </link>
 </head>
 
 </html>
-<?php include("../templates/cabecera.php"); ?>
+<?php include("../../templates/cabeceran.php"); ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function deshabilitarEnlace(event) {
+        event.preventDefault();
+    }
+    document.getElementById('linkFichas').addEventListener('click', deshabilitarEnlace);
+});
+</script>
 <br>
 <style>
 body {
@@ -54,61 +62,23 @@ p {
 }
 </style>
 <br>
-
 <?php
 //INSERT INTO `datos` (`id`, `placa`, `fecha`) VALUES ('', NULL, current_timestamp())
-include_once '../databases/BD.php';
+include_once '../../databases/BD.php';
 $conexionBD=BD::crearInstancia();
-
-if (isset($_POST['buscar'])) {
-    $buscar = $_POST['buscar'];}
-
-if (isset($_POST['buscar_valor'])) {
-    $buscar_valor = $_POST['buscar_valor'];
-
-    if ($buscar == "id") {
-        $sql_busca = "SELECT * from datos WHERE id=".$buscar_valor;
-        $consulta=$conexionBD->prepare($sql_busca);
-        $consulta->execute();
-        $result= $consulta->fetchALL();
-    }
-    else if ($buscar == "placa") {
-        $sql_busca = "SELECT * from datos WHERE placa LIKE '%".$buscar_valor."%'";
-        $consulta=$conexionBD->prepare($sql_busca);
-        $consulta->execute();
-        $result= $consulta->fetchALL();}
-    
-    else if ($buscar == "Empresa") {
-        $sql_busca = "SELECT * from datos WHERE Empresa LIKE '%".$buscar_valor."%'";
-        $consulta=$conexionBD->prepare($sql_busca);
-        $consulta->execute();
-        $result= $consulta->fetchALL();}
-    elseif ($buscar == "Nombre") {
-        $sql_busca = "SELECT * from datos WHERE Nombre LIKE '%".$buscar_valor."%'";
-        $consulta=$conexionBD->prepare($sql_busca);
-        $consulta->execute();
-        $result= $consulta->fetchALL();}
-    elseif ($buscar == "Estado"){
-        $sql_busca = "SELECT * from datos WHERE Estado LIKE '%".$buscar_valor."%'";
-        $consulta=$conexionBD->prepare($sql_busca);
-        $consulta->execute();
-        $result= $consulta->fetchALL();}
-    else {
-        echo "Opción no válida";
-    }
-}
+$consulta=$conexionBD->prepare("SELECT * FROM datos");
+$consulta->execute();
+$result= $consulta->fetchALL();
 
 $id=isset($_POST['id'])?$_POST['id']:'';
-$placa=isset($_POST['placa'])?$_POST['placa']:'';
-$Empresa=isset($_POST['Empresa'])?$_POST['Empresa']:'';
-$Nombre=isset($_POST['Nombre'])?$_POST['Nombre']:'';
-$Estado=isset($_POST['Estado'])?$_POST['Estado']:'';
+
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
 if($accion!=''){
     switch ($accion) {
         case 'Ver':
-            header('Location: Fichas/fichas_bus.php?id=' . $id);
+            //header('Location: ficha_i.php');
+            header('Location: fichas_bus.php?id=' . $id);
             break;
         case 'Borrar':
             try {
@@ -116,6 +86,12 @@ if($accion!=''){
                 $conexionBD->beginTransaction();
 
                 $sql = "DELETE FROM datos WHERE id=:id";
+                $consulta=$conexionBD->prepare($sql);
+                $consulta->bindParam(':id',$id);
+                $consulta->execute();
+
+                // Elimina el registro de la tabla inventario
+                $sql = "DELETE FROM inventario WHERE id=:id";
                 $consulta=$conexionBD->prepare($sql);
                 $consulta->bindParam(':id',$id);
                 $consulta->execute();
@@ -141,9 +117,8 @@ if($accion!=''){
             <th scope='col'>Empresa</th>
             <th scope='col'>Placa</th>
             <th scope='col'>Nombre de conductor</th>
-            <th scope='col'>Estado</th>
             <th scope='col'>Ultima actualización</th>
-            <th scope='col'>Acción</th>
+            <th scope='col' style="text-align: center;">Acción</th>
         </tr>
         <?php foreach($result as $ficha){?>
         <tr>
@@ -151,15 +126,12 @@ if($accion!=''){
             <td> <?php echo $ficha["Empresa"]?> </td>
             <td> <?php echo $ficha["placa"]?> </td>
             <td> <?php echo $ficha["Nombre"]?> </td>
-            <td> <?php echo $ficha["Estado"]?> </td>
             <td> <?php echo $ficha["fecha"]?> </td>
-            <td>
+            <td style="text-align: center;">
                 <form action="" method="post">
                     <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
                     <div class="btn-group" role="group" aria-label="">
                         <button type="submit" name="accion" value="Ver" class="btn btn-dark">Ver</button>
-                        <button type="submit" name="accion" value="Borrar" class="btn btn-danger"
-                            onclick="return confirm('¿Estás seguro de que quieres borrar este registro?');">Borrar</button>
                     </div>
                 </form>
             </td>
@@ -168,11 +140,6 @@ if($accion!=''){
 
     </table>
 </div>
-<div class='button'>
-    <form action='agregarficha.php' method='post'>
-        <button class='button1'> Agregar vehiculo</button>
-    </form>
-</div>
 <br>
 
-<?php include("../templates/pie.php"); ?>
+<?php include("../../templates/pie.php"); ?>

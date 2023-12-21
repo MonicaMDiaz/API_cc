@@ -9,7 +9,7 @@ $Obs1= isset($_POST['Obs1']) ? $_POST['Obs1']:'';
 $inicio1=isset($_POST['inicio1']) ? $_POST['inicio1'] : '';
 $fin1=isset($_POST['fin1']) ? $_POST['fin1'] :'';
 $Responsable1= isset($_POST['Responsable1']) ? $_POST['Responsable1'] :'';
-$Resultados1= isset($_POST['Resultados1']) ? $_POST['Resultados1'] : '';
+$Resultados1= isset($_POST['Resultados2']) ? $_POST['Resultados2'] : '';
 
 $Obs2= isset($_POST['Obs2']) ? $_POST['Obs2']:'';
 $inicio2=isset($_POST['inicio2']) ? $_POST['inicio2'] : '';

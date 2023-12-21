@@ -9,7 +9,7 @@
 </head>
 
 </html>
-<?php include("../templates/cabecera.php"); ?>
+<?php include("../templates/cabeceran.php"); ?>
 <br>
 <style>
 body {
@@ -158,8 +158,6 @@ if($accion!=''){
                     <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">
                     <div class="btn-group" role="group" aria-label="">
                         <button type="submit" name="accion" value="Ver" class="btn btn-dark">Ver</button>
-                        <button type="submit" name="accion" value="Borrar" class="btn btn-danger"
-                            onclick="return confirm('¿Estás seguro de que quieres borrar este registro?');">Borrar</button>
                     </div>
                 </form>
             </td>

@@ -17,15 +17,13 @@
 <body>
     <nav class="navbar navbar-expand navbar-light bg-light">
         <div class="nav navbar-nav">
-            <a id="linkInicio" class="nav-item nav-link active" href="../../seccion/index.php" aria-current="page"
+            <a id="linkInicio" class="nav-item nav-link active" href="../../seccionn/index.php" aria-current="page"
                 style="font-family:Arial Rounded MT">Inicio
             </a>
-            <a id="linkReportes" class="nav-item nav-link" href="../../seccion/Reportes/reportegeneral.php"
+            <a id="linkReportes" class="nav-item nav-link" href="../../seccionn/Reportes/reportegeneral.php"
                 style="font-family:Arial Rounded MT">Reportes</a>
-            <a id="linkFichas" class="nav-item nav-link" href="../../seccion/Fichas/fichas.php"
+            <a id="linkFichas" class="nav-item nav-link" href="../../seccionn/Fichas/fichas.php"
                 style="font-family:Arial Rounded MT">Fichas</a>
-            <a id="linkFichas" class="nav-item nav-link" href="../../seccion/usuarios.php"
-                style="font-family:Arial Rounded MT">Usuarios</a>
             <a id="linkCerrarSesion" class="nav-item nav-link" href="/iniciosesion.html"
                 style="font-family:Arial Rounded MT">Cerrar sesión</a>
         </div>
