@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <br>
 <style>
 body {
-    background-color: orange;
+    background-color: white;
 }
 
 h1 {
@@ -111,7 +111,7 @@ if($accion!=''){
 ?>
 <br>
 <div class='table'>
-    <table class='table' width='100' bgcolor='oldlace'><br>
+    <table class='table' width='100' style="border: 2px solid #4DCB45;"><br>
         <tr>
             <th scope='col'>ID</th>
             <th scope='col'>Empresa</th>

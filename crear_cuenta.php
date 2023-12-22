@@ -16,7 +16,7 @@
 
     <style>
     body {
-        background-color: rgba(255, 136, 0, 0.856);
+        background-color: white;
     }
 
     h1 {
@@ -35,9 +35,9 @@
     }
 
     button {
-        background-color: gray;
+        background-color: #4DCB45;
         border-radius: 50px;
-        border: 2px solid black;
+        border: 2px solid;
         color: white;
         padding: 7px;
         width: 100%;
@@ -49,51 +49,77 @@
         color: #000;
         transition: background-color 0.3s ease-in, color 0.3s ease-in;
     }
+
+    .card-header {
+        background-color: #ea5d2d;
+        text-align: center;
+        color: white;
+    }
     </style>
+</body>
+<?php
+include_once 'databases/BD.php';
+$conexionBD=BD::crearInstancia();
+$id=isset($_POST['id'])?$_POST['id']:'';
+$Nombre=isset($_POST['Nombre'])?$_POST['Nombre']:'';
+$celular=isset($_POST['celular'])?$_POST['celular']:'';
+$usuario = isset($_POST['usuario'])?$_POST['usuario']:'';
+$contraseña = isset($_POST['contraseña'])?$_POST['contraseña']:'';
+
+$accion=isset($_POST['accion'])?$_POST['accion']:'';
+if($accion!=''){
+    switch ($accion) {
+        case 'Guardar':
+            $sql="INSERT INTO usuarios(id,Nombre,celular,usuario,contraseña) VALUES ('$id', '$Nombre','$celular','$usuario','$contraseña');";
+            $consulta=$conexionBD->prepare($sql);
+            $consulta->execute(); 
+            header('Location: iniciosesion.html');
+            break;
+    }
+}
+?>
+
+<body>
     <br>
     <div class="container" style="margin-top: 50px; width: 1000px; ">
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">
-                <form action="iniciosesion.html" method="post">
-
+                <form action="" method="post">
                     <div class="card">
                         <div class="card-header">
                             Creación de cuenta
                         </div>
                         <div class="card-body">
-
                             <div class="mb-3">
-                                <label for="" class="form-label">Usuario</label>
-                                <input type="text" class="form-control" name="Usuario_nuevo" id="Usuario_nuevo"
-                                    aria-describedby="helpId" placeholder="@avante.gov.co">
+                                <label for="" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" name="Nombre" aria-describedby="helpId">
                                 <small id="helpId" class="form-text text-muted"></small>
                             </div>
-
+                            <div class="mb-3">
+                                <label for="" class="form-label">Celular</label>
+                                <input type="number" class="form-control" name="celular" aria-describedby="helpId">
+                                <small id="helpId" class="form-text text-muted"></small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Usuario</label>
+                                <input type="text" class="form-control" name="usuario" aria-describedby="helpId">
+                                <small id="helpId" class="form-text text-muted"></small>
+                            </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" name="psw_nueva" id="psw_nueva"
-                                    aria-describedby="helpId" placeholder="Contraseña">
+                                <input type="password" class="form-control" name="contraseña" aria-describedby="helpId">
                                 <small id="helpId" class="form-text text-muted"></small>
                             </div>
                         </div>
                     </div>
                     <br>
-                    <button>Registrarse</button>
+                    <button type="submit" name="accion" value="Guardar"
+                        onclick="alert('Nuevo registro guardado');">Registrarse</button>
                 </form>
             </div>
         </div>
     </div>
-
-
-    <header>
-        <!-- place navbar here -->
-    </header>
-    <main></main>
-    <footer>
-        <!-- place footer here -->
-    </footer>
-    <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>

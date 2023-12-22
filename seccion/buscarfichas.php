@@ -13,7 +13,7 @@
 <br>
 <style>
 body {
-    background-color: orange;
+    background-color: white;
 }
 
 h1 {
@@ -135,7 +135,7 @@ if($accion!=''){
 ?>
 <br>
 <div class='table'>
-    <table class='table' width='100' bgcolor='oldlace'><br>
+    <table class='table' width='100' style="border: 2px solid #4DCB45;"><br>
         <tr>
             <th scope='col'>ID</th>
             <th scope='col'>Empresa</th>
@@ -169,7 +169,7 @@ if($accion!=''){
     </table>
 </div>
 <div class='button'>
-    <form action='agregarficha.php' method='post'>
+    <form action='Fichas/Agregar/agregarficha.php' method='post'>
         <button class='button1'> Agregar vehiculo</button>
     </form>
 </div>

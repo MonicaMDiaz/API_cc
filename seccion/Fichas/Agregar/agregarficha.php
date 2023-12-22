@@ -63,7 +63,6 @@ $Nombre=isset($_POST['Nombre'])?$_POST['Nombre']:'';
 $nid=isset($_POST['nid'])?$_POST['nid']:'';
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
-
 if($accion!=''){
     switch ($accion) {
         case 'Guardar':
@@ -81,12 +80,10 @@ if($accion!=''){
 }
 ?>
 
-
 <html>
 <div class="container" style="margin-top: 50px; width: 1000px; ">
     <div class="row">
         <div class="col-md-3">
-
         </div>
         <div class="col-md-6">
             <form action="" method="post">
@@ -95,7 +92,6 @@ if($accion!=''){
                         Agregar registo de vehiculo
                     </div>
                     <div class="card-body">
-
                         <div class="mb-3">
                             <label for="" class="form-label">ID</label>
                             <input type="number" class="form-control" name="id" id="id" aria-describedby="helpId"

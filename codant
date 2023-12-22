@@ -192,3 +192,8 @@ cabecera
             style="font-family:Arial Rounded MT">Cerrar sesión</a>
     </div>
 </nav>
+
+$sqlup="UPDATE inventario SET n = n-1 WHERE n >= :n";
+$consulta=$conexionBD->prepare($sqlup);
+$consulta->bindParam(':n',$n);
+$consulta->execute();

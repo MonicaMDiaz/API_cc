@@ -1,3 +1,12 @@
+<?php
+session_start();
+error_reporting(0);
+$varsesion=$_SESSION['usuario'];
+if ($varsesion==null || $varsesion==''){
+    header("Location:/iniciosesion.html");
+    die();
+}
+?>
 <!doctype html>
 <html lang="en">
 

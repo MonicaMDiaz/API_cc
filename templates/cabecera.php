@@ -1,3 +1,12 @@
+<?php
+session_start();
+error_reporting(0);
+$varsesion=$_SESSION['usuario'];
+if ($varsesion==null || $varsesion==''){
+    header("Location:/iniciosesion.html");
+    die();
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -26,7 +35,7 @@
                 style="font-family:Arial Rounded MT">Fichas</a>
             <a id="linkFichas" class="nav-item nav-link" href="../../seccion/usuarios.php"
                 style="font-family:Arial Rounded MT">Usuarios</a>
-            <a id="linkCerrarSesion" class="nav-item nav-link" href="/iniciosesion.html"
+            <a id="linkCerrarSesion" class="nav-item nav-link" href="/cerrarsesion.php"
                 style="font-family:Arial Rounded MT">Cerrar sesión</a>
         </div>
     </nav>

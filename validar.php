@@ -1,9 +1,9 @@
 <?php
-session_start();
-
 if (isset($_POST['usuario']) && isset($_POST['contraseña'])) {
     $usuario = $_POST['usuario'];
     $contraseña = $_POST['contraseña'];
+    session_start();
+    $_SESSION['usuario']=$usuario;
 
     $conexion = mysqli_connect("localhost", "root", "", "cv");
 
@@ -13,27 +13,20 @@ if (isset($_POST['usuario']) && isset($_POST['contraseña'])) {
     if ($resultado) {
         $filas = mysqli_fetch_array($resultado);
 
-        if($filas && $filas['id_cargo']==1){ //administrador
+        if ($filas && $filas['id_cargo'] == 1) { //administrador
             header("location:seccion/index.php");
-        
-        }else
-        if($filas && $filas['id_cargo']==2){ //cliente
-        header("location:seccionn/index.php");
+        } elseif ($filas && $filas['id_cargo'] == 2) { //cliente
+            header("location:seccionn/index.php");
         } else {
+            echo '<script>alert("Usuario o contraseña incorrectos");</script>';
             include("iniciosesion.html");
-            ?>
-<h1 class="bad">ERROR EN LA AUTENTIFICACION</h1>
-<?php
         }
+
         mysqli_free_result($resultado);
     } else {
-        // Manejar el caso en el que la consulta no fue exitosa
-        echo "Error en la consulta SQL: " . mysqli_error($conexion);
+        echo '<script>alert("Error en la consulta SQL: ' . mysqli_error($conexion) . '");</script>';
     }
 
     mysqli_close($conexion);
-} else {
-    // Manejar el caso en el que los campos no se enviaron correctamente
-    echo "Error: Campos de usuario y contraseña no proporcionados.";
-}
+} 
 ?>

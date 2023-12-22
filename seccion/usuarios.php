@@ -13,7 +13,7 @@
 <br>
 <style>
 body {
-    background-color: orange;
+    background-color: white;
 }
 
 h1 {
@@ -102,18 +102,20 @@ if($accion!=''){
 ?>
 <br>
 <div class='table'>
-    <table class='table' width='100' bgcolor='oldlace'><br>
+    <table class='table' width='100' style="border: 2px solid #4DCB45;"><br>
         <tr>
             <th scope='col'>Nombre</th>
+            <th scope='col'>celular</th>
             <th scope='col'>Usuario</th>
-            <th scope='col'>Contraseña</th>
+            <th scope='col'>Tipo de usuario</th>
             <th scope='col' style="text-align: center;">Acción</th>
         </tr>
         <?php foreach($result as $ficha){?>
         <tr>
             <td> <?php echo $ficha["Nombre"]?> </td>
+            <td> <?php echo $ficha["celular"]?> </td>
             <td> <?php echo $ficha["usuario"]?> </td>
-            <td> <?php echo $ficha["contraseña"]?> </td>
+            <td> <?php echo $ficha["id_cargo"]?> </td>
             <td style="text-align: center;">
                 <form action="" method="post">
                     <input type="hidden" name="id" value="<?php echo $ficha['id'];?>">

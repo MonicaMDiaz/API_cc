@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <br>
 <style>
 body {
-    background-color: orange;
+    background-color: white;
 }
 
 h1 {
@@ -38,40 +38,41 @@ h2 {
 }
 
 p {
-    font-family: Arial Rounded MT;
-    font-size: 15px;
+    font-family: Arial;
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+i {
+    font-weight: bold;
 }
 
 .button {
-    background-color: white;
-    border: none;
-    color: black;
-    padding: 10px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
+    background-color: #4DCB45;
+    border-radius: 10px;
+    border: 2px solid;
+    color: white;
+    padding: 7px;
+    width: 180px;
 }
 </style>
 
-<div class="col-md-12 d-flex justify-content-center" style="margin-top:150px;">
-
+<div class="col-md-6 d-flex justify-content-center" style="margin-top:150px;">
     <div class=" mb-3">
         <h2>Buscar ficha</h2>
         <form method="post" action="buscarfichas.php">
             <table>
                 <tr>
-                    <td>
+                    <td colspan="2">
                         <input type="text" class="form-control" name="buscar_valor"
-                            placeholder="Ingrese el valor a buscar" style="width: 500px; border-radius: 50px;">
+                            placeholder="Ingrese el valor a buscar"
+                            style="width: 500px; border-radius: 50px; border: 2px solid #ea5d2d;">
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <br>
-                        <select name="buscar">
+                        <select name="buscar" class="form-control" style="width: 300px; border: 2px solid #4DCB45;">
                             <option value="id">Buscar por id</option>
                             <option value="Empresa">Buscar por empresa</option>
                             <option value="placa">Buscar por placa</option>
@@ -79,14 +80,33 @@ p {
                             <option value="Estado">Buscar por estado</option>
                         </select>
                     </td>
-                </tr>
-                <!--<tr>
                     <td>
                         <br>
                         <input type="submit" class="button" name="b1" value="Buscar" />
                     </td>
-                </tr>-->
+                </tr>
             </table>
+    </div>
+
+</div>
+<div class="col-md-1"></div>
+<div class="col-md-5 d-flex justify-content-center" style="margin-top:130px;">
+    <div class=" mb-3">
+        <p>
+            <strong>id:</strong> Número de identificación del bus. Ejemplo: 337,291,471.
+            <br>
+            <br>
+            <strong>Empresa:</strong> Las empresas disponibles son: Autobuses, Cootranur, Americana y Tesa.
+            <br>
+            <br>
+            <strong>Placa:</strong> Placa del vehículo.
+            <br>
+            <br>
+            <strong>Conductor:</strong> Nombre y/o apellido del conductor del bus.
+            <br>
+            <br>
+            <strong>Estado:</strong> Los estados disponibles son: Activo, inactivo y en reparación.
+        </p>
     </div>
 
 </div>

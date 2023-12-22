@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <br>
 <style>
 body {
-    background-color: orange;
+    background-color: white;
 }
 
 h1 {
@@ -40,16 +40,16 @@ h1 {
 }
 
 .table2 {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #4DCB45;
     border-collapse: collapse;
     text-align: center;
 }
 
 .th-title {
-    border: 3px solid black;
+    border: 3px solid #ea5d2d;
     border-collapse: collapse;
     text-align: center;
-    background-color: red;
+    background-color: #ea5d2d;
     font-size: 20px;
     font-family: Arial Rounded MT;
 }
@@ -120,7 +120,7 @@ function compararPorMal($a, $b) {
 
 ?>
 <H1></H1>
-<table class='table1' style="width:100%" border="3" bgcolor='oldlace'>
+<table class='table1' style="width:100%; border: 3px solid #4DCB45;">
     <tr>
         <th colspan="7" class='th-title'>Autobuses</th>
     </tr>
@@ -170,10 +170,9 @@ function compararPorMal($a, $b) {
 <H1></H1>
 <H1></H1>
 <H1></H1>
-<table class='table1' style="width:100%" border="3" bgcolor='oldlace'>
+<table class='table1' style="width:100%; border: 3px solid #4DCB45;">
     <tr>
         <th colspan="7" class='th-title'>Cootranur</th>
-    </tr>
     </tr>
     <tr>
         <th class='table2'>ID</th>
@@ -220,10 +219,9 @@ function compararPorMal($a, $b) {
 <H1></H1>
 <H1></H1>
 <H1></H1>
-<table class='table1' style="width:100%" border="3" bgcolor='oldlace'>
+<table class='table1' style="width:100%; border: 3px solid #4DCB45;">
     <tr>
         <th colspan="7" class='th-title'>Americana</th>
-    </tr>
     </tr>
     <tr>
         <th class='table2'>ID</th>
@@ -270,10 +268,9 @@ function compararPorMal($a, $b) {
 <h1></h1>
 <h1></h1>
 <h1></h1>
-<table class='table1' style="width:100%" border="3" bgcolor='oldlace'>
+<table class='table1' style="width:100%; border: 3px solid #4DCB45;">
     <tr>
         <th colspan="7" class='th-title'>Tesa</th>
-    </tr>
     </tr>
     <tr>
         <th class='table2'>ID</th>

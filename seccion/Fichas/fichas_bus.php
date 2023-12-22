@@ -13,12 +13,11 @@
 <br>
 <style>
 body {
-    background-color: orange;
+    background-color: white;
 }
 
-
 h1 {
-    color: white;
+    color: #5f6160;
     text-align: center;
     font-family: Arial Rounded MT;
     font-weight: bold;
@@ -121,21 +120,32 @@ if($accion!=''){
             $sql="INSERT INTO inventario(id) VALUES ($id);";
             $consulta=$conexionBD->prepare($sql);
             $consulta->execute(); 
+            $sql = "UPDATE inventario SET n_ficha = ( SELECT x_id FROM ( SELECT n, id, ROW_NUMBER() OVER (PARTITION BY id ORDER BY n) AS x_id FROM inventario ) AS t WHERE inventario.n = t.n )";
+                    $consulta=$conexionBD->prepare($sql);
+                    $consulta->execute();
             header('Location: fichas_bus.php?id=' . $id);
             break;
         case 'Borrar':
             try {
                 // Comienza la transacción
                 $conexionBD->beginTransaction();
-                // Elimina el registro de la tabla inventario
+                
+                // Borra el registro con el valor de n
                 $sql = "DELETE FROM inventario WHERE n=:n";
                 $consulta=$conexionBD->prepare($sql);
                 $consulta->bindParam(':n',$n);
                 $consulta->execute();
-
+        
+                // Actualiza el valor de n_ficha con el valor de x_id
+                $sql = "UPDATE inventario SET n_ficha = ( SELECT x_id FROM ( SELECT n, id, ROW_NUMBER() OVER (PARTITION BY id ORDER BY n) AS x_id FROM inventario ) AS t WHERE inventario.n = t.n )";
+                $consulta=$conexionBD->prepare($sql);
+                $consulta->execute();
+        
+                // Finaliza la transacción y confirma los cambios
                 $conexionBD->commit();
             } catch (Exception $e) {
-
+        
+                // Cancela la transacción y deshace los cambios
                 $conexionBD->rollback();
                 echo "Error: " . $e->getMessage();
             }
@@ -193,7 +203,7 @@ function sql_obs($obs){
 </div>
 <br>
 <div class='table'>
-    <table width='100%' bgcolor='oldlace' border='3'><br>
+    <table width='100%' style="border: 3px solid #ea5d2d;"><br>
         <h1>Información del vehículo</h1>
         <tr>
             <th>ID de bus:</th>
@@ -220,7 +230,7 @@ function sql_obs($obs){
     </div>
 </form>
 <div class='table'>
-    <table class='table' width='100' bgcolor='oldlace'><br>
+    <table class='table' width='100' style="border: 2px solid #4DCB45;"><br>
         <h1>Fichas de mantenimiento</h1>
         <tr>
             <th class='table2'># de ficha</th>
