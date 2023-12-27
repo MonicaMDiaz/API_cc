@@ -26,30 +26,6 @@ h1 {
 </style>
 <?php
 include_once '../../../databases/BD.php';
-function generar_sql($columnas) {
-    $sql = "SELECT n, ";
-    foreach ($columnas as $col) {
-        $sql .= "(CASE WHEN $col = 'Mal' THEN 1 ELSE 0 END) + ";
-    }
-    $sql = rtrim($sql, "+ ");
-    $sql .= "AS MalCount, ";
-    
-    foreach ($columnas as $col) {
-        $sql .= "(CASE WHEN $col = 'Regular' THEN 1 ELSE 0 END) + ";
-    }
-    $sql = rtrim($sql, "+ ");
-    $sql .= "AS RegularCount, ";
-    
-    foreach ($columnas as $col) {
-        $sql .= "(CASE WHEN $col = 'N/A' THEN 1 ELSE 0 END) + ";
-    }
-    $sql = rtrim($sql, "+ ");
-    $sql .= "AS NACount ";
-    
-    $sql .= "FROM inventario ";
-    $sql .= "WHERE n = :n";
-    return $sql;
-}
 
 $conexionBD=BD::crearInstancia();
 $n = $_GET['n'];
@@ -66,21 +42,32 @@ $consultad->bindParam(':id', $id);
 $consultad->execute();
 $dato = $consultad->fetch(PDO::FETCH_ASSOC);
 
-$c1=['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER','Cabezal_Bipode','Bipode'];
-$c2=['Display','Extencion_poder','Extencion_datos','Soportes_L'];
-$c3=['APC','Soporte_caja','poder_datos','DC_convertidor'];
-$c4=['Sensor_pta1','Extencion_cable1','Soportes_angulo1'];
-$c5=['Sensor_pta2','Extencion_cable2','Soportes_angulo2'];
-$c6=['panico','Extencion_panico'];
-$c7=['radio','poder_radio','PI','mic','mic_L','mic_ambiente','TRS','euro','altavoz','PTT','inversor'];
-$c8=['habitaculo','power_on','cable_2x1','amplificador','parlantes','rejillas','pcb','arnes'];
+$fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER','Cabezal_Bipode','Bipode',          //10
+            'Display','Extencion_poder','Extencion_datos','Soportes_L',                                              //4
+            'APC','Soporte_caja','poder_datos','DC_convertidor',                                                     //4
+            'Sensor_pta1','Extencion_cable1','Soportes_angulo1','Sensor_pta2','Extencion_cable2','Soportes_angulo2', //6
+            'panico','Extencion_panico',                                                                             //2
+            'radio','poder_radio','PI','mic','mic_L','mic_ambiente', 'TRS','euro','altavoz','PTT','inversor',        //11
+            'habitaculo','power_on','cable_2x1','amplificador','parlantes','rejillas','pcb','arnes']; 
+function generar_sql($columnas) {
+    $sql = "SELECT n, ";
+    foreach ($columnas as $col) {
+        $sql .= "(CASE WHEN $col = 'Bien' THEN 0 ELSE 1 END) + ";
+    }
+    // $sql .= "(CASE WHEN $col = 'mal' THEN 1 ELSE 0 END) + ";
+    $sql = rtrim($sql, "+ ");
+    $sql .= "AS MalCount ";
+    $sql .= "FROM inventario ";
+    $sql .= "WHERE n = :n";
+    return $sql;
+}
 
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
 if($accion!=''){
     switch ($accion) {
-        case 'Volver':
-            header('Location: ficha_i.php?id=' . $id);
+        case 'volver':
+            header('Location: ../ficha_i.php?n=' . $n);
             break;
         case 'Imprimir':
             header('Location: imprimir.php?id='. $id);
@@ -120,10 +107,9 @@ if($accion!=''){
 <h2></h2>
 <h1>Plan de acción</h1>
 <form method="post" action="imprimir.php?id=<?php echo $id; ?>">
-
     <table class='table1' style="width:100%" border="3">
         <tr>
-            <th rowspan="2" class='table1'>Fallas</th>
+            <th rowspan="2" class='table1'>Falla</th>
             <th rowspan="2" class='table1'>Actividad</th>
             <th colspan="2">Tiempo</th>
             <th rowspan="2" class='table1'>Responsable(s)</th>
@@ -133,37 +119,49 @@ if($accion!=''){
             <td class='table1'>Inicio</td>
             <td class='table1'>Final</td>
         </tr>
-        <?php 
+        <?php
+        foreach ($fields as $field) {
+            // Obtener el valor correspondiente desde la base de datos
+            $valor = $ficha[$field];
+
+            // Verificar si el valor es "Regular", "Mal" o "N/A"
+            if ($valor == "Regular" || $valor == "Mal" || $valor == "N/A") {
+                // Mostrar en una fila diferente según la categoría
+                echo "<tr>";
+                echo "<td class='table1'>$field:$valor</td>";
+                // Puedes mostrar otros datos según tus necesidades
+                echo '<td class="table1"><textarea name="act' . $field . '" cols="30" rows="2"></textarea></td>';
+                echo '<td class="table1"><input type="date" name="inicio' . $field . '"></td>';
+                echo '<td class="table1"><input type="date" name="fin' . $field . '"></td>';
+                echo '<td class="table1"><input type="text" name="Responsable' . $field . '"></td>';
+                echo '<td class="table1"><textarea name="Resultados' . $field . '" cols="30" rows="2"></textarea></td>';
+                echo '</tr>';
+            }
+        }
+        ?>
+    </table>
+    <br>
+    <table class='table1' style="width:100%" border="3">
+        <?php
+        $n = $ficha['n'];
+        $consulta = generar_sql($fields);
+        $stmt = $conexionBD->prepare($consulta);
+        $stmt->bindParam(':n', $n);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        $malcount = $resultado['MalCount'];?>
+        <tr>
+            <td class='table1'>Observaciones:</td>
+            <td class='table1'>Numero de fallas:<?php echo $malcount ?></td>
+        </tr>
+        <?php
         for ($i = 1; $i <= 8; $i++) {
-            // Genera el nombre de las variables dinámicamente
-            $malcountVar = "malcount{$i}";
-            $RegularCountVar = "RegularCount{$i}";
-            $NACountVar = "NACount{$i}";
             $observacionVar = "observacion{$i}";
         
-            // Obtiene los valores de la base de datos
-            $consulta = generar_sql(${"c{$i}"});
-            $stmt = $conexionBD->prepare($consulta);
-            $stmt->bindParam(':n', $n);
-            $stmt->execute();
-            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-            ${$malcountVar} = $resultado['MalCount'];
-            ${$RegularCountVar} = $resultado['RegularCount'];
-            ${$NACountVar} = $resultado['NACount'];
-        
             // Verifica si se debe mostrar la fila
-            if (!empty($ficha[$observacionVar]) || ${$malcountVar} != 0 || ${$RegularCountVar} != 0 || ${$NACountVar} != 0) {
+            if (!empty($ficha[$observacionVar])) {
                 echo '<tr>';
-                echo '<td class="table1">';
-                echo "Mal: ${$malcountVar}<br>";
-                echo "Regular: ${$RegularCountVar}<br>";
-                echo "N/A: ${$NACountVar}<br>";
-                echo '</td>';
-                echo '<td class="table1"><textarea name="Obs' . $i . '" cols="30" rows="2">' . ($ficha[$observacionVar]) . '</textarea></td>';
-                echo '<td class="table1"><input type="date" name="inicio' . $i . '"></td>';
-                echo '<td class="table1"><input type="date" name="fin' . $i . '"></td>';
-                echo '<td class="table1"><input type="text" name="Responsable' . $i . '"></td>';
-                echo '<td class="table1"><textarea name="Resultados' . $i . '" cols="30" rows="2"></textarea></td>';
+                echo '<td class="table1" colspan="2"><textarea name="Obs' . $i . '" cols="150" rows="1">' . ($ficha[$observacionVar]) . '</textarea></td>';
                 echo '</tr>';
             }
         }?>
@@ -175,4 +173,13 @@ if($accion!=''){
             </div>
         </form>
     </div>
-    <?php include("../../../templates/pie.php"); ?>
+</form>
+<div class='buttons'>
+    <form action="" method="post">
+        <div class="btn-group" role="group" aria-label="" style="float: right">
+            <button type="submit" name="accion" value="volver" class="btn btn-secondary">Volver</button>
+        </div>
+    </form>
+</div>
+
+<?php include("../../../templates/pie.php"); ?>

@@ -60,7 +60,7 @@ function generar_sql($columnas) {
     $sql .= "FROM inventario ";
     $sql .= "WHERE n = :n";
     return $sql;
-    }
+}
 
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
@@ -120,7 +120,6 @@ if($accion!=''){
             <td class='table1'>Final</td>
         </tr>
         <?php
-        // Bucle para recorrer el array $fields
         foreach ($fields as $field) {
             // Obtener el valor correspondiente desde la base de datos
             $valor = $ficha[$field];
@@ -167,11 +166,17 @@ if($accion!=''){
             }
         }?>
     </table>
+    <div class='buttons'>
+        <form action="" method="post">
+            <div class="btn-group" role="group" aria-label="" style="float: right">
+                <button type="submit" name="accion" value="Imprimir" class="btn btn-secundary">Imprimir</button>
+            </div>
+        </form>
+    </div>
 </form>
 <div class='buttons'>
     <form action="" method="post">
         <div class="btn-group" role="group" aria-label="" style="float: right">
-            <button type="submit" name="accion" value="Imprimir" class="btn btn-secundary">Imprimir</button>
             <button type="submit" name="accion" value="volver" class="btn btn-secondary">Volver</button>
         </div>
     </form>
