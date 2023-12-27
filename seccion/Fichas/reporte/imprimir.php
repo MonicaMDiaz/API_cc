@@ -16,12 +16,18 @@ $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
 // Crea un nuevo objeto FPDF
 $pdf = new FPDF("L");
 
+function agregarimg($pdf,$imagen,$x,$y){
+    $pdf->Image($imagen,$x,$y,0);
+}
 // Agrega una nueva página
 $pdf->AddPage();
 // Establece la fuente Arial
 $pdf->SetFont('Arial','',12);
+agregarimg($pdf,"Presentación1.jpg",0,0);
 //$pdf->Cell(40,10,utf8_decode('¡Hóáéla, Mundo!'));
 // Imprime el título de la ficha
+$pdf->Cell(0,10,'', 0, 1, 'C');
+$pdf->Cell(0,10,'', 0, 1, 'C');
 $pdf->Cell(0,10,utf8_decode('Plan de acción'), 0, 1, 'C');
 
 // Imprime la información de la ficha
