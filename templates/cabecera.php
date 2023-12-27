@@ -35,6 +35,8 @@ if ($varsesion==null || $varsesion==''){
                 style="font-family:Arial Rounded MT">Fichas</a>
             <a id="linkFichas" class="nav-item nav-link" href="../../seccion/usuarios.php"
                 style="font-family:Arial Rounded MT">Usuarios</a>
+            <a id="linkPerfil" class="nav-item nav-link" href="../../seccion/perfil.php"
+                style="font-family:Arial Rounded MT">Perfil</a>
             <a id="linkCerrarSesion" class="nav-item nav-link" href="/cerrarsesion.php"
                 style="font-family:Arial Rounded MT">Cerrar sesión</a>
         </div>

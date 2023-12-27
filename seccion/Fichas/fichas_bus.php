@@ -286,6 +286,6 @@ function sql_obs($obs){
         <button type="submit" name="accion" value="crear" class='button1'>Crear ficha</button>
     </div>
 </form>
-<br>
+<h1></h1>
 
 <?php include("../../templates/pie.php"); ?>

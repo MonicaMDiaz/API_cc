@@ -142,11 +142,13 @@ if($accion!=''){
 
     </table>
 </div>
-<div class='button'>
-    <form action='Agregar/agregarficha.php' method='post'>
+<form action='Agregar/agregarficha.php' method='post'>
+    <div class='button'>
+
         <button class='button1'> Agregar vehiculo</button>
-    </form>
-</div>
+
+    </div>
+</form>
 <br>
 
 <?php include("../../templates/pie.php"); ?>

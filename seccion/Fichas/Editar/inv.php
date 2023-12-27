@@ -1,6 +1,7 @@
 <?php
 $n= $_POST['n'];
 $n_ficha=$_POST['n_ficha'];
+$fecha=$_POST['fecha'];
 
 $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER','Cabezal_Bipode','Bipode',          //10
             'Display','Extencion_poder','Extencion_datos','Soportes_L',                                              //4
@@ -11,7 +12,7 @@ $fields = ['Trek', 'GPS','3G','Sim','HDC','Cable_poder','IOCOVER','Tapa_IOCOVER'
             'habitaculo','power_on','cable_2x1','amplificador','parlantes','rejillas','pcb','arnes',
             'observacion1','observacion2','observacion3','observacion4', 'observacion5','observacion6','observacion7','observacion8',];     //8
 // Actualizar el campo Estado en la tabla inventario
-$sql = "UPDATE inventario SET n_ficha ='$n_ficha' WHERE n = $n";
+$sql = "UPDATE inventario SET n_ficha ='$n_ficha', fecha=current_timestamp WHERE n = $n";
 $consulta = $conexionBD->prepare($sql);
 $consulta->execute();
 $sql = "UPDATE inventario SET ";

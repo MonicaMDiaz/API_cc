@@ -12,7 +12,7 @@
 <?php include("../../../templates/cabecera_scu.php"); ?>
 <style>
 body {
-    background-color: orange;
+    background-color: white;
 }
 
 .buttons {
@@ -22,26 +22,14 @@ body {
 }
 
 .btn-black {
-    background-color: gray;
+    background-color: #4DCB45;
     color: white;
-    border-color: black;
-    active-color: black;
-    active-border-color: black;
-    active-bg: black;
-    hover-border-color: black;
-    hover-color: black;
-    hover-bg: black;
+    border-color: #4DCB45;
 }
 
 .btn-outline-black {
-    border-color: black;
-    color: black;
-    active-color: black;
-    active-border-color: black;
-    active-bg: black;
-    hover-border-color: black;
-    hover-color: black;
-    hover-bg: black;
+    border-color: #4DCB45;
+    color: #50b849;
 }
 
 h4 {
@@ -51,6 +39,12 @@ h4 {
     font-weight: bold;
     font-size: 15px;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.card-header {
+    background-color: #ea5d2d;
+    text-align: center;
+    color: white;
 }
 </style>
 <?php

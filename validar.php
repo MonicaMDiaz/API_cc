@@ -4,6 +4,7 @@ if (isset($_POST['usuario']) && isset($_POST['contraseña'])) {
     $contraseña = $_POST['contraseña'];
     session_start();
     $_SESSION['usuario']=$usuario;
+    $_SESSION['contraseña']=$contraseña;
 
     $conexion = mysqli_connect("localhost", "root", "", "cv");
 

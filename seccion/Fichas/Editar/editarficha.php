@@ -13,11 +13,11 @@
 <br>
 <style>
 body {
-    background-color: orange;
+    background-color: white;
 }
 
 h1 {
-    color: white;
+    color: #5f6160;
     text-align: center;
     font-family: Arial Rounded MT;
     font-weight: bold;
@@ -33,7 +33,7 @@ h2 {
 }
 
 h3 {
-    color: white;
+    color: #5f6160;
     text-align: left;
     font-family: Arial Rounded MT;
     font-weight: bold;
@@ -57,6 +57,14 @@ textarea {
     width: 100%;
     box-sizing: border-box;
     font-family: Arial Rounded MT;
+}
+
+input[type="radio"]:checked {
+    accent-color: #5f6160;
+}
+
+label {
+    margin-right: 30px;
 }
 </style>
 <?php
@@ -112,20 +120,40 @@ if($accion!=''){
     }
 }
 ?>
+<div class='table'>
+    <table width='100%' style="border: 3px solid #ea5d2d;"><br>
+        <h1>Identificación del bus</h1>
+        <tr>
+            <td rowspan="2" style="border: 1px solid #ea5d2d;text-align: center;">
+                <b>Fallas electricas:</b> <input type="radio" id="reflab" value="rlab"><label
+                    for="alimentación">Alimentación</label>
+                <input type="radio" id="reflab" value="rlab"><label for="alimentación">Fusible</label>
+                <input type="radio" id="reflab" value="rlab"><label for="alimentación">Ignición</label><br>
+                <b>Voltaje:</b><input type="radio"><label for="alimentación">12Vdc</label>
+                <input type="radio"><label for="alimentación">24Vdc</label> <br>
+                <b>Voltaje medido:</b> <input type="text">
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2" style="text-align: center;">
+                <ins><b>Pre-Inspección</b></ins><br>
+                <b>Luces:</b> ok___ Falla___
+                <b>Timbre:</b> ok___ Falla___ <br>
+                <b>Testigos del tablero:</b> Encendidos_______ Apagados_______
+            </td>
+        </tr>
+
+    </table>
+</div>
 <div>
     <p></p>
     <h1>Inspección e inventario de los equipos abordo</h1>
     <form action="" method="post">
         <br>
-        <div role="group">
-            <h2 style="float: left">Número de ficha:</h2>
-            <input type="text" name="n_ficha" value="<?php echo $ficha['n_ficha']?>">
-        </div>
-        <br>
         <h3>Unidad Lógica</h3>
         <div class="row">
             <div class="col-md-7">
-                <table class='table' bgcolor='oldlace' width='100%' border='3'>
+                <table class='table' style="border: 3px solid #4DCB45;" width='100%'>
                     <tr>
                         <th>Trek 753:</th>
                         <td><?php generateSelectOptions('Trek', $ficha['Trek'], $opciones);?></td>
@@ -157,7 +185,7 @@ if($accion!=''){
                 </table>
             </div>
             <div class="col-md-5">
-                <table class='table' width='100%' bgcolor='oldlace' border='3'>
+                <table class='table' width='100%' style="border: 3px solid #4DCB45;">
                     <textarea type="text" name="observacion1" style="height: 170px;"
                         value="<?php echo $ficha['observacion1']?>" placeholder="Observaciones:"></textarea>
                 </table>
@@ -167,7 +195,7 @@ if($accion!=''){
         <h3>Pip</h3>
         <div class="row">
             <div class="col-md-7">
-                <table class='table tabla' width='100%' bgcolor='oldlace' border='3'>
+                <table class='table' width='100%' style="border: 3px solid #4DCB45;">
                     <tr>
                         <th>Display de información:</th>
                         <td> <?php generateSelectOptions('Display', $ficha['Display'], $opciones);?></td>
@@ -189,7 +217,7 @@ if($accion!=''){
                 </table>
             </div>
             <div class="col-md-5">
-                <table class='table' bgcolor='oldlace' border='3'>
+                <table class='table' style="border: 3px solid #4DCB45;">
                     <textarea type="text" name="observacion2" style="height: 170px;"
                         value="<?php echo $ficha['observacion2']?>" placeholder="Observaciones:"></textarea>
                 </table>
@@ -199,7 +227,7 @@ if($accion!=''){
         <h3>APC</h3>
         <div class="row">
             <div class="col-md-7">
-                <table class='table' width='100%' bgcolor='oldlace' border='3'>
+                <table class='table' width='100%' style="border: 3px solid #4DCB45;">
                     <tr>
                         <th>APC:</th>
                         <td> <?php generateSelectOptions('APC', $ficha['APC'], $opciones);?></td>
@@ -219,7 +247,7 @@ if($accion!=''){
                 </table>
             </div>
             <div class="col-md-5">
-                <table class='table' bgcolor='oldlace' border='3'>
+                <table class='table' style="border: 3px solid #4DCB45;">
                     <textarea type="text" name="observacion3" style="height: 170px;"
                         value="<?php echo $ficha['observacion3']?>" placeholder="Observaciones:"></textarea>
                 </table>
@@ -229,7 +257,7 @@ if($accion!=''){
         <h3>Sensor pta 1</h3>
         <div class="row">
             <div class="col-md-7">
-                <table class='table' width='100%' bgcolor='oldlace' border='3'>
+                <table class='table' width='100%' style="border: 3px solid #4DCB45;">
                     <tr>
                         <th>Sensor puerta:</th>
                         <td> <?php generateSelectOptions('Sensor_pta1', $ficha['Sensor_pta1'], $opciones);?></td>
@@ -249,7 +277,7 @@ if($accion!=''){
                 </table>
             </div>
             <div class="col-md-5">
-                <table class='table' bgcolor='oldlace' border='3'>
+                <table class='table' style="border: 3px solid #4DCB45;">
                     <textarea type="text" name="observacion4" style="height: 128px;"
                         value="<?php echo $ficha['observacion4']?>" placeholder="Observaciones:"></textarea>
                 </table>
@@ -259,7 +287,7 @@ if($accion!=''){
         <h3>Sensor pta 2</h3>
         <div class="row">
             <div class="col-md-7">
-                <table class='table' width='100%' bgcolor='oldlace' border='3'>
+                <table class='table' width='100%' style="border: 3px solid #4DCB45;">
                     <tr>
                         <th>Sensor puerta:</th>
                         <td> <?php generateSelectOptions('Sensor_pta2', $ficha['Sensor_pta2'], $opciones);?></td>
@@ -277,7 +305,7 @@ if($accion!=''){
                 </table>
             </div>
             <div class="col-md-5">
-                <table class='table' bgcolor='oldlace' border='3'>
+                <table class='table' style="border: 3px solid #4DCB45;">
                     <textarea type="text" name="observacion5" style="height: 128px;"
                         value="<?php echo $ficha['observacion5']?>" placeholder="Observaciones:"></textarea>
                 </table>
@@ -287,7 +315,7 @@ if($accion!=''){
         <h3>Botón pánico</h3>
         <div class="row">
             <div class="col-md-7">
-                <table class='table' width='100%' bgcolor='oldlace' border='3'>
+                <table class='table' width='100%' style="border: 3px solid #4DCB45;">
                     <tr>
                         <th>Botón de pánico:</th>
                         <td> <?php generateSelectOptions('panico', $ficha['panico'], $opciones);?></td>
@@ -300,7 +328,7 @@ if($accion!=''){
                 </table>
             </div>
             <div class="col-md-5">
-                <table class='table' bgcolor='oldlace' border='3'>
+                <table class='table' style="border: 3px solid #4DCB45;">
                     <textarea type="text" name="observacion6" style="height: 90px;"
                         value="<?php echo $ficha['observacion6']?>" placeholder="Observaciones:"></textarea>
                 </table>
@@ -310,7 +338,7 @@ if($accion!=''){
         <h3>Sistema TRS</h3>
         <div class="row">
             <div class="col-md-7">
-                <table class='table' width='100%' bgcolor='oldlace' border='3'>
+                <table class='table' width='100%' style="border: 3px solid #4DCB45;">
                     <tr>
                         <th>Radio MDT 400:</th>
                         <td> <?php generateSelectOptions('radio', $ficha['radio'], $opciones);?></td>
@@ -344,7 +372,7 @@ if($accion!=''){
                 </table>
             </div>
             <div class="col-md-5">
-                <table class='table' bgcolor='oldlace' border='3'>
+                <table class='table' style="border: 3px solid #4DCB45;">
                     <textarea type="text" name="observacion7" style="height: 170px;"
                         value="<?php echo $ficha['observacion7']?>" placeholder="Observaciones:"></textarea>
                 </table>
@@ -354,7 +382,7 @@ if($accion!=''){
         <h3>Habitáculo</h3>
         <div class="row">
             <div class="col-md-7">
-                <table class='table' width='100%' bgcolor='oldlace' border='3'>
+                <table class='table' width='100%' style="border: 3px solid #4DCB45;">
                     <tr>
                         <th>Habitáculo:</th>
                         <td> <?php generateSelectOptions('habitaculo', $ficha['habitaculo'], $opciones);?></td>
@@ -380,7 +408,7 @@ if($accion!=''){
                 </table>
             </div>
             <div class="col-md-5">
-                <table class='table' bgcolor='oldlace' border='3'>
+                <table class='table' style="border: 3px solid #4DCB45;">
                     <textarea type="text" name="observacion8" style="height: 128px;"
                         value="<?php echo $ficha['observacion8']?>" placeholder="Observaciones:"></textarea>
                 </table>

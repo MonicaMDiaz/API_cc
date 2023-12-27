@@ -13,27 +13,19 @@
 <br>
 <style>
 body {
-    background-color: orange;
+    background-color: white;
 }
 
 h1 {
-    color: white;
+    color: #5f6160;
     text-align: center;
     font-family: Arial Rounded MT;
     font-weight: bold;
     font-size: 35px;
 }
 
-h2 {
-    color: black;
-    text-align: left;
-    font-family: Arial Rounded MT;
-    font-weight: bold;
-    font-size: 20px;
-}
-
 h3 {
-    color: white;
+    color: #5f6160;
     text-align: left;
     font-family: Arial Rounded MT;
     font-weight: bold;
@@ -62,6 +54,12 @@ $consulta->execute();
 $ficha = $consulta->fetch(PDO::FETCH_ASSOC);
 
 $id = $ficha['id'];
+$sql = "SELECT * FROM datos WHERE id = :id";
+$consulta = $conexionBD->prepare($sql);
+$consulta->bindParam(':id', $id);
+$consulta->execute();
+$fichadatos = $consulta->fetch(PDO::FETCH_ASSOC);
+
 $accion=isset($_POST['accion'])?$_POST['accion']:'';
 
 if($accion!=''){
@@ -79,10 +77,42 @@ if($accion!=''){
             break;
     }
 }?>
-<h2></h2>
+<div class='table'>
+    <table width='100%' style="border: 3px solid #ea5d2d;"><br>
+        <h1>Identificación del bus</h1>
+        <tr>
+            <th style="text-align: center;">ID de bus:</th>
+            <td style="border: 1px solid #ea5d2d; text-align: center;"> <?php echo $fichadatos['id']?> </td>
+            <td rowspan="2" style="text-align: center;">
+                <b>Fallas electricas:</b> Alimentación( ) Fusible( ) Ignición( )<br>
+                <b>Voltaje:</b> 12Vdc( ) 24Vdc( ) <br>
+                <b>Voltaje medido:</b> _____________
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align: center;">Empresa:</th>
+            <td style="border: 1px solid #ea5d2d; text-align: center;"><?php echo $fichadatos['Empresa']?></td>
+        </tr>
+        <tr>
+            <th style="text-align: center;">Placa:</th>
+            <td style="border: 1px solid #ea5d2d; text-align: center;"> <?php echo $fichadatos["placa"]?> </td>
+            <td rowspan="2" style="text-align: center;">
+                <ins><b>Pre-Inspección</b></ins><br>
+                <b>Luces:</b> ok___ Falla___
+                <b>Timbre:</b> ok___ Falla___ <br>
+                <b>Testigos del tablero:</b> Encendidos_______ Apagados_______
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align: center;">Fecha y hora de la solicitud:</th>
+            <td style="border: 1px solid #ea5d2d; text-align: center;"><?php echo $ficha['fecha']?></td>
+        </tr>
+    </table>
+</div>
+<h3></h3>
 <div class='table'>
     <h1>Inspección e inventario de los equipos abordo</h1>
-    <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
+    <table class='table' width='100%' style="border: 3px solid #4DCB45;"><br>
         <h3>Unidad Lógica</h3>
         <tr>
             <th>Trek 753:</th>
@@ -111,7 +141,7 @@ if($accion!=''){
             <td><?php echo $ficha['Bipode']?></td>
         </tr>
     </table>
-    <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
+    <table class='table' width='100%' style="border: 3px solid #4DCB45;"><br>
         <h3>Pip</h3>
         <tr>
             <th>Display de información:</th>
@@ -124,7 +154,7 @@ if($accion!=''){
             <td> <?php echo $ficha['Soportes_L']?> </td>
         </tr>
     </table>
-    <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
+    <table class='table' width='100%' style="border: 3px solid #4DCB45;"><br>
         <h3>APC</h3>
         <tr>
             <th>APC:</th>
@@ -137,7 +167,7 @@ if($accion!=''){
             <td> <?php echo $ficha['DC_convertidor']?> </td>
         </tr>
     </table>
-    <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
+    <table class='table' width='100%' style="border: 3px solid #4DCB45;"><br>
         <h3>Sensor pta 1</h3>
         <tr>
             <th>Sensor puerta:</th>
@@ -148,7 +178,7 @@ if($accion!=''){
             <td><?php echo $ficha['Soportes_angulo1']?></td>
         </tr>
     </table>
-    <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
+    <table class='table' width='100%' style="border: 3px solid #4DCB45;"><br>
         <h3>Sensor pta 2</h3>
         <tr>
             <th>Sensor puerta:</th>
@@ -159,7 +189,7 @@ if($accion!=''){
             <td><?php echo $ficha['Soportes_angulo2']?></td>
         </tr>
     </table>
-    <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
+    <table class='table' width='100%' style="border: 3px solid #4DCB45;"><br>
         <h3>Botón pánico</h3>
         <tr>
             <th>Botón de pánico:</th>
@@ -184,7 +214,7 @@ if($accion!=''){
             <td> </td>
         </tr>
     </table>
-    <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
+    <table class='table' width='100%' style="border: 3px solid #4DCB45;"><br>
 
         <h3>Sistema TRS</h3>
         <tr>
@@ -216,7 +246,7 @@ if($accion!=''){
             <td><?php echo $ficha['inversor']?></td>
         </tr>
     </table>
-    <table class='table' width='100%' bgcolor='oldlace' border='3'><br>
+    <table class='table' width='100%' style="border: 3px solid #4DCB45;"><br>
         <h3>Habitáculo</h3>
         <tr>
             <th>Habitáculo:</th>
@@ -239,7 +269,7 @@ if($accion!=''){
             <td> <?php echo $ficha['arnes']?> </td>
         </tr>
     </table>
-    <table width='100%' bgcolor='oldlace' border='3'><br>
+    <table width='100%' style="border: 3px solid #4DCB45;"><br>
         <th>Observaciones:</th>
         <tr></tr>
         <td><?php echo nl2br($ficha['observacion1'])?></td>
@@ -262,7 +292,6 @@ if($accion!=''){
 <div class='buttons'>
     <form action="" method="post">
         <div class="btn-group" role="group" aria-label="" style="float: right">
-            <button type="submit" name="accion" value="Editar" class="btn btn-danger">Editar</button>
             <button type="submit" name="accion" value="Reporte" class="btn btn-dark">Reporte</button>
             <button type="submit" name="accion" value="Volver" class="btn btn-secondary">Volver</button>
         </div>
