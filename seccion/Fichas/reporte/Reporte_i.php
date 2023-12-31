@@ -70,7 +70,7 @@ if($accion!=''){
             header('Location: ../ficha_i.php?n=' . $n);
             break;
         case 'Imprimir':
-            header('Location: imprimir.php?id='. $id);
+            header('Location: imprimir.php?id='. $n);
             break;
         default:
             break;
@@ -106,7 +106,7 @@ if($accion!=''){
 <br>
 <h2></h2>
 <h1>Plan de acción</h1>
-<form method="post" action="imprimir.php?id=<?php echo $id; ?>">
+<form method="post" action="imprimir.php?n=<?php echo $n; ?>">
     <table class='table1' style="width:100%" border="3">
         <tr>
             <th rowspan="2" class='table1'>Falla</th>
